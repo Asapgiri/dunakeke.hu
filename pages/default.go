@@ -21,8 +21,13 @@ func Unexpected(session session.Sessioner, w http.ResponseWriter, r *http.Reques
     }
 
     fil, typ := read_artifact(r.URL.Path, w.Header())
+    if "" == fil {
+        http.Error(w, "File not found", http.StatusNotFound)
+        return
+    }
 
     if "text" == typ {
+        log.Println(r.URL.Path)
         Render(session, w, fil, nil)
     } else {
         // TODO: Check if file type/path needs auth..

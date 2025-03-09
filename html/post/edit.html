@@ -1,0 +1,116 @@
+<link rel="stylesheet" href="/editor.md/css/editormd.min.css" />
+<div id="editor">
+    <!-- Tips: Editor.md can auto append a `<textarea>` tag -->
+    <!-- TODO: Add save and autosave -->
+    <textarea style="display:none;">### Hello Editor.md !</textarea>
+</div>
+<script src="/jquery.min.js"></script>
+<script src="/editor.md/editormd.min.js"></script>
+<script type="text/javascript">
+    $(function() {
+        var editor = editormd("editor", {
+            width: "",
+            height: "1200px",
+            delay: 10,
+            // markdown: "xxxx",     // dynamic set Markdown text
+            path : "/editor.md/lib/",  // Autoload modules mode, codemirror, marked... dependents libs path
+            lang : {
+                name : "en",
+                description                     : "{{.Dictionary.Editor.Description}}",
+                tocTitle                        : "{{.Dictionary.Editor.TocTitle}}",
+                toolbar : {
+                    undo                        : "{{.Dictionary.Editor.ToolbarUndo}}",
+                    redo                        : "{{.Dictionary.Editor.ToolbarRedo}}",
+                    bold                        : "{{.Dictionary.Editor.ToolbarBold}}",
+                    del                         : "{{.Dictionary.Editor.ToolbarDel}}",
+                    italic                      : "{{.Dictionary.Editor.ToolbarItalic}}",
+                    quote                       : "{{.Dictionary.Editor.ToolbarQuote}}",
+                    ucwords                     : "{{.Dictionary.Editor.ToolbarUcwords}}",
+                    uppercase                   : "{{.Dictionary.Editor.ToolbarUppercase}}",
+                    lowercase                   : "{{.Dictionary.Editor.ToolbarLowercase}}",
+                    h1                          : "{{.Dictionary.Editor.ToolbarH1}}",
+                    h2                          : "{{.Dictionary.Editor.ToolbarH2}}",
+                    h3                          : "{{.Dictionary.Editor.ToolbarH3}}",
+                    h4                          : "{{.Dictionary.Editor.ToolbarH4}}",
+                    h5                          : "{{.Dictionary.Editor.ToolbarH5}}",
+                    h6                          : "{{.Dictionary.Editor.ToolbarH6}}",
+                    "list-ul"                   : "{{.Dictionary.Editor.ToolbarListUl}}",
+                    "list-ol"                   : "{{.Dictionary.Editor.ToolbarListOl}}",
+                    hr                          : "{{.Dictionary.Editor.ToolbarHr}}",
+                    link                        : "{{.Dictionary.Editor.ToolbarLink}}",
+                    "reference-link"            : "{{.Dictionary.Editor.ToolbarReferenceLink}}",
+                    image                       : "{{.Dictionary.Editor.ToolbarImage}}",
+                    code                        : "{{.Dictionary.Editor.ToolbarCode}}",
+                    "preformatted-text"         : "{{.Dictionary.Editor.ToolbarPreformattedText}}",
+                    "code-block"                : "{{.Dictionary.Editor.ToolbarCodeBlock}}",
+                    table                       : "{{.Dictionary.Editor.ToolbarTable}}",
+                    datetime                    : "{{.Dictionary.Editor.ToolbarDatetime}}",
+                    emoji                       : "{{.Dictionary.Editor.ToolbarEmoji}}",
+                    "html-entities"             : "{{.Dictionary.Editor.ToolbarHtmlEntities}}",
+                    pagebreak                   : "{{.Dictionary.Editor.ToolbarPagebreak}}",
+                    watch                       : "{{.Dictionary.Editor.ToolbarWatch}}",
+                    unwatch                     : "{{.Dictionary.Editor.ToolbarUnwatch}}",
+                    preview                     : "{{.Dictionary.Editor.ToolbarPreview}}",
+                    fullscreen                  : "{{.Dictionary.Editor.ToolbarFullscreen}}",
+                    clear                       : "{{.Dictionary.Editor.ToolbarClear}}",
+                    search                      : "{{.Dictionary.Editor.ToolbarSearch}}",
+                    help                        : "{{.Dictionary.Editor.ToolbarHelp}}",
+                    info                        : "{{.Dictionary.Editor.ToolbarInfo}}",
+                },
+                buttons : {
+                    enter                       : "{{.Dictionary.Editor.ButtonsEnter}}",
+                    cancel                      : "{{.Dictionary.Editor.ButtonsCancel}}",
+                    close                       : "{{.Dictionary.Editor.ButtonsClose}}",
+                },
+                dialog : {
+                    link : {
+                        title                   : "{{.Dictionary.Editor.DialogLinkTitle}}",
+                        url                     : "{{.Dictionary.Editor.DialogLinkUrl}}",
+                        urlTitle                : "{{.Dictionary.Editor.DialogLinkUrlTitle}}",
+                        urlEmpty                : "{{.Dictionary.Editor.DialogLinkUrlEmpty}}",
+                    },
+                    referenceLink : {
+                        title                   : "{{.Dictionary.Editor.DialogReferenceLinkTitle}}",
+                        name                    : "{{.Dictionary.Editor.DialogReferenceLinkName}}",
+                        url                     : "{{.Dictionary.Editor.DialogReferenceLinkUrl}}",
+                        urlId                   : "{{.Dictionary.Editor.DialogReferenceLinkUrlId}}",
+                        urlTitle                : "{{.Dictionary.Editor.DialogReferenceLinkUrlTitle}}",
+                        nameEmpty               : "{{.Dictionary.Editor.DialogReferenceLinkNameEmpty}}",
+                        idEmpty                 : "{{.Dictionary.Editor.DialogReferenceLinkIdEmpty}}",
+                        urlEmpty                : "{{.Dictionary.Editor.DialogReferenceLinkUrlEmpty}}",
+                    },
+                    image : {
+                        title                   : "{{.Dictionary.Editor.DialogImageTitle}}",
+                        url                     : "{{.Dictionary.Editor.DialogImageUrl}}",
+                        link                    : "{{.Dictionary.Editor.DialogImageLink}}",
+                        alt                     : "{{.Dictionary.Editor.DialogImageAlt}}",
+                        uploadButton            : "{{.Dictionary.Editor.DialogImageUploadButton}}",
+                        imageURLEmpty           : "{{.Dictionary.Editor.DialogImageImageURLEmpty}}",
+                        uploadFileEmpty         : "{{.Dictionary.Editor.DialogImageUploadFileEmpty}}",
+                        formatNotAllowed        : "{{.Dictionary.Editor.DialogImageFormatNotAllowed}}",
+                    },
+                    preformattedText : {
+                        title                   : "{{.Dictionary.Editor.DialogPreformattedTextTitle}}",
+                        emptyAlert              : "{{.Dictionary.Editor.DialogPreformattedTextEmptyAlert}}",
+                        placeholder             : "{{.Dictionary.Editor.DialogPreformattedTextPlaceholder}}",
+                    },
+                    codeBlock : {
+                        title                   : "{{.Dictionary.Editor.DialogCodeBlockTitle}}",
+                        selectLabel             : "{{.Dictionary.Editor.DialogCodeBlockSelectLabel}}",
+                        selectDefaultText       : "{{.Dictionary.Editor.DialogCodeBlockSelectDefaultText}}",
+                        otherLanguage           : "{{.Dictionary.Editor.DialogCodeBlockOtherLanguage}}",
+                        unselectedLanguageAlert : "{{.Dictionary.Editor.DialogCodeBlockUnselectedLanguageAlert}}",
+                        codeEmptyAlert          : "{{.Dictionary.Editor.DialogCodeBlockCodeEmptyAlert}}",
+                        placeholder             : "{{.Dictionary.Editor.DialogCodeBlockPlaceholder}}",
+                    },
+                    htmlEntities : {
+                        title                   : "{{.Dictionary.Editor.DialogHtmlEntitiesTitle}}",
+                    },
+                    help : {
+                        title                   : "{{.Dictionary.Editor.DialogHelpTitle}}",
+                    }
+                }
+            }
+        });
+    });
+</script>

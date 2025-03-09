@@ -36,9 +36,9 @@ func setup_routes() {
     http.HandleFunc("GET /user/edit/{id}",      pages.NotFound)
     http.HandleFunc("GET /user/delete/{id}",    pages.NotFound)
 
-    http.HandleFunc("GET /post/{id}",           pages.NotFound)
-    http.HandleFunc("GET /post/edit/{id}",      pages.NotFound)
-    http.HandleFunc("GET /post/delete/{id}",    pages.NotFound)
+    http.HandleFunc("GET /post/{id}",           pages.PostShow)
+    http.HandleFunc("GET /post/edit/{id}",      pages.PostEdit)
+    http.HandleFunc("GET /post/delete/{id}",    pages.PostDelete)
 
     http.HandleFunc("POST /api/comment/add",    pages.NotFound)
     http.HandleFunc("POST /api/comment/edit",   pages.NotFound)

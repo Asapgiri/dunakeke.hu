@@ -38,10 +38,88 @@ type Auth struct {
     LoginErrBadPassword         string
 }
 
+type Editor struct {
+    Description                             string
+    TocTitle                                string
+    ToolbarUndo                             string
+    ToolbarRedo                             string
+    ToolbarBold                             string
+    ToolbarDel                              string
+    ToolbarItalic                           string
+    ToolbarQuote                            string
+    ToolbarUcwords                          string
+    ToolbarUppercase                        string
+    ToolbarLowercase                        string
+    ToolbarH1                               string
+    ToolbarH2                               string
+    ToolbarH3                               string
+    ToolbarH4                               string
+    ToolbarH5                               string
+    ToolbarH6                               string
+    ToolbarListUl                           string
+    ToolbarListOl                           string
+    ToolbarHr                               string
+    ToolbarLink                             string
+    ToolbarReferenceLink                    string
+    ToolbarImage                            string
+    ToolbarCode                             string
+    ToolbarPreformattedText                 string
+    ToolbarCodeBlock                        string
+    ToolbarTable                            string
+    ToolbarDatetime                         string
+    ToolbarEmoji                            string
+    ToolbarHtmlEntities                     string
+    ToolbarPagebreak                        string
+    ToolbarWatch                            string
+    ToolbarUnwatch                          string
+    ToolbarPreview                          string
+    ToolbarFullscreen                       string
+    ToolbarClear                            string
+    ToolbarSearch                           string
+    ToolbarHelp                             string
+    ToolbarInfo                             string
+    ButtonsEnter                            string
+    ButtonsCancel                           string
+    ButtonsClose                            string
+    DialogLinkTitle                         string
+    DialogLinkUrl                           string
+    DialogLinkUrlTitle                      string
+    DialogLinkUrlEmpty                      string
+    DialogReferenceLinkTitle                string
+    DialogReferenceLinkName                 string
+    DialogReferenceLinkUrl                  string
+    DialogReferenceLinkUrlId                string
+    DialogReferenceLinkUrlTitle             string
+    DialogReferenceLinkNameEmpty            string
+    DialogReferenceLinkIdEmpty              string
+    DialogReferenceLinkUrlEmpty             string
+    DialogImageTitle                        string
+    DialogImageUrl                          string
+    DialogImageLink                         string
+    DialogImageAlt                          string
+    DialogImageUploadButton                 string
+    DialogImageImageURLEmpty                string
+    DialogImageUploadFileEmpty              string
+    DialogImageFormatNotAllowed             string
+    DialogPreformattedTextTitle             string
+    DialogPreformattedTextEmptyAlert        string
+    DialogPreformattedTextPlaceholder       string
+    DialogCodeBlockTitle                    string
+    DialogCodeBlockSelectLabel              string
+    DialogCodeBlockSelectDefaultText        string
+    DialogCodeBlockOtherLanguage            string
+    DialogCodeBlockUnselectedLanguageAlert  string
+    DialogCodeBlockCodeEmptyAlert           string
+    DialogCodeBlockPlaceholder              string
+    DialogHtmlEntitiesTitle                 string
+    DialogHelpTitle                         string
+}
+
 type Dictionary struct {
     Meta        Meta
     Page        Page
     Auth        Auth
+    Editor      Editor
 }
 
 type DictCollection struct {
