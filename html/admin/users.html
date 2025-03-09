@@ -1,0 +1,61 @@
+<div class="row mb-2">
+    <div class="col-lg-3 px-2">
+        <div class="my-3 p-3 leftmenu">
+            <div class="border-top border-bottom border-gray mb-0">
+                <h6 class="border-bottom border-gray py-2"><b>{{.Dictionary.Admin.Settings}}:</b></h6>
+                <div class="list-group list-group-flush">
+                    <a class="list-group-item list-group-item-action p-2 active" href="/admin/users">{{.Dictionary.Admin.Users}}</a>
+                    <a class="list-group-item list-group-item-action p-2" href="/admin/posts">{{.Dictionary.Admin.Posts}}</a>
+                    <a class="list-group-item list-group-item-action p-2" href="/admin/comments">{{.Dictionary.Admin.Comments}}</a>
+                    <a class="list-group-item list-group-item-action p-2" href="/admin/links">{{.Dictionary.Admin.Links}}</a>
+                    <a class="list-group-item list-group-item-action p-2" href="/admin/statistics">{{.Dictionary.Admin.Statistics}}</a>
+                </div>
+            </div>
+            <div class="border-top border-bottom border-gray mt-2">
+                <div class="list-group list-group-flush">
+                    <a class="list-group-item list-group-item-action p-2" href="/admin/newsletter">{{.Dictionary.Admin.Newsletter}}</a>
+                    <a class="list-group-item list-group-item-action p-2" href="/admin/donations">{{.Dictionary.Admin.Donations}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-9 px-2">
+        <div class="my-3 p-3">
+            <h6 class="border-top border-bottom border-gray py-2 mb-0">
+                <span class=""><b>{{.Dictionary.Admin.Users}}</b></span>
+            </h6>
+            <div class="text-muted pt-3">
+                <p><input class="" type="text" id="searchbar" onkeyup="searchFunction()" placeholder="Felhasználó keresése.."></p>
+                <ul class="list-group list-group-flush" id="table">
+                    <li class="list-group-item list-group-item-action p-2 disabled">
+                        <strong>
+                            <div class="row">
+                                <div class="col-md-2">{{.Dictionary.Auth.Username}}</div>
+                                <div class="col-md-3">{{.Dictionary.Auth.Name}}</div>
+                                <div class="col-md-3">{{.Dictionary.Auth.Email}}</div>
+                                <div class="col-md-2">{{.Dictionary.Auth.Phone}}</div>
+                                <div class="col-md-2">{{.Dictionary.Auth.Roles}}</div>
+                            </div>
+                        </strong>
+                    </li>
+
+                    {{range .Dto}}
+                    <li class="list-group-item list-group-item-action p-2 small searchable cursor-pointer" id="colli-1" data-toggle="collapse" data-target="#collapse-1" aria-expanded="false" aria-controls="collapse-1" onclick="watchUserInfo(1);">
+                        <div class="row">
+                            <div class="col-md-2"><a href="/user/{{.Id}}">@{{.Username}}</a></div>
+                            <div class="col-md-3">{{.Name}}</div>
+                            <div class="col-md-3">{{.Email}}</div>
+                            <div class="col-md-2">{{.Phone}}</div>
+                            <div class="col-md-2 text-right">{{.Roles}}</div>
+                        </div>
+                    </li>
+                    <li class="list-group-item border-dark list-group-item-action p-0 bg-light collapse" id="collapse-1">
+                        <div class="m-2 overflow-auto small row" style="max-height: 500px" id="usermessage-1"></div>
+                    </li>
+                    {{end}}
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -19,8 +19,9 @@ func setup_routes() {
     http.HandleFunc("POST /register",           pages.Register)
     http.HandleFunc("GET /logout",              pages.Logout)
 
+    http.HandleFunc("GET /admin",               pages.AdminPage)
     http.HandleFunc("GET /admin/links",         pages.NotFound)
-    http.HandleFunc("GET /admin/users",         pages.NotFound)
+    http.HandleFunc("GET /admin/users",         pages.AdminUsers)
     http.HandleFunc("GET /admin/posts",         pages.NotFound)
     http.HandleFunc("GET /admin/comments",      pages.NotFound)
     http.HandleFunc("GET /admin/newsletter",    pages.NotFound)
@@ -46,4 +47,6 @@ func setup_routes() {
 
     http.HandleFunc("GET /api/newsletter/register",     pages.NotFound)
     http.HandleFunc("GET /api/newsletter/unregister",   pages.NotFound)
+
+    http.HandleFunc("GET /access-violation",    pages.AccessViolation)
 }

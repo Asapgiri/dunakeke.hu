@@ -5,37 +5,42 @@ import (
 )
 
 type Meta struct {
-    CountryCode                 string
+    CountryCode                             string
 }
 
 type Page struct {
-    BaseHome                    string
-    BasePosts                   string
-    BaseDonate                  string
+    BaseHome                                string
+    BasePosts                               string
+    BaseDonate                              string
 }
 
 type Auth struct {
-    Login                       string
-    Register                    string
-    Logout                      string
-    ForgottenPassword           string
-    UsernameOrEmail             string
-    Password                    string
-    PasswordAgain               string
-    Username                    string
-    Name                        string
-    Email                       string
-    Phone                       string
-    AlreadyHaveAnAccount        string
-    RegErrUsernameExists        string
-    RegErrEmailExists           string
-    RegErrUsernameMinLen        string
-    RegErrUsernameCantCont      string
-    RegErrEmailValidation       string
-    RegErrPasswordValidation    string
-    RegErrPasswordDoNotMatch    string
-    LoginErrBadUsernameOrEmail  string
-    LoginErrBadPassword         string
+    Account                                 string
+    AdminSite                               string
+    Login                                   string
+    Register                                string
+    Logout                                  string
+    ForgottenPassword                       string
+    UsernameOrEmail                         string
+    Password                                string
+    PasswordAgain                           string
+    Username                                string
+    Name                                    string
+    Email                                   string
+    Phone                                   string
+    RegDate                                 string
+    Roles                                   string
+    AlreadyHaveAnAccount                    string
+    RegErrUsernameExists                    string
+    RegErrEmailExists                       string
+    RegErrUsernameMinLen                    string
+    RegErrUsernameCantCont                  string
+    RegErrEmailValidation                   string
+    RegErrPasswordValidation                string
+    RegErrPasswordDoNotMatch                string
+    LoginErrBadUsernameOrEmail              string
+    LoginErrBadPassword                     string
+    AccessViolation                         string
 }
 
 type Editor struct {
@@ -115,11 +120,23 @@ type Editor struct {
     DialogHelpTitle                         string
 }
 
+type Admin struct {
+    Users                                   string
+    Posts                                   string
+    Comments                                string
+    Links                                   string
+    Newsletter                              string
+    Statistics                              string
+    Donations                               string
+    Settings                                string
+}
+
 type Dictionary struct {
     Meta        Meta
     Page        Page
     Auth        Auth
     Editor      Editor
+    Admin       Admin
 }
 
 type DictCollection struct {

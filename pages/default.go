@@ -22,7 +22,9 @@ func Unexpected(session session.Sessioner, w http.ResponseWriter, r *http.Reques
 
     fil, typ := read_artifact(r.URL.Path, w.Header())
     if "" == fil {
-        http.Error(w, "File not found", http.StatusNotFound)
+        // FIXME: Redirect due to request type...
+        //http.Error(w, "File not found", http.StatusNotFound)
+        NotFound(w, r)
         return
     }
 
@@ -57,4 +59,15 @@ func NotFound(w http.ResponseWriter, r *http.Request) {
 
     fil, _ := read_artifact("not-found.html", w.Header())
     Render(session, w, fil, nil)
+}
+
+func AccessViolation(w http.ResponseWriter, r *http.Request) {
+    session := session.GetCurrentSession(r)
+
+    fil, _ := read_artifact("auth/access-violation.html", w.Header())
+    Render(session, w, fil, nil)
+}
+
+func renderPageWithAccessViolation(w http.ResponseWriter, r *http.Request) {
+    AccessViolation(w, r)
 }

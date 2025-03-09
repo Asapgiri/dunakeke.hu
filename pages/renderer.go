@@ -2,6 +2,7 @@ package pages
 
 import (
 	"bytes"
+	"dunakeke/session"
 	"io"
 	"net/http"
 	"os"
@@ -10,7 +11,6 @@ import (
 	"strings"
 	"text/template"
 	"time"
-    "dunakeke/session"
 )
 
 var artifact_path string = "artifacts/"

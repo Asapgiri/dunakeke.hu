@@ -10,6 +10,8 @@ var dict_en = Dictionary{
         BaseDonate:                 "Donate",
     },
     Auth: Auth{
+        Account:                    "Account",
+        AdminSite:                  "Admin",
         Login:                      "Login",
         Register:                   "Register",
         Logout:                     "Logout",
@@ -21,6 +23,8 @@ var dict_en = Dictionary{
         Name:                       "Name",
         Email:                      "Email",
         Phone:                      "Phone number",
+        RegDate:                    "Reg-Date",
+        Roles:                      "Roles",
         AlreadyHaveAnAccount:       "Already have an account?:",
         RegErrUsernameExists:       "Username already exists!",
         RegErrEmailExists:          "Email already used!",
@@ -31,6 +35,7 @@ var dict_en = Dictionary{
         RegErrPasswordDoNotMatch:   "Double password doesnt match!",
         LoginErrBadUsernameOrEmail: "Bad username or email!",
         LoginErrBadPassword:        "Bad password!",
+        AccessViolation:            "You do not have access fot this page!",
     },
     Editor: Editor{
         Description                            : "Open source online Markdown editor.",
@@ -107,5 +112,15 @@ var dict_en = Dictionary{
         DialogCodeBlockPlaceholder             : "coding now....",
         DialogHtmlEntitiesTitle                : "HTML Entities",
         DialogHelpTitle                        : "Help",
+    },
+    Admin: Admin{
+        Users:      "Users",
+        Posts:      "Posts",
+        Comments:   "Comments",
+        Links:      "Links",
+        Newsletter: "Newsletter",
+        Statistics: "Statistics",
+        Donations:  "Donations",
+        Settings:   "Settings",
     },
 }

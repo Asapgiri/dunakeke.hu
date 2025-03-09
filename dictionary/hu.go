@@ -10,6 +10,8 @@ var dict_hu = Dictionary{
         BaseDonate:                 "Támogatás",
     },
     Auth: Auth{
+        Account:                    "Fiók",
+        AdminSite:                  "Admin",
         Login:                      "Bejelentkezés",
         Register:                   "Regisztráció",
         Logout:                     "Kijelentkezés",
@@ -21,6 +23,8 @@ var dict_hu = Dictionary{
         Name:                       "Megnevezés",
         Email:                      "Email-cím",
         Phone:                      "Telefonszám",
+        RegDate:                    "Reg-Dátum",
+        Roles:                      "Jogosultságok",
         AlreadyHaveAnAccount:       "Már van fiókod?:",
         RegErrUsernameExists:       "A felhasználónév már létezik!",
         RegErrEmailExists:          "Az email-cím már regisztrált!",
@@ -31,6 +35,7 @@ var dict_hu = Dictionary{
         RegErrPasswordDoNotMatch:   "A megadott két jelszó helytelen!",
         LoginErrBadUsernameOrEmail: "Rossz felhasználónév vagy email-cím!",
         LoginErrBadPassword:        "Rossz jelszó!",
+        AccessViolation:            "Ehez az oldalhoz nincs hozzéférésed!",
     },
     Editor: Editor{
         Description                            : "Nyílt forráskódú online Markdown szerkesztő.",
@@ -107,5 +112,15 @@ var dict_hu = Dictionary{
         DialogCodeBlockPlaceholder             : "Kódolás folyamatban....",
         DialogHtmlEntitiesTitle                : "HTML entitások",
         DialogHelpTitle                        : "Súgó",
+    },
+    Admin: Admin{
+        Users:      "Felhasználók",
+        Posts:      "Bejegyzések",
+        Comments:   "Megjegyzések",
+        Links:      "Átlinkelések",
+        Newsletter: "Hírlevél",
+        Statistics: "Statisztika",
+        Donations:  "Adományok",
+        Settings:   "Beállítások",
     },
 }

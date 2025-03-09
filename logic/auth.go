@@ -6,6 +6,7 @@ import (
 	"dunakeke/dictionary"
 	"errors"
 	"net/mail"
+	"slices"
 	"strings"
 	"time"
 
@@ -16,8 +17,9 @@ import (
 type Auth struct {
     Error       string
     Username    string
-    Groups      []string
     Roles       []string
+    IsAdmin     bool
+    IsMod       bool
 }
 
 func Authenticate(a *Auth) {
@@ -33,6 +35,8 @@ func Authenticate(a *Auth) {
         a.Username = user.Username
         a.Roles = user.Roles
         a.Error = ""
+        a.IsAdmin = slices.Contains(user.Roles, ROLES.ADMIN)
+        a.IsMod = a.IsAdmin || slices.Contains(user.Roles, ROLES.MODERATOR)
     }
 }
 
@@ -71,7 +75,7 @@ func (user *User) Register(dict dictionary.Dictionary, password_clear_a string, 
     new_user = user.UnMap()
     new_user.Id = primitive.NewObjectID()
     new_user.PasswordHash = string(pwh)
-    new_user.Roles = []string{roles.USER}
+    new_user.Roles = []string{ROLES.USER}
     new_user.RegDate = time.Now()
     new_user.EditDate = time.Now()
 
@@ -110,4 +114,16 @@ func (user *User) Login(dict dictionary.Dictionary, uname_or_email string, passw
 
 func (user *User) Logout() {
     // nothing to do here...
+}
+
+func (user *User) List() []User {
+    duser := dbase.User{}
+    dusers, _ := duser.List()
+
+    users := make([]User, len(dusers))
+    for i, u := range(dusers) {
+        users[i].Map(u)
+    }
+
+    return users
 }
