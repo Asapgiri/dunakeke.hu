@@ -63,6 +63,12 @@ type Donation struct {
     Amount          float64
 }
 
+type DonationOption struct {
+    Id              primitive.ObjectID `bson:"_id"`
+    Date            time.Time
+    Amount          float64
+}
+
 type Stat struct {
     Id              primitive.ObjectID `bson:"_id"`
     User            primitive.ObjectID

@@ -15,6 +15,7 @@ import (
 )
 
 type Auth struct {
+    Id          string
     Error       string
     Username    string
     Roles       []string
@@ -32,6 +33,7 @@ func Authenticate(a *Auth) {
             return
         }
 
+        a.Id = user.Id
         a.Username = user.Username
         a.Roles = user.Roles
         a.Error = ""

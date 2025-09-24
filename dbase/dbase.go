@@ -20,6 +20,7 @@ var dbCOMMENTS      *mongo.Collection
 var dbLINKS         *mongo.Collection
 var dbNEWSLETTER    *mongo.Collection
 var dbDONATIONS     *mongo.Collection
+var dbDONATIONOPTS  *mongo.Collection
 var dbSTATISTICS    *mongo.Collection
 
 var log = logger.Logger {
@@ -51,13 +52,14 @@ func Connect() error {
 	}
 	log.Println("Pinged your deployment. You successfully connected to MongoDB!")
 
-    dbUSERS      = db.Collection("users")
-    dbPOSTS      = db.Collection("posts")
-    dbCOMMENTS   = db.Collection("comments")
-    dbLINKS      = db.Collection("links")
-    dbNEWSLETTER = db.Collection("newsletter")
-    dbDONATIONS  = db.Collection("donations")
-    dbSTATISTICS = db.Collection("statistics")
+    dbUSERS         = db.Collection("users")
+    dbPOSTS         = db.Collection("posts")
+    dbCOMMENTS      = db.Collection("comments")
+    dbLINKS         = db.Collection("links")
+    dbNEWSLETTER    = db.Collection("newsletter")
+    dbDONATIONS     = db.Collection("donations")
+    dbDONATIONOPTS  = db.Collection("donation-options")
+    dbSTATISTICS    = db.Collection("statistics")
 
     return nil
 }
@@ -277,6 +279,35 @@ func (donation *Donation) Update() error {
 
 func (donation *Donation) Delete() error {
     _, err := dbDONATIONS.DeleteOne(context.TODO(), bson.D{{"_id", donation.Id}})
+    return err
+}
+
+func (do *DonationOption) List() ([]DonationOption, error) {
+    var donations []DonationOption
+    cursor, err := dbDONATIONOPTS.Find(context.TODO(), bson.D{{}})
+    if err != nil {
+        return donations, err
+    }
+    err = cursor.All(context.TODO(), &donations)
+    return donations, err
+}
+
+func (do *DonationOption) Select(id primitive.ObjectID) error {
+    return dbDONATIONOPTS.FindOne(context.TODO(), bson.D{{"_id", id}}).Decode(do)
+}
+
+func (do *DonationOption) Add() error {
+    _, err := dbDONATIONOPTS.InsertOne(context.TODO(), do)
+    return err
+}
+
+func (do *DonationOption) Update() error {
+    _, err := dbDONATIONOPTS.ReplaceOne(context.TODO(), bson.D{{"_id", do.Id}}, do)
+    return err
+}
+
+func (do *DonationOption) Delete() error {
+    _, err := dbDONATIONOPTS.DeleteOne(context.TODO(), bson.D{{"_id", do.Id}})
     return err
 }
 

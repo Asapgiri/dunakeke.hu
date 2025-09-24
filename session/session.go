@@ -5,7 +5,6 @@ import (
 	"dunakeke/dictionary"
 	"dunakeke/logic"
 	"net/http"
-	"os"
 
 	"github.com/gorilla/sessions"
 )
@@ -20,7 +19,7 @@ type Sessioner struct {
 }
 //FIXME: Handle fully separately in every function/session!!
 //var store = sessions.NewCookieStore([]byte(os.Getenv("SESSION_KEY")))
-var store = sessions.NewCookieStore([]byte(os.Getenv("NYANTAN_SESSION_KEY")))
+var store = sessions.NewCookieStore([]byte("lsjdglkhdsagjklhads;fjklhasl;kfjs"))
 var sessionName = "dunakeke"
 
 func (session *Sessioner) Authenticate(r *http.Request) {

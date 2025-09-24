@@ -48,3 +48,42 @@ func (post *Post) Map(dpost dbase.Post) {
     // Comments should be loaded separately
     // post.Comments   = comments
 }
+
+func (donation *Donation) Map(ddon dbase.Donation) {
+    user := User{}
+    user.Find(ddon.User)
+
+    donation.Id     = ddon.Id.Hex()
+    donation.User   = user
+    donation.Name   = ddon.Name
+    donation.Email  = ddon.Email
+    donation.Date   = ddon.Date
+    donation.Amount = ddon.Amount
+}
+
+func (donation *Donation) UnMap() dbase.Donation {
+    ddon := dbase.Donation{}
+
+    ddon.Id, _      = primitive.ObjectIDFromHex(donation.Id)
+    ddon.User, _    = primitive.ObjectIDFromHex(donation.User.Id)
+    ddon.Name       = donation.Name
+    ddon.Email      = donation.Email
+    ddon.Date       = donation.Date
+    ddon.Amount     = donation.Amount
+
+    return ddon
+}
+
+func (do *DonationOption) Map(ddon dbase.DonationOption) {
+    do.Id     = ddon.Id.Hex()
+    do.Amount = ddon.Amount
+}
+
+func (do *DonationOption) UnMap() dbase.DonationOption {
+    ddon := dbase.DonationOption{}
+
+    ddon.Id, _      = primitive.ObjectIDFromHex(do.Id)
+    ddon.Amount     = do.Amount
+
+    return ddon
+}

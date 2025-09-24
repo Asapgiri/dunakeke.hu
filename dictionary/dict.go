@@ -12,6 +12,7 @@ type Page struct {
     BaseHome                                string
     BasePosts                               string
     BaseDonate                              string
+    NotFound                                string
 }
 
 type Auth struct {
@@ -131,12 +132,29 @@ type Admin struct {
     Settings                                string
 }
 
+type Donate struct {
+    Redirect                                string
+    Header                                  string
+    Description                             string
+    Other                                   string
+    Amount                                  string
+    Name                                    string
+    Email                                   string
+    DonateButton                            string
+    Newsletter                              string
+    GDPRpre                                 string
+    GDPRaszf                                string
+    GDPRmid                                 string
+    GDPRavsz                                string
+}
+
 type Dictionary struct {
     Meta        Meta
     Page        Page
     Auth        Auth
     Editor      Editor
     Admin       Admin
+    Donate      Donate
 }
 
 type DictCollection struct {

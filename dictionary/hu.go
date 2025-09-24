@@ -8,6 +8,7 @@ var dict_hu = Dictionary{
         BaseHome:                   "Kezdőlap",
         BasePosts:                  "Bejegyzések",
         BaseDonate:                 "Támogatás",
+        NotFound:                   "Az oldal nem található:",
     },
     Auth: Auth{
         Account:                    "Fiók",
@@ -122,5 +123,20 @@ var dict_hu = Dictionary{
         Statistics: "Statisztika",
         Donations:  "Adományok",
         Settings:   "Beállítások",
+    },
+    Donate: Donate{
+        Redirect:       "Átirányítás az OTP Simple oldalra...",
+        Header:         "Adományozz nekem",
+        Description:    "Véletlenszerű aláírás szöveg...",
+        Other:          "Egyéb",
+        Amount:         "Összeg",
+        Name:           "Név",
+        Email:          "Email",
+        DonateButton:   "Adományozás",
+        Newsletter:     "Feliratkozom a hírlevélre.",
+        GDPRpre:        "Elfogadom az",
+        GDPRaszf:       "ÁSZF",
+        GDPRmid:        "-et és az",
+        GDPRavsz:       "Adatkezelési tájékoztatást",
     },
 }

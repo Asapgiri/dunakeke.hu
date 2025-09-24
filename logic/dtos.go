@@ -60,6 +60,11 @@ type Donation struct {
     Amount          float64
 }
 
+type DonationOption struct {
+    Id              string
+    Amount          float64
+}
+
 type Stat struct {
     Id              string
     User            User

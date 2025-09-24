@@ -8,6 +8,7 @@ var dict_en = Dictionary{
         BaseHome:                   "Home",
         BasePosts:                  "Posts",
         BaseDonate:                 "Donate",
+        NotFound:                   "Page not found:",
     },
     Auth: Auth{
         Account:                    "Account",
@@ -122,5 +123,20 @@ var dict_en = Dictionary{
         Statistics: "Statistics",
         Donations:  "Donations",
         Settings:   "Settings",
+    },
+    Donate: Donate{
+        Redirect:       "Redirecting to OTP Simple...",
+        Header:         "Donate me",
+        Description:    "Random underling text...",
+        Other:          "Other",
+        Amount:         "Amount",
+        Name:           "Name",
+        Email:          "Email",
+        DonateButton:   "Donate",
+        Newsletter:     "I subscribe to the newsletter.",
+        GDPRpre:        "I accept the",
+        GDPRaszf:       "ÁSZF",
+        GDPRmid:        "and the",
+        GDPRavsz:       "Privacy Policy",
     },
 }
