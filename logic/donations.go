@@ -13,6 +13,7 @@ import (
 	"errors"
 	"io"
 	"net/http"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -238,6 +239,8 @@ func (do *DonationOption) List() []DonationOption {
     for i, d := range(ddons) {
         donations[i].Map(d)
     }
+
+    sort.Slice(donations, func(i, j int) bool { return donations[i].Amount < donations[j].Amount })
 
     return donations
 }
