@@ -146,6 +146,8 @@ type Donate struct {
     GDPRaszf                                string
     GDPRmid                                 string
     GDPRavsz                                string
+    TransactionSuccess                      string
+    TransactionFailed                       string
 }
 
 type Dictionary struct {

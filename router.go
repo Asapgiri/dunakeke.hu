@@ -33,6 +33,9 @@ func setup_routes() {
 
     http.HandleFunc("GET /donate",              pages.DonationRoot)
     http.HandleFunc("POST /donate",             pages.DonationInProgress)
+    http.HandleFunc("GET /donate/return",       pages.DonationReturn)
+    http.HandleFunc("GET /donate/success",      pages.DonationSuccess)
+    http.HandleFunc("GET /donate/failure",      pages.DonationFailure)
 
     http.HandleFunc("GET /user/{id}",           pages.NotFound)
     http.HandleFunc("GET /user/edit/{id}",      pages.NotFound)

@@ -48,6 +48,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
     upassa := r.FormValue("form[userPassA]")
     upassb := r.FormValue("form[userPassB]")
 
+    // FIXME: Check for other form values...
     if "" != uuname {
         user := logic.User{
             Username: uuname,

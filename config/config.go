@@ -2,10 +2,15 @@ package config
 
 import (
 	"encoding/json"
-	"log"
+	"dunakeke/logger"
 	"os"
 	"path/filepath"
 )
+
+var log = logger.Logger {
+    Color: logger.Colors.Yellow,
+    Pretext: "config",
+}
 
 type HttpConfig struct {
     Url     string
@@ -28,11 +33,19 @@ type SiteConfig struct {
     Title   string
 }
 
+type DonationConfig struct {
+    Merchant            string
+    SecretKey           string
+    SimplePayURL        string
+    SimplePayReturnURL  string
+}
+
 type ConfigT struct {
     Http        HttpConfig
     Dbase       DbConfig
     User        UserConfig
     Site        SiteConfig
+    Donation    DonationConfig
 }
 
 var Config = ConfigT{
@@ -53,6 +66,12 @@ var Config = ConfigT{
     Site: SiteConfig{
         Title: "Dunakéke",
     },
+    Donation: DonationConfig{
+        Merchant: "",
+        SecretKey: "",
+        SimplePayURL: "https://simplepay.hu",
+        SimplePayReturnURL: "",
+    },
 }
 
 func InitConfig() {
@@ -72,6 +91,8 @@ func InitConfig() {
         err = json.Unmarshal(dat, &Config)
         if nil != err {
             log.Println(err.Error())
+            log.Println("Check your `.config.json` format!")
+            panic(err)
         }
     }
 }
