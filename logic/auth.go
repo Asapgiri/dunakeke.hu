@@ -18,6 +18,8 @@ type Auth struct {
     Id          string
     Error       string
     Username    string
+    Name        string
+    Email       string
     Roles       []string
     IsAdmin     bool
     IsMod       bool
@@ -35,6 +37,8 @@ func Authenticate(a *Auth) {
 
         a.Id = user.Id
         a.Username = user.Username
+        a.Name = user.Name
+        a.Email = user.Email
         a.Roles = user.Roles
         a.Error = ""
         a.IsAdmin = slices.Contains(user.Roles, ROLES.ADMIN)

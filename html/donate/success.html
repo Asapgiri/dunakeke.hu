@@ -3,7 +3,97 @@
         <h1>{{.Dictionary.Donate.Header}}</h1>
         <h5 class="text-muted">{{.Dictionary.Donate.Description}}</h5>
 
-        <h1>{{.Dictionary.Donate.TransactionSuccess}}</h1>
+        {{if .Dto.Successful}}
+        <h1 class="mb-5">{{.Dictionary.Donate.TransactionSuccess}}</h1>
+        {{else}}
+        <h1>{{.Dictionary.Donate.TransactionFailed}}</h1>
+        {{end}}
+
+        <div class="row my-2">
+            <label class="col-sm-3">{{.Dictionary.Donate.Name}}:</label>
+            <div class="col-sm-9">{{if .Dto.Name}}{{.Dto.Name}}{{else}}{{.Dictionary.Donate.NameEmpty}}{{end}}</div>
+        </div>
+
+        <div class="row my-2">
+            <label class="col-sm-3">{{.Dictionary.Donate.Email}}:</label>
+            <div class="col-sm-9">{{.Dto.Email}}</div>
+        </div>
+
+        <div class="row my-2">
+            <label class="col-sm-3">{{.Dictionary.Donate.DateCreated}}:</label>
+            <div class="col-sm-9">{{tformat .Dto.Date}}</div>
+        </div>
+
+        <div class="row my-2">
+            <label class="col-sm-3">{{.Dictionary.Donate.Amount}}:</label>
+            <div class="col-sm-9">{{.Dto.Amount}} Ft</div>
+        </div>
+
+        <div class="row my-2">
+            <label class="col-sm-3">{{.Dictionary.Donate.Status}}:</label>
+            <div class="col-sm-9">{{.Dto.Status}}</div>
+        </div>
+
+        {{if .Dto.Recurring}}
+        <div class="row my-2">
+            <label class="col-sm-3">{{.Dictionary.Donate.Recurrence}}:</label>
+            <div class="col-sm-9">{{.Dictionary.Donate.Monthly}}</div>
+        </div>
+        {{end}}
+
+        {{if .Dto.InvoiceNeeded}}
+        <h5 class="text-muted mt-3">{{.Dictionary.Donate.InvoiceData}}:</h5>
+
+        <div class="row my-2">
+            <label class="col-sm-3">{{.Dictionary.Donate.Name}}:</label>
+            <div class="col-sm-9">{{.Dto.Invoice.Name}}</div>
+        </div>
+
+        <div class="row my-2">
+            <label class="col-sm-3">{{.Dictionary.Donate.InvoiceCompany}}:</label>
+            <div class="col-sm-9">{{.Dto.Invoice.Company}}</div>
+        </div>
+
+        <div class="row my-2">
+            <label class="col-sm-3">{{.Dictionary.Donate.InvoiceTaxNumber}}:</label>
+            <div class="col-sm-9">{{.Dto.Invoice.TaxNumber}}</div>
+        </div>
+
+        <div class="row my-2">
+            <label class="col-sm-3">{{.Dictionary.Donate.InvoiceCountry}}:</label>
+            <div class="col-sm-9">{{.Dto.Invoice.Country}}</div>
+        </div>
+
+        <div class="row my-2">
+            <label class="col-sm-3">{{.Dictionary.Donate.InvoiceState}}:</label>
+            <div class="col-sm-9">{{.Dto.Invoice.State}}</div>
+        </div>
+
+        <div class="row my-2">
+            <label class="col-sm-3">{{.Dictionary.Donate.InvoiceCity}}:</label>
+            <div class="col-sm-9">{{.Dto.Invoice.City}}</div>
+        </div>
+
+        <div class="row my-2">
+            <label class="col-sm-3">{{.Dictionary.Donate.InvoiceZip}}:</label>
+            <div class="col-sm-9">{{.Dto.Invoice.Zip}}</div>
+        </div>
+
+        <div class="row my-2">
+            <label class="col-sm-3">{{.Dictionary.Donate.InvoiceAddress}}:</label>
+            <div class="col-sm-9">{{.Dto.Invoice.Address}}</div>
+        </div>
+
+        <div class="row my-2">
+            <label class="col-sm-3">{{.Dictionary.Donate.InvoiceAddress2}}:</label>
+            <div class="col-sm-9">{{.Dto.Invoice.Address2}}</div>
+        </div>
+
+        <div class="row my-2">
+            <label class="col-sm-3">{{.Dictionary.Donate.InvoicePhone}}:</label>
+            <div class="col-sm-9">{{.Dto.Invoice.Phone}}</div>
+        </div>
+        {{end}}
 
     </div>
             <!-- FIXME: Show simple pay logo -->

@@ -4,6 +4,15 @@
         <h5 class="text-muted">{{.Dictionary.Donate.Description}}</h5>
 
         <form name="form" method="post" class="mt-5">
+            <div class="btn-group w-100" role="group">
+                <input type="radio" class="btn-check" name="form[recurring]" id="form_recurring0" value="0" autocomplete="off" required checked>
+                <label class="btn btn-outline-primary w-100" for="form_recurring0">{{.Dictionary.Donate.OneTime}}</label>
+
+                <input type="radio" class="btn-check" name="form[recurring]" id="form_recurring1" value="1" autocomplete="off" disabled>
+                <label class="btn btn-outline-primary w-100" for="form_recurring1">{{.Dictionary.Donate.Recurring}}</label>
+                </div>
+            </div>
+
             <div class="row mt-4">
                 {{range $i, $d := .Dto}}
                 <div class="col-md-3 col-sm-4 col-6 mb-3">
@@ -19,25 +28,102 @@
                 </div>
             </div>
 
-            <div class="form-group row my-3">
+            <div class="form-group row my-2">
                 <label class="col-form-label col-sm-3 required" for="form_amount">{{.Dictionary.Donate.Amount}} (Ft)</label>
                 <div class="col-sm-9">
                     <input type="number" id="form_amount" name="form[amount]" required="required" maxlength="550" class="form-control" value="{{(index .Dto 0).Amount}}" readonly>
                 </div>
             </div>
 
-            <div class="form-group row my-3">
+            <div class="form-group row my-2">
                 <label class="col-form-label col-sm-3 required" for="form_email">{{.Dictionary.Donate.Email}}</label>
                 <div class="col-sm-9">
-                    <input type="email" id="form_email" name="form[email]" maxlength="550" class="form-control">
+                    <input type="email" id="form_email" name="form[email]" required="required" maxlength="550" class="form-control" value="{{.Auth.Email}}">
                 </div>
             </div>
 
-            <div class="form-group row my-3">
-                <label class="col-form-label col-sm-3" for="form_name">{{.Dictionary.Donate.Name}}</label>
+            <div class="form-group row my-2">
+                <label class="col-form-label col-sm-3" id="form_name_label" for="form_name">{{.Dictionary.Donate.Name}}</label>
                 <div class="col-sm-9">
-                    <input type="text" id="form_name" name="form[name]" maxlength="550" class="form-control">
+                    <input type="text" id="form_name" name="form[name]" maxlength="550" class="form-control invoice_required" value="{{.Auth.Name}}">
                 </div>
+            </div>
+
+            <div class="form-group row my-2">
+                <div class="form-check px-3">
+                    <input type="checkbox" class="btn-check" id="toggleInvoiceFields" name="form[invoiceneeded]" autocomplete="off" value="1">
+                    <label class="btn btn-outline-primary" for="toggleInvoiceFields">
+                        {{.Dictionary.Donate.WantInvoice}}
+                    </label>
+                </div>
+            </div>
+
+            <!-- Fields to show/hide -->
+            <div id="invoiceFields" class="border-bottom border-top my-2" style="display: none;">
+
+                <div class="form-group row my-2">
+                    <label class="col-form-label col-sm-3" for="form_invoicecompany">{{.Dictionary.Donate.InvoiceCompany}}</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="form_invoicecompany" name="form[invoicecompany]" maxlength="550" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label class="col-form-label col-sm-3" for="form_invoicephone">{{.Dictionary.Donate.InvoiceTaxNumber}}</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="form_invoicephone" name="form[invoicetaxnumber]" maxlength="550" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label class="col-form-label col-sm-3 required" for="form_invoicecountry">{{.Dictionary.Donate.InvoiceCountry}}</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="form_invoicecountry" name="form[invoicecountry]" maxlength="550" class="form-control invoice_required">
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label class="col-form-label col-sm-3 required" for="form_invoicestate">{{.Dictionary.Donate.InvoiceState}}</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="form_invoicestate" name="form[invoicestate]" maxlength="550" class="form-control invoice_required">
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label class="col-form-label col-sm-3 required" for="form_invoicecity">{{.Dictionary.Donate.InvoiceCity}}</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="form_invoicecity" name="form[invoicecity]" maxlength="550" class="form-control invoice_required">
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label class="col-form-label col-sm-3 required" for="form_invoicezip">{{.Dictionary.Donate.InvoiceZip}}</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="form_invoicezip" name="form[invoicezip]" maxlength="550" class="form-control invoice_required">
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label class="col-form-label col-sm-3 required" for="form_invoiceaddress">{{.Dictionary.Donate.InvoiceAddress}}</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="form_invoiceaddress" name="form[invoiceaddress]" maxlength="550" class="form-control invoice_required">
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label class="col-form-label col-sm-3" for="form_invoiceaddress2">{{.Dictionary.Donate.InvoiceAddress2}}</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="form_invoiceaddress2" name="form[invoiceaddress2]" maxlength="550" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label class="col-form-label col-sm-3 required" for="form_invoicephone">{{.Dictionary.Donate.InvoicePhone}}</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="form_invoicephone" name="form[invoicephone]" maxlength="550" class="form-control">
+                    </div>
+                </div>
+
             </div>
 
             <div class="col-md-12 form-group">
@@ -47,6 +133,7 @@
                         {{.Dictionary.Donate.Newsletter}}
                     </label>
                 </div>
+            </div>
 
             <div class="col-md-12 form-group">
                 <div class="form-check">
@@ -58,7 +145,6 @@
                         <a target="_blank" href="/docs/avsz">{{.Dictionary.Donate.GDPRavsz}}</a>.
                     </label>
                 </div>
-
             </div>
 
             <!-- FIXME: Form handler CSRF token -->
@@ -92,5 +178,28 @@
                 f_amount.dispatchEvent(new Event("input", { bubbles: true }))
             }
         });
+    });
+
+    // Toggle extra fields visibility
+    document.getElementById("toggleInvoiceFields").addEventListener("change", function () {
+        const invoiceFields = document.getElementById("invoiceFields");
+        const invoiceBoxes = document.getElementsByClassName("invoice_required");
+        const form_name_label = document.getElementById("form_name_label");
+        if (this.checked) {
+            invoiceFields.style.display = "block";
+            for (let i = 0; i < invoiceBoxes.length; i++) {
+                invoiceBoxes[i].disabled = false
+                invoiceBoxes[i].required = "required"
+            }
+            form_name_label.classList.add('required')
+        }
+        else {
+            invoiceFields.style.display = "none";
+            for (let i = 0; i < invoiceBoxes.length; i++) {
+                invoiceBoxes[i].disabled = false
+                invoiceBoxes[i].required = ""
+            }
+            form_name_label.classList.remove('required')
+        }
     });
 </script>

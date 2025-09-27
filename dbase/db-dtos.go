@@ -54,13 +54,38 @@ type Newsletter struct {
     Email           string
 }
 
+type DonationInvoice struct {
+    Id          primitive.ObjectID `bson:"_id"`
+    Name        string
+    Company     string
+    Country     string
+    State       string
+    City        string
+    Zip         string
+    Address     string
+    Address2    string
+    Phone       string
+    TaxNumber   string
+}
+
 type Donation struct {
     Id              primitive.ObjectID `bson:"_id"`
     User            primitive.ObjectID
+    Tokens          []string
     Name            string
     Email           string
     Date            time.Time
     Amount          float64
+    Status          string
+    Successful      bool
+    Recurring       bool
+    RecurringActive bool
+    Occurences      []time.Time
+    Newsletter      bool
+    Gdpr            bool
+    InvoiceNeeded   bool
+    Invoice         primitive.ObjectID
+    TransactionId   int
 }
 
 type DonationOption struct {

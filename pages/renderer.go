@@ -43,6 +43,7 @@ var funcMap = template.FuncMap {
     "timelt":   func(a time.Time, b time.Time) bool {return b.Compare(a) <= 0},
     "now":      time.Now,
     "day":      func() time.Duration {return time.Hour * 24},
+    "tformat":  func(a time.Time) string {return a.Local().Format("2006-01-02 15:04:05")},
 }
 
 func read_artifact(path string, header http.Header) (string, string) {

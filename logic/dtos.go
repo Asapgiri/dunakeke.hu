@@ -51,13 +51,38 @@ type Newsletter struct {
     Email           string
 }
 
+type Invoice struct {
+    Id          string
+    Name        string
+    Company     string
+    Country     string
+    State       string
+    City        string
+    Zip         string
+    Address     string
+    Address2    string
+    Phone       string
+    TaxNumber   string
+}
+
 type Donation struct {
     Id              string
-    User            User
+    UserId          string
+    Tokens          []string
     Name            string
     Email           string
     Date            time.Time
     Amount          float64
+    Status          string
+    Successful      bool
+    Recurring       bool
+    RecurringActive bool
+    Occurences      []time.Time
+    Newsletter      bool
+    GDPR            bool
+    InvoiceNeeded   bool
+    Invoice         Invoice
+    TransactionId   int
 }
 
 type DonationOption struct {

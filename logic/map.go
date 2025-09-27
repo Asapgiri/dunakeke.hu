@@ -50,26 +50,48 @@ func (post *Post) Map(dpost dbase.Post) {
 }
 
 func (donation *Donation) Map(ddon dbase.Donation) {
-    user := User{}
-    user.Find(ddon.User)
+    donation.Id                 = ddon.Id.Hex()
+    donation.UserId             = ddon.User.Hex()
+    donation.Tokens             = ddon.Tokens
+    donation.Name               = ddon.Name
+    donation.Email              = ddon.Email
+    donation.Date               = ddon.Date
+    donation.Amount             = ddon.Amount
+    donation.Status             = ddon.Status
+    donation.Successful         = ddon.Successful
+    donation.Recurring          = ddon.Recurring
+    donation.RecurringActive    = ddon.RecurringActive
+    donation.Occurences         = ddon.Occurences
+    donation.Newsletter         = ddon.Newsletter
+    donation.GDPR               = ddon.Gdpr
+    donation.InvoiceNeeded      = ddon.InvoiceNeeded
+    donation.TransactionId      = ddon.TransactionId
 
-    donation.Id     = ddon.Id.Hex()
-    donation.User   = user
-    donation.Name   = ddon.Name
-    donation.Email  = ddon.Email
-    donation.Date   = ddon.Date
-    donation.Amount = ddon.Amount
+    invoice := dbase.DonationInvoice{}
+    invoice.Select(ddon.Invoice)
+    donation.Invoice.Map(invoice)
 }
 
 func (donation *Donation) UnMap() dbase.Donation {
     ddon := dbase.Donation{}
 
-    ddon.Id, _      = primitive.ObjectIDFromHex(donation.Id)
-    ddon.User, _    = primitive.ObjectIDFromHex(donation.User.Id)
-    ddon.Name       = donation.Name
-    ddon.Email      = donation.Email
-    ddon.Date       = donation.Date
-    ddon.Amount     = donation.Amount
+    ddon.Id, _              = primitive.ObjectIDFromHex(donation.Id)
+    ddon.User, _            = primitive.ObjectIDFromHex(donation.UserId)
+    ddon.Tokens             = donation.Tokens
+    ddon.Name               = donation.Name
+    ddon.Email              = donation.Email
+    ddon.Date               = donation.Date
+    ddon.Amount             = donation.Amount
+    ddon.Status             = donation.Status
+    ddon.Successful         = donation.Successful
+    ddon.Recurring          = donation.Recurring
+    ddon.RecurringActive    = donation.RecurringActive
+    ddon.Occurences         = donation.Occurences
+    ddon.Newsletter         = donation.Newsletter
+    ddon.Gdpr               = donation.GDPR
+    ddon.InvoiceNeeded      = donation.InvoiceNeeded
+    ddon.Invoice, _         = primitive.ObjectIDFromHex(donation.Invoice.Id)
+    ddon.TransactionId      = donation.TransactionId
 
     return ddon
 }
@@ -86,4 +108,36 @@ func (do *DonationOption) UnMap() dbase.DonationOption {
     ddon.Amount     = do.Amount
 
     return ddon
+}
+
+func (iv *Invoice) Map(div dbase.DonationInvoice) {
+    iv.Id          = div.Id.Hex()
+    iv.Name        = div.Name
+    iv.Company     = div.Company
+    iv.Country     = div.Country
+    iv.State       = div.State
+    iv.City        = div.City
+    iv.Zip         = div.Zip
+    iv.Address     = div.Address
+    iv.Address2    = div.Address2
+    iv.Phone       = div.Phone
+    iv.TaxNumber   = div.TaxNumber
+}
+
+func (iv *Invoice) UnMap() dbase.DonationInvoice {
+    div := dbase.DonationInvoice{}
+
+    div.Id, _       = primitive.ObjectIDFromHex(iv.Id)
+    div.Name        = iv.Name
+    div.Company     = iv.Company
+    div.Country     = iv.Country
+    div.State       = iv.State
+    div.City        = iv.City
+    div.Zip         = iv.Zip
+    div.Address     = iv.Address
+    div.Address2    = iv.Address2
+    div.Phone       = iv.Phone
+    div.TaxNumber   = iv.TaxNumber
+
+    return div
 }

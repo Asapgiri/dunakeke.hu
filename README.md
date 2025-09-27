@@ -5,6 +5,7 @@ Webpage for DUNAKEKE
 # TODOs:
 
 - [x] Fix page not found translation
+- [ ] Sanitize inputs!
 - [ ] Donation backend
 - [ ] Everything else
 - [ ] User role add
