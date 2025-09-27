@@ -1,0 +1,15 @@
+[Unit]
+Description=dunakeke.hu
+After=mongod.service
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=radxa
+WorkingDirectory=/repo/dunakeke.hu
+ExecStart=/repo/dunakeke.hu/dunakeke.hu
+
+[Install]
+WantedBy=multi-user.target
