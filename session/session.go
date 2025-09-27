@@ -60,5 +60,11 @@ func GetCurrentSession(r *http.Request) Sessioner {
     session := Sessioner{}
     session.Authenticate(r)
     session.Dictionary = dictionary.GetLanguage(r)
+    session.SetConfig()
     return session
 }
+
+func (session *Sessioner) UpdateTitle(title string) {
+    session.Site.Title = config.Config.Site.Title + config.Config.Site.TitleSeparator + title
+}
+

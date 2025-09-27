@@ -87,7 +87,6 @@ func Render(session session.Sessioner, w http.ResponseWriter, temp string, dto a
 
     session.Main = temp
     session.Dto = dto
-    session.SetConfig()
 
     var tpl bytes.Buffer
     tmp.Execute(&tpl, session)

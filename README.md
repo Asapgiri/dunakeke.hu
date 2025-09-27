@@ -6,12 +6,14 @@ Webpage for DUNAKEKE
 
 - [x] Fix page not found translation
 - [ ] Sanitize inputs!
-- [ ] Donation backend
+- [x] Donation backend
+    - [ ] Check Donation backend
 - [ ] Everything else
 - [ ] User role add
 - [ ] Make all cruds editable from the UI
-- [ ] Link otpay correctly...
+- [x] Link otpay correctly...
     - [ ] look into applepay??
+    - [ ] Final check
 - [ ] Implement post editing..
 - [ ] implement home page..
 - [ ] implement admin pages..

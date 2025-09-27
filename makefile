@@ -3,6 +3,9 @@ name=dunakeke.hu
 build:
 	go build -o ${name}
 
+build-release:
+	go build -o ${name} -ldflags "-s -w"
+
 run:
 	./${name}
 

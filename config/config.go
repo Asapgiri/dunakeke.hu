@@ -30,7 +30,8 @@ type UserConfig struct {
 }
 
 type SiteConfig struct {
-    Title   string
+    Title           string
+    TitleSeparator  string
 }
 
 type DonationConfig struct {
@@ -65,6 +66,7 @@ var Config = ConfigT{
     },
     Site: SiteConfig{
         Title: "Dunakéke",
+        TitleSeparator: " - ",
     },
     Donation: DonationConfig{
         Merchant: "",

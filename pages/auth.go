@@ -30,6 +30,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
     if "" == session.Auth.Username {
         fil, _ := read_artifact("auth/login.html", w.Header())
+        session.UpdateTitle(session.Dictionary.Auth.Login)
         Render(session, w, fil, nil)
     } else {
         http.Redirect(w, r, "/", http.StatusSeeOther)
@@ -70,6 +71,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
     if "" == session.Auth.Username {
         fil, _ := read_artifact("auth/register.html", w.Header())
+        session.UpdateTitle(session.Dictionary.Auth.Register)
         Render(session, w, fil, nil)
     } else {
         http.Redirect(w, r, "/", http.StatusSeeOther)

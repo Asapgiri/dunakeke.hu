@@ -85,6 +85,7 @@ func DonationInProgress(w http.ResponseWriter, r *http.Request) {
     if nil != err {
         log.Printf("Redirect ERR: %s\n", err)
         fil, _ := read_artifact("donate/error.html", w.Header())
+        session.UpdateTitle(session.Dictionary.Donate.Header)
         Render(session, w, fil, err)
     } else {
         log.Printf("Redirect URL: %s\n", otp_ret.PaymentUrl)
@@ -109,5 +110,10 @@ func DonationShowStatus(w http.ResponseWriter, r *http.Request) {
     donation.Select()
 
     fil, _ := read_artifact("donate/success.html", w.Header())
+    if donation.Successful {
+        session.UpdateTitle(session.Dictionary.Donate.TransactionSuccess)
+    } else {
+        session.UpdateTitle(session.Dictionary.Donate.TransactionFailed)
+    }
     Render(session, w, fil, donation)
 }
