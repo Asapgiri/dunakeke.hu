@@ -125,6 +125,7 @@ var dict_hu = Dictionary{
         Settings:   "Beállítások",
     },
     Donate: Donate{
+        Action:             "Action",
         Redirect:           "Átirányítás az OTP Simple oldalra...",
         Header:             "Adományozz nekem",
         Description:        "Véletlenszerű aláírás szöveg...",
@@ -142,7 +143,7 @@ var dict_hu = Dictionary{
         TransactionFailed:  "Sikertelen tanzakció!",
         OneTime:            "Egyszeri",
         Recurring:          "Ismétlődő",
-
+        Occurances:         "Alkalmak",
         WantInvoice:        "Kérek számlát",
         InvoiceCompany:     "Cégnév",
         InvoiceCountry:     "Ország",
@@ -153,12 +154,12 @@ var dict_hu = Dictionary{
         InvoiceAddress2:    "Címsor 2",
         InvoicePhone:       "Telefonszám",
         InvoiceTaxNumber:   "Adószám",
-
         NameEmpty:          "(nincs név)",
         DateCreated:        "Létrehozás dátuma",
         Status:             "Státusz",
         InvoiceData:        "Számlázási adatok",
         Recurrence:         "Ismétlődés",
         Monthly:            "Havonta",
+        SumCollected:       "Összesen gyűjtve",
     },
 }

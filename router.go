@@ -26,7 +26,7 @@ func setup_routes() {
     http.HandleFunc("GET /admin/comments",      pages.NotFound)
     http.HandleFunc("GET /admin/newsletter",    pages.NotFound)
     http.HandleFunc("GET /admin/statistics",    pages.NotFound)
-    http.HandleFunc("GET /admin/donations",     pages.NotFound)
+    http.HandleFunc("GET /admin/donations",     pages.AdminDonations)
 
     http.HandleFunc("GET /admin/api/addlink",   pages.NotFound)
     http.HandleFunc("GET /admin/api/dellink",   pages.NotFound)

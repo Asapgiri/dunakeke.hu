@@ -56,8 +56,8 @@ func (user *User) Register(dict dictionary.Dictionary, password_clear_a string, 
         return errors.New(dict.Auth.RegErrEmailExists)
     }
 
-    if len(user.Username) < 3 {
-        return errors.New(strings.Replace(dict.Auth.RegErrUsernameMinLen, "{}", "3", 1))
+    if len(user.Username) < config.Config.User.MinPasswordLen {
+        return errors.New(strings.Replace(dict.Auth.RegErrUsernameMinLen, "{}", string(config.Config.User.MinPasswordLen), 1))
     }
     for _, bword := range(config.Config.User.NameCantContain) {
         if strings.Contains(user.Username, bword) {
@@ -87,6 +87,8 @@ func (user *User) Register(dict dictionary.Dictionary, password_clear_a string, 
 
     new_user.Add()
     log.Printf("Registerd with %s:%s\n", new_user.Id, string(pwh))
+
+    addExistingDonationsToNewUser(new_user)
 
     return nil
 }

@@ -34,7 +34,7 @@ func (user *User) UnMap() dbase.User {
 
 func (post *Post) Map(dpost dbase.Post) {
     author := User{}
-    author.Find(dpost.Author)
+    author.Find(dpost.Author.Hex())
 
     post.Id         = dpost.Id.Hex()
     post.Author     = author

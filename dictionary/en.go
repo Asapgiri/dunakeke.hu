@@ -125,6 +125,7 @@ var dict_en = Dictionary{
         Settings:   "Settings",
     },
     Donate: Donate{
+        Action:             "Action",
         Redirect:           "Redirecting to OTP Simple...",
         Header:             "Donate me",
         Description:        "Random underling text...",
@@ -142,7 +143,7 @@ var dict_en = Dictionary{
         TransactionFailed:  "Transaction Failed!",
         OneTime:            "One Time",
         Recurring:          "Recurring",
-
+        Occurances:         "Occurances",
         WantInvoice:        "I want invoice",
         InvoiceCompany:     "Company Name",
         InvoiceCountry:     "Country",
@@ -153,12 +154,12 @@ var dict_en = Dictionary{
         InvoiceAddress2:    "Address Line 2",
         InvoicePhone:       "Phone Number",
         InvoiceTaxNumber:   "Tax Number",
-
         NameEmpty:          "(no name)",
         DateCreated:        "Creation date",
         Status:             "Status",
         InvoiceData:        "Invoice data",
         Recurrence:         "Recurrenc",
         Monthly:            "Monthly",
+        SumCollected:       "Sum collected",
     },
 }

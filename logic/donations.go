@@ -250,6 +250,18 @@ func ProgressOtpReply(r string, s string) (string, bool, error) {
     return donation.Id, donation.Successful, nil
 }
 
+func addExistingDonationsToNewUser(user dbase.User) {
+    don := Donation{}
+    dons := don.List()
+
+    for _, d := range(dons) {
+        if d.Email == user.Email {
+            d.UserId = user.Id.Hex()
+            d.Update()
+        }
+    }
+}
+
 
 // =====================================================================================================================
 // "public" page logic

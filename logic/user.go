@@ -6,9 +6,10 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func (user *User) Find(id primitive.ObjectID) {
+func (user *User) Find(id string) {
     duser := dbase.User{}
-    err := duser.Select(id)
+    _id, _ := primitive.ObjectIDFromHex(id)
+    err := duser.Select(_id)
 
     if nil != err {
         user.Id = ""

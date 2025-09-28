@@ -44,6 +44,7 @@ var funcMap = template.FuncMap {
     "now":      time.Now,
     "day":      func() time.Duration {return time.Hour * 24},
     "tformat":  func(a time.Time) string {return a.Local().Format("2006-01-02 15:04:05")},
+    "shorten":  func(s string, newLen int) string {return s[:newLen] + ".." + s[len(s)-(newLen/2):]},
 }
 
 func read_artifact(path string, header http.Header) (string, string) {

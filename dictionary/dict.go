@@ -133,6 +133,7 @@ type Admin struct {
 }
 
 type Donate struct {
+    Action                                  string
     Redirect                                string
     Header                                  string
     Description                             string
@@ -150,8 +151,7 @@ type Donate struct {
     TransactionFailed                       string
     OneTime                                 string
     Recurring                               string
-
-    // Invoice related
+    Occurances                              string
     WantInvoice                             string
     InvoiceCompany                          string
     InvoiceCountry                          string
@@ -162,14 +162,13 @@ type Donate struct {
     InvoiceAddress2                         string
     InvoicePhone                            string
     InvoiceTaxNumber                        string
-
-    //Results
     NameEmpty                               string
     DateCreated                             string
     Status                                  string
     InvoiceData                             string
     Recurrence                              string
     Monthly                                 string
+    SumCollected                            string
 }
 
 type Dictionary struct {
