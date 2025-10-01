@@ -39,6 +39,12 @@ var dict_en = Dictionary{
         AccessViolation:            "You do not have access fot this page!",
     },
     Editor: Editor{
+        TitlePlaceholder:                        "Title",
+        StartMessage:                            "# Start here...",
+        BtnSave:                                 "Save",
+        BtnImage:                                "Image",
+        Author:                                  "Author",
+
         Description                            : "Open source online Markdown editor.",
         TocTitle                               : "Table of Contents",
         ToolbarUndo                            : "Undo(Ctrl+Z)",

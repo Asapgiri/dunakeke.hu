@@ -20,20 +20,3 @@ func LinkFind(link string) string {
 
     return dblink.Alternative
 }
-
-func PostList() []Post {
-    post := dbase.Post{}
-    dbposts, err := post.List()
-
-    if nil != err {
-        return []Post{}
-    }
-
-    lposts := make([]Post, len(dbposts))
-
-    for i, p := range(dbposts) {
-        lposts[i].Map(p)
-    }
-
-    return lposts
-}

@@ -22,11 +22,17 @@ type Post struct {
     Author          primitive.ObjectID
     Date            time.Time
     EditDate        time.Time
+    Public          bool
     Path            string
     Title           string
     Short           string
     Image           string
-    Content         string
+    Markdown        string
+    Html            string
+}
+
+type Photo struct {
+    Id              primitive.ObjectID `bson:"_id"`
 }
 
 type Comment struct {

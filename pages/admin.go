@@ -40,6 +40,21 @@ func AdminUsers(w http.ResponseWriter, r *http.Request) {
     Render(session, w, fil, users)
 }
 
+func AdminPosts(w http.ResponseWriter, r *http.Request) {
+    session := session.GetCurrentSession(r)
+
+    if !checkAdminPageAccess(session) {
+        NotFound(w, r)
+        return
+    }
+
+    post := logic.Post{}
+    posts := post.List()
+
+    fil, _ := read_artifact("admin/posts.html", w.Header())
+    Render(session, w, fil, posts)
+}
+
 func AdminDonations(w http.ResponseWriter, r *http.Request) {
     session := session.GetCurrentSession(r)
 

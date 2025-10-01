@@ -40,13 +40,31 @@ func (post *Post) Map(dpost dbase.Post) {
     post.Author     = author
     post.Date       = dpost.Date
     post.EditDate   = dpost.EditDate
+    post.Public     = dpost.Public
+    post.Path       = dpost.Path
     post.Title      = dpost.Title
     post.Short      = dpost.Short
     post.Image      = dpost.Image
-    post.Content    = dpost.Content
+    post.Markdown   = dpost.Markdown
+    post.Html       = dpost.Html
+}
 
-    // Comments should be loaded separately
-    // post.Comments   = comments
+func (post *Post) UnMap() dbase.Post {
+    dpost := dbase.Post{}
+
+    dpost.Id, _     = primitive.ObjectIDFromHex(post.Id)
+    dpost.Author, _ = primitive.ObjectIDFromHex(post.Author.Id)
+    dpost.Date      = post.Date
+    dpost.EditDate  = post.EditDate
+    dpost.Public    = post.Public
+    dpost.Path      = post.Path
+    dpost.Title     = post.Title
+    dpost.Short     = post.Short
+    dpost.Image     = post.Image
+    dpost.Markdown  = post.Markdown
+    dpost.Html      = post.Html
+
+    return dpost
 }
 
 func (donation *Donation) Map(ddon dbase.Donation) {

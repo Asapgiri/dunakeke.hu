@@ -6,6 +6,7 @@ import (
 	"dunakeke/session"
 	"io"
 	"net/http"
+	"sort"
 )
 
 var log = logger.Logger {
@@ -41,10 +42,16 @@ func Unexpected(session session.Sessioner, w http.ResponseWriter, r *http.Reques
 func Root(w http.ResponseWriter, r *http.Request) {
     session := session.GetCurrentSession(r)
 
+    post := logic.Post{}
+    plist := post.List()
+
+    // FIXME: Check if post is public or not..
+    sort.Slice(plist, func(i, j int) bool { return plist[i].EditDate.After(plist[j].EditDate) })
+
     if "/" == r.URL.Path {
         dto := DtoRoot{
             Main: DtoMain{},
-            Posts: logic.PostList(),
+            Posts: plist,
         }
 
         fil, _ := read_artifact("index.html", w.Header())

@@ -29,11 +29,13 @@ type Post struct {
     Author          User
     Date            time.Time
     EditDate        time.Time
+    Public          bool
+    Path            string
     Title           string
     Short           string
     Image           string
-    Content         string
-    Comments        []Comment
+    Markdown        string
+    Html            string
 }
 
 type Link struct {
@@ -97,4 +99,11 @@ type Stat struct {
     Ip              string
     Route           string
     Post            bool
+}
+
+type PostSave struct {
+    Id          string  `json:"id"`
+    Title       string  `json:"title"`
+    Markdown    string  `json:"markdown"`
+    Html        string  `json:"html"`
 }

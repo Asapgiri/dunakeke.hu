@@ -74,7 +74,8 @@
                             <div class="col-md-2">SimplePayId</div><div class="col-md-10">{{.TransactionId}}</div>
                         </div>
                         <div class="m-1 row border-bottom">
-                            <div class="col-md-2">userid</div><div class="col-md-10">{{if .UserId}}<a href="/user/{{.UserId}}">@{{index $.Dto.Username $i}}</a>{{end}}</div>
+                            {{$user := (index $.Dto.Username $i)}}
+                            <div class="col-md-2">userid</div><div class="col-md-10">{{if $user}}<a href="/user/{{$user}}">@{{$user}}</a>{{end}}</div>
                         </div>
                         <div class="m-1 row border-bottom">
                             <div class="col-md-2">token count</div><div class="col-md-10">{{len .Tokens}}</div>

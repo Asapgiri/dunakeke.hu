@@ -22,7 +22,7 @@ func setup_routes() {
     http.HandleFunc("GET /admin",               pages.AdminPage)
     http.HandleFunc("GET /admin/links",         pages.NotFound)
     http.HandleFunc("GET /admin/users",         pages.AdminUsers)
-    http.HandleFunc("GET /admin/posts",         pages.NotFound)
+    http.HandleFunc("GET /admin/posts",         pages.AdminPosts)
     http.HandleFunc("GET /admin/comments",      pages.NotFound)
     http.HandleFunc("GET /admin/newsletter",    pages.NotFound)
     http.HandleFunc("GET /admin/statistics",    pages.NotFound)
@@ -41,8 +41,12 @@ func setup_routes() {
     http.HandleFunc("GET /user/delete/{id}",    pages.NotFound)
 
     http.HandleFunc("GET /post/{id}",           pages.PostShow)
+    http.HandleFunc("GET /post/new",            pages.PostNew)
     http.HandleFunc("GET /post/edit/{id}",      pages.PostEdit)
     http.HandleFunc("GET /post/delete/{id}",    pages.PostDelete)
+
+    http.HandleFunc("POST /api/post/save",      pages.PostSave)
+    http.HandleFunc("POST /api/post/image",     pages.PostSaveImage)
 
     http.HandleFunc("POST /api/comment/add",    pages.NotFound)
     http.HandleFunc("POST /api/comment/edit",   pages.NotFound)

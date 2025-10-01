@@ -16,6 +16,7 @@ var db *mongo.Database
 
 var dbUSERS             *mongo.Collection
 var dbPOSTS             *mongo.Collection
+var dbPHOTOS            *mongo.Collection
 var dbCOMMENTS          *mongo.Collection
 var dbLINKS             *mongo.Collection
 var dbNEWSLETTER        *mongo.Collection
@@ -55,6 +56,7 @@ func Connect() error {
 
     dbUSERS             = db.Collection("users")
     dbPOSTS             = db.Collection("posts")
+    dbPHOTOS            = db.Collection("photos")
     dbCOMMENTS          = db.Collection("comments")
     dbLINKS             = db.Collection("links")
     dbNEWSLETTER        = db.Collection("newsletter")
@@ -139,6 +141,39 @@ func (post *Post) Update() error {
 
 func (post *Post) Delete() error {
     _, err := dbPOSTS.DeleteOne(context.TODO(), bson.D{{"_id", post.Id}})
+    return err
+}
+
+
+// =====================================================================================================================
+// Internal Photos CRUD
+
+func (photo *Photo) List() ([]Photo, error) {
+    var posts []Photo
+    cursor, err := dbPHOTOS.Find(context.TODO(), bson.D{{}})
+    if err != nil {
+        return posts, err
+    }
+    err = cursor.All(context.TODO(), &posts)
+    return posts, err
+}
+
+func (photo *Photo) Select(id primitive.ObjectID) error {
+    return dbPHOTOS.FindOne(context.TODO(), bson.D{{"_id", id}}).Decode(photo)
+}
+
+func (photo *Photo) Add() error {
+    _, err := dbPHOTOS.InsertOne(context.TODO(), photo)
+    return err
+}
+
+func (photo *Photo) Update() error {
+    _, err := dbPHOTOS.ReplaceOne(context.TODO(), bson.D{{"_id", photo.Id}}, photo)
+    return err
+}
+
+func (photo *Photo) Delete() error {
+    _, err := dbPHOTOS.DeleteOne(context.TODO(), bson.D{{"_id", photo.Id}})
     return err
 }
 

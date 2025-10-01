@@ -45,6 +45,12 @@ type Auth struct {
 }
 
 type Editor struct {
+    TitlePlaceholder                        string
+    StartMessage                            string
+    BtnSave                                 string
+    BtnImage                                string
+    Author                                  string
+
     Description                             string
     TocTitle                                string
     ToolbarUndo                             string

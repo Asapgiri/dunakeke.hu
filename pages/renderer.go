@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"dunakeke/session"
 	"io"
+	"mime/multipart"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -77,6 +78,28 @@ func read_artifact(path string, header http.Header) (string, string) {
     }
 
     return string(file_read), file_type
+}
+
+func save_artifact(path string, file multipart.File) error {
+    ex, err := os.Executable()
+    if nil != err {
+        panic(err)
+    }
+
+    dir_path := filepath.Dir(ex) + "/" + artifact_path
+    dstPath := filepath.Join(dir_path, path)
+    dst, err := os.Create(dstPath)
+    if nil != err {
+        return err
+    }
+    defer dst.Close()
+
+    _, err = io.Copy(dst, file)
+    if nil != err {
+        return err
+    }
+
+    return nil
 }
 
 func Render(session session.Sessioner, w http.ResponseWriter, temp string, dto any) {

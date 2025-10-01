@@ -33,6 +33,7 @@ type SiteConfig struct {
     Title           string
     SiteTitle       string
     TitleSeparator  string
+    MaxImgUploadMB  int64
 }
 
 type DonationConfig struct {
@@ -69,6 +70,7 @@ var Config = ConfigT{
         Title: "Dunakéke",
         SiteTitle: "Dunakéke",
         TitleSeparator: " - ",
+        MaxImgUploadMB: 10,
     },
     Donation: DonationConfig{
         Merchant: "",

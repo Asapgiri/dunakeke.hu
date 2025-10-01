@@ -8,6 +8,7 @@ Webpage for DUNAKEKE
 - [ ] Sanitize inputs!
 - [x] Donation backend
     - [ ] Check Donation backend
+- [ ] Handle link redirecting...
 - [ ] Everything else
 - [ ] User role add
 - [ ] Make all cruds editable from the UI

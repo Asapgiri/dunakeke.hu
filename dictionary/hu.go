@@ -39,6 +39,12 @@ var dict_hu = Dictionary{
         AccessViolation:            "Ehez az oldalhoz nincs hozzéférésed!",
     },
     Editor: Editor{
+        TitlePlaceholder:                        "Cím",
+        StartMessage:                            "# Kezdj itt...",
+        BtnSave:                                 "Mentés",
+        BtnImage:                                "Kép",
+        Author:                                  "Szerző",
+
         Description                            : "Nyílt forráskódú online Markdown szerkesztő.",
         TocTitle                               : "Tartalomjegyzék",
         ToolbarUndo                            : "Visszavonás (Ctrl+Z)",

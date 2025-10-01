@@ -1,0 +1,13 @@
+<div class="container-xl flex-fill postshow">
+    {{if or .Auth.IsAdmin .Auth.IsMod}}
+    <div class="my-3">
+        <a class="btn btn-primary" href="/post/edit/{{.Dto.Id}}">Edit</a>
+        <a class="btn btn-danger" href="/post/delete/{{.Dto.Id}}">Delete</a>
+    </div>
+    {{end}}
+    <h1>{{.Dto.Title}}</h1>
+    <h6>{{.Dictionary.Editor.Author}}: <a href="/user/{{.Dto.Author.Username}}">@{{.Dto.Author.Username}}</a></h6>
+    <h6>{{tformat .Dto.EditDate}}</h6>
+
+    {{.Dto.Html}}
+</div>

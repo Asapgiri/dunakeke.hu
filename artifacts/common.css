@@ -144,3 +144,7 @@ ol ol {display:block; margin-bottom: 5px;} /* hide original list counter */
 ol > li:first-child {counter-reset: item;} /* reset counter */
 ol > li {counter-increment: item; position: relative;} /* increment counter */
 ol > li:before {content:counters(item, ".") ". "; position: absolute; margin-right: 100%; right: 10px;} /* print counter */
+
+.postshow img {
+    max-width: 100%;
+}

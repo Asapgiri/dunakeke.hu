@@ -1,1 +1,19 @@
-<p>Random text</p>
+<div class="container-xl flex-fill postshow">
+
+{{range .Dto.Posts}}
+<div class="row border-top m-2">
+    <div class="col-md-3">
+        <a href="/post/{{if .Path}}{{.Path}}{{else}}{{.Id}}{{end}}">
+            <img src="{{.Image}}">
+        </a>
+    </div>
+    <div class="col-md-9">
+        <h4><a href="/post/{{if .Path}}{{.Path}}{{else}}{{.Id}}{{end}}">{{.Title}}</a></h4>
+        <p>{{.Short}}</p>
+        <p>{{tformat .EditDate}}</p>
+        <p><a href="/user/{{.Author.Username}}">@{{if .Author.Name}}{{.Author.Name}}{{else}}{{.Author.Username}}{{end}}</a></p>
+    </div>
+</div>
+{{end}}
+
+</div>
