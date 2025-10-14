@@ -6,6 +6,44 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+func (s *SiteStatistic) Map(dstat dbase.SiteStatistic) {
+    s.Id            = dstat.Id.Hex()
+    s.Date          = dstat.Date
+    s.UserId        = dstat.UserId.Hex()
+    s.Method        = dstat.Method
+    s.Url           = dstat.Url
+	s.Proto         = dstat.Proto
+	s.ProtoMajor    = dstat.ProtoMajor
+	s.ProtoMinor    = dstat.ProtoMinor
+	s.Header        = dstat.Header
+	s.Host          = dstat.Host
+	s.RemoteAddr    = dstat.RemoteAddr
+	s.RequestURI    = dstat.RequestURI
+    s.Referer       = dstat.Referer
+    s.Pattern       = dstat.Pattern
+}
+
+func (s *SiteStatistic) UnMap() dbase.SiteStatistic {
+    dstat := dbase.SiteStatistic{}
+
+    dstat.Id, _         = primitive.ObjectIDFromHex(s.Id)
+    dstat.Date          = s.Date
+    dstat.UserId, _     = primitive.ObjectIDFromHex(s.UserId)
+    dstat.Method        = s.Method
+    dstat.Url           = s.Url
+	dstat.Proto         = s.Proto
+	dstat.ProtoMajor    = s.ProtoMajor
+	dstat.ProtoMinor    = s.ProtoMinor
+	dstat.Header        = s.Header
+	dstat.Host          = s.Host
+	dstat.RemoteAddr    = s.RemoteAddr
+	dstat.RequestURI    = s.RequestURI
+    dstat.Referer       = s.Referer
+    dstat.Pattern       = s.Pattern
+
+    return dstat
+}
+
 func (user *User) Map(duser dbase.User) {
     user.Id         = duser.Id.Hex()
     user.RegDate    = duser.RegDate

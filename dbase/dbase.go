@@ -380,8 +380,8 @@ func (do *DonationOption) Delete() error {
 // =====================================================================================================================
 // Internal Stat CRUD
 
-func (stat *Stat) List() ([]Stat, error) {
-    var stats []Stat
+func (stat *SiteStatistic) List() ([]SiteStatistic, error) {
+    var stats []SiteStatistic
     cursor, err := dbSTATISTICS.Find(context.TODO(), bson.D{{}})
     if err != nil {
         return stats, err
@@ -390,21 +390,21 @@ func (stat *Stat) List() ([]Stat, error) {
     return stats, err
 }
 
-func (stat *Stat) Select(id primitive.ObjectID) error {
+func (stat *SiteStatistic) Select(id primitive.ObjectID) error {
     return dbSTATISTICS.FindOne(context.TODO(), bson.D{{"_id", id}}).Decode(stat)
 }
 
-func (stat *Stat) Add() error {
+func (stat *SiteStatistic) Add() error {
     _, err := dbSTATISTICS.InsertOne(context.TODO(), stat)
     return err
 }
 
-func (stat *Stat) Update() error {
+func (stat *SiteStatistic) Update() error {
     _, err := dbSTATISTICS.ReplaceOne(context.TODO(), bson.D{{"_id", stat.Id}}, stat)
     return err
 }
 
-func (stat *Stat) Delete() error {
+func (stat *SiteStatistic) Delete() error {
     _, err := dbSTATISTICS.DeleteOne(context.TODO(), bson.D{{"_id", stat.Id}})
     return err
 }

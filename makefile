@@ -1,7 +1,7 @@
 name=dunakeke.hu
 
 build:
-	go build -o ${name}
+	go build -buildvcs=false -o ${name}
 
 build-release:
 	go build -o ${name} -ldflags "-s -w"

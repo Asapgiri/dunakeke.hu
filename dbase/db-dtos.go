@@ -1,9 +1,28 @@
 package dbase
 
 import (
+	"net/http"
 	"time"
+
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
+
+type SiteStatistic struct {
+    Id          primitive.ObjectID  `bson:"_id"`
+    UserId      primitive.ObjectID
+    Date        time.Time
+    Method      string
+    Url         string
+	Proto       string
+	ProtoMajor  int
+	ProtoMinor  int
+	Header      http.Header
+	Host        string
+	RemoteAddr  string
+	RequestURI  string
+    Referer     string
+    Pattern     string
+}
 
 type User struct {
     Id              primitive.ObjectID `bson:"_id"`
@@ -98,13 +117,4 @@ type DonationOption struct {
     Id              primitive.ObjectID `bson:"_id"`
     Date            time.Time
     Amount          float64
-}
-
-type Stat struct {
-    Id              primitive.ObjectID `bson:"_id"`
-    User            primitive.ObjectID
-    Date            time.Time
-    Ip              string
-    Route           string
-    Post            bool
 }

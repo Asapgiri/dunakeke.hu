@@ -61,6 +61,10 @@ func GetCurrentSession(r *http.Request) Sessioner {
     session.Authenticate(r)
     session.Dictionary = dictionary.GetLanguage(r)
     session.SetConfig()
+
+    // FIXME: Put this to somewhere
+    logic.SaveStatistics(r, session.Auth.Id)
+
     return session
 }
 

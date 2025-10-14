@@ -4,6 +4,17 @@ Webpage for DUNAKEKE
 
 # TODOs:
 
+## focus
+- [ ] fix per site roles
+- [ ] proper post view
+- [ ] post route translation
+- [ ] hidden post handling
+- [ ] user role handling
+- [ ] import existing pages
+- [ ] expost modules
+
+## overall
+
 - [x] Fix page not found translation
 - [ ] Sanitize inputs!
 - [x] Donation backend
@@ -21,3 +32,12 @@ Webpage for DUNAKEKE
 - [ ] Check all links are working
 - [ ] Use release contexts
 - [ ] Make everything fancier
+- [ ] fix editor translations
+- [ ] use statistics
+
+- [ ] Add statistics
+    - [ ] Log statistics from every site opening
+        - [x] Logging
+        - [ ] From
+        - [ ] Else
+    - [ ] Show it on admins page

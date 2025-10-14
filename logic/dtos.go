@@ -1,8 +1,30 @@
 package logic
 
 import (
+	"net/http"
 	"time"
 )
+
+type SiteStatistic struct {
+    Id          string
+    Date        time.Time
+    UserId      string
+
+    Method      string
+    Url         string
+
+	Proto       string
+	ProtoMajor  int
+	ProtoMinor  int
+	Header      http.Header
+
+	Host        string
+	RemoteAddr  string
+	RequestURI  string
+
+    Referer     string
+    Pattern     string
+}
 
 type User struct {
     Id              string
