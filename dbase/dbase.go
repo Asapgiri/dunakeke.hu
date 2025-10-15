@@ -3,7 +3,7 @@ package dbase
 import (
 	"context"
 	"dunakeke/config"
-	"dunakeke/logger"
+	"asapgiri/golib/logger"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"

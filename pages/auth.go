@@ -1,13 +1,15 @@
 package pages
 
 import (
-    "net/http"
-	"dunakeke/session"
-    "dunakeke/logic"
+	"asapgiri/golib/renderer"
+	"dunakeke/config"
+	"dunakeke/dictionary"
+	"dunakeke/logic"
+	"net/http"
 )
 
 func Login(w http.ResponseWriter, r *http.Request) {
-    session := session.GetCurrentSession(r)
+    session := GetCurrentSession(r)
 
     // FIXME: Cannot do if logged in..
 
@@ -17,7 +19,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
     if "" != uname {
         user := logic.User{}
-        err := user.Login(session.Dictionary, uname, upass)
+        err := user.Login(session.Dictionary.(dictionary.Dictionary), uname, upass)
         if nil != err {
             session.SetError(err.Error())
         } else {
@@ -29,16 +31,16 @@ func Login(w http.ResponseWriter, r *http.Request) {
     }
 
     if "" == session.Auth.Username {
-        fil, _ := read_artifact("auth/login.html", w.Header())
-        session.UpdateTitle(session.Dictionary.Auth.Login)
-        Render(session, w, fil, nil)
+        fil, _ := renderer.ReadArtifact("auth/login.html", w.Header())
+        session.UpdateTitle(config.Config.Site, session.Dictionary.(dictionary.Dictionary).Auth.Login)
+        renderer.Render(session, w, fil, nil)
     } else {
         http.Redirect(w, r, "/", http.StatusSeeOther)
     }
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
-    session := session.GetCurrentSession(r)
+    session := GetCurrentSession(r)
 
     // FIXME: Cannot do if logged in..
 
@@ -57,7 +59,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
             Name: uname,
             Phone: uphone,
         }
-        err := user.Register(session.Dictionary, upassa, upassb)
+        err := user.Register(session.Dictionary.(dictionary.Dictionary), upassa, upassb)
         if nil != err {
             session.SetError(err.Error())
             log.Println(err.Error())
@@ -70,16 +72,16 @@ func Register(w http.ResponseWriter, r *http.Request) {
     }
 
     if "" == session.Auth.Username {
-        fil, _ := read_artifact("auth/register.html", w.Header())
-        session.UpdateTitle(session.Dictionary.Auth.Register)
-        Render(session, w, fil, nil)
+        fil, _ := renderer.ReadArtifact("auth/register.html", w.Header())
+        session.UpdateTitle(config.Config.Site, session.Dictionary.(dictionary.Dictionary).Auth.Register)
+        renderer.Render(session, w, fil, nil)
     } else {
         http.Redirect(w, r, "/", http.StatusSeeOther)
     }
 }
 
 func Logout(w http.ResponseWriter, r *http.Request) {
-    session := session.GetCurrentSession(r)
+    session := GetCurrentSession(r)
     session.Delete(w, r)
     http.Redirect(w, r, "/", http.StatusSeeOther)
 }

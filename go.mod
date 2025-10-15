@@ -1,10 +1,9 @@
 module dunakeke
 
-go 1.24.0
-
-toolchain go1.24.5
+go 1.24.5
 
 require (
+	asapgiri/golib v0.0.0-00010101000000-000000000000
 	github.com/gorilla/sessions v1.4.0
 	go.mongodb.org/mongo-driver v1.17.4
 	golang.org/x/crypto v0.42.0
@@ -22,3 +21,5 @@ require (
 	golang.org/x/sync v0.17.0 // indirect
 	golang.org/x/text v0.29.0 // indirect
 )
+
+replace asapgiri/golib => ../asapgiri-golib

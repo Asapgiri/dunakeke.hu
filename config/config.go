@@ -1,8 +1,9 @@
 package config
 
 import (
+	"asapgiri/golib/logger"
+	"asapgiri/golib/session"
 	"encoding/json"
-	"dunakeke/logger"
 	"os"
 	"path/filepath"
 )
@@ -29,13 +30,6 @@ type UserConfig struct {
     NameCantContain     []string
 }
 
-type SiteConfig struct {
-    Title           string
-    SiteTitle       string
-    TitleSeparator  string
-    MaxImgUploadMB  int64
-}
-
 type DonationConfig struct {
     Merchant            string
     SecretKey           string
@@ -47,7 +41,7 @@ type ConfigT struct {
     Http        HttpConfig
     Dbase       DbConfig
     User        UserConfig
-    Site        SiteConfig
+    Site        session.Config
     Donation    DonationConfig
 }
 
@@ -66,7 +60,7 @@ var Config = ConfigT{
         MinPasswordLen: 8,
         NameCantContain: []string{},
     },
-    Site: SiteConfig{
+    Site: session.Config{
         Title: "Dunakéke",
         SiteTitle: "Dunakéke",
         TitleSeparator: " - ",

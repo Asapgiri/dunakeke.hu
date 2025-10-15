@@ -12,6 +12,11 @@ Webpage for DUNAKEKE
 - [ ] user role handling
 - [ ] import existing pages
 - [ ] expost modules
+    - [ ] authentication?
+    - [x] rendering
+    - [ ] config
+    - [x] logger
+    - [x] sessions
 
 ## overall
 

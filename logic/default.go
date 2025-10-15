@@ -2,7 +2,7 @@ package logic
 
 import (
 	"dunakeke/dbase"
-	"dunakeke/logger"
+	"asapgiri/golib/logger"
 )
 
 var log = logger.Logger {

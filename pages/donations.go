@@ -1,21 +1,23 @@
 package pages
 
 import (
+	"asapgiri/golib/renderer"
+	"dunakeke/config"
+	"dunakeke/dictionary"
 	"dunakeke/logic"
-	"dunakeke/session"
 	"net/http"
 	"strconv"
 	"time"
 )
 
 func DonationRoot(w http.ResponseWriter, r *http.Request) {
-    session := session.GetCurrentSession(r)
+    session := GetCurrentSession(r)
 
     do := logic.DonationOption{}
     dos := do.List()
 
-    fil, _ := read_artifact("donate/root.html", w.Header())
-    Render(session, w, fil, dos)
+    fil, _ := renderer.ReadArtifact("donate/root.html", w.Header())
+    renderer.Render(session, w, fil, dos)
 }
 
 func checkCSFR(csfr string) bool {
@@ -23,27 +25,27 @@ func checkCSFR(csfr string) bool {
 }
 
 func DonationInProgress(w http.ResponseWriter, r *http.Request) {
-    session := session.GetCurrentSession(r)
+    session := GetCurrentSession(r)
 
     if !checkCSFR(r.FormValue("form[csrf]")) {
         log.Printf("CFSR ERR!\n")
-        fil, _ := read_artifact("donate/error.html", w.Header())
-        Render(session, w, fil, nil)
+        fil, _ := renderer.ReadArtifact("donate/error.html", w.Header())
+        renderer.Render(session, w, fil, nil)
         return
     }
 
     if "1" != r.FormValue("form[gdprAgreed]") {
         log.Printf("GDPR not accepted!\n")
-        fil, _ := read_artifact("donate/error.html", w.Header())
-        Render(session, w, fil, nil)
+        fil, _ := renderer.ReadArtifact("donate/error.html", w.Header())
+        renderer.Render(session, w, fil, nil)
         return
     }
 
     amount, err := strconv.ParseFloat(r.FormValue("form[amount]"), 64)
     if nil != err {
         log.Printf("Redirect ERR: %s\n", err)
-        fil, _ := read_artifact("donate/error.html", w.Header())
-        Render(session, w, fil, err)
+        fil, _ := renderer.ReadArtifact("donate/error.html", w.Header())
+        renderer.Render(session, w, fil, err)
         return
     }
 
@@ -79,14 +81,14 @@ func DonationInProgress(w http.ResponseWriter, r *http.Request) {
     log.Println(donation)
 
     // FIXME: undo after testing..
-    otp_ret, err := logic.RedirectToOtpApi(session.Dictionary, donation)
+    otp_ret, err := logic.RedirectToOtpApi(session.Dictionary.(dictionary.Dictionary), donation)
     //otp_ret := logic.OtpJsonResponse{PaymentUrl: "/donate"}
 
     if nil != err {
         log.Printf("Redirect ERR: %s\n", err)
-        fil, _ := read_artifact("donate/error.html", w.Header())
-        session.UpdateTitle(session.Dictionary.Donate.Header)
-        Render(session, w, fil, err)
+        fil, _ := renderer.ReadArtifact("donate/error.html", w.Header())
+        session.UpdateTitle(config.Config.Site, session.Dictionary.(dictionary.Dictionary).Donate.Header)
+        renderer.Render(session, w, fil, err)
     } else {
         log.Printf("Redirect URL: %s\n", otp_ret.PaymentUrl)
         http.Redirect(w, r, otp_ret.PaymentUrl, http.StatusSeeOther)
@@ -104,16 +106,16 @@ func DonationReturn(w http.ResponseWriter, r *http.Request) {
 }
 
 func DonationShowStatus(w http.ResponseWriter, r *http.Request) {
-    session := session.GetCurrentSession(r)
+    session := GetCurrentSession(r)
 
     donation := logic.Donation{Id: r.PathValue("id")}
     donation.Select()
 
-    fil, _ := read_artifact("donate/success.html", w.Header())
+    fil, _ := renderer.ReadArtifact("donate/success.html", w.Header())
     if donation.Successful {
-        session.UpdateTitle(session.Dictionary.Donate.TransactionSuccess)
+        session.UpdateTitle(config.Config.Site, session.Dictionary.(dictionary.Dictionary).Donate.TransactionSuccess)
     } else {
-        session.UpdateTitle(session.Dictionary.Donate.TransactionFailed)
+        session.UpdateTitle(config.Config.Site, session.Dictionary.(dictionary.Dictionary).Donate.TransactionFailed)
     }
-    Render(session, w, fil, donation)
+    renderer.Render(session, w, fil, donation)
 }

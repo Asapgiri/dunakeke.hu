@@ -1,6 +1,7 @@
 package logic
 
 import (
+	"asapgiri/golib/session"
 	"dunakeke/config"
 	"dunakeke/dbase"
 	"dunakeke/dictionary"
@@ -14,24 +15,13 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type Auth struct {
-    Id          string
-    Error       string
-    Username    string
-    Name        string
-    Email       string
-    Roles       []string
-    IsAdmin     bool
-    IsMod       bool
-}
-
-func Authenticate(a *Auth) {
+func Authenticate(a *session.Auth) {
     // TODO: Check if user can be mocked out to existing and be used for unauthenticated login...
     if a.Username != "" {
         user := User{}
         user.FindByUsername(a.Username)
         if "" == user.Username {
-            *a = Auth{}
+            *a = session.Auth{}
             return
         }
 

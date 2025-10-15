@@ -4,12 +4,12 @@ import (
 	"net/http"
 	"dunakeke/config"
 	"dunakeke/dbase"
-	"dunakeke/logger"
+	"asapgiri/golib/logger"
 	"os"
 	"strings"
 )
 
-var msg = logger.Logger {
+var log = logger.Logger {
     Color: logger.Colors.Green,
     Pretext: "main",
 }
@@ -32,5 +32,5 @@ func main() {
         err = http.ListenAndServe(strings.Join([]string{":", config.Config.Http.Port}, ""), nil)
     }
 
-    msg.Println(err)
+    log.Println(err)
 }

@@ -1,9 +1,11 @@
 package pages
 
 import (
+	"asapgiri/golib/renderer"
+	"asapgiri/golib/session"
 	"dunakeke/config"
+	"dunakeke/dictionary"
 	"dunakeke/logic"
-	"dunakeke/session"
 	"encoding/json"
 	"io"
 	"net/http"
@@ -16,7 +18,7 @@ func checkEditorAccess(session session.Sessioner) bool {
 }
 
 func PostShow(w http.ResponseWriter, r *http.Request) {
-    session := session.GetCurrentSession(r)
+    session := GetCurrentSession(r)
 
     post := logic.Post{}
     err := post.Select(r.PathValue("id"))
@@ -25,12 +27,12 @@ func PostShow(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    fil, _ := read_artifact("post/show.html", w.Header())
-    Render(session, w, fil, post)
+    fil, _ := renderer.ReadArtifact("post/show.html", w.Header())
+    renderer.Render(session, w, fil, post)
 }
 
 func PostNew(w http.ResponseWriter, r *http.Request) {
-    session := session.GetCurrentSession(r)
+    session := GetCurrentSession(r)
 
     if !checkEditorAccess(session) {
        renderPageWithAccessViolation(w, r)
@@ -40,13 +42,13 @@ func PostNew(w http.ResponseWriter, r *http.Request) {
     user := logic.User{}
     user.FindByUsername(session.Auth.Username)
 
-    id := logic.PostNew(session.Dictionary, user)
+    id := logic.PostNew(session.Dictionary.(dictionary.Dictionary), user)
 
     http.Redirect(w, r, "/post/edit/" + id, http.StatusSeeOther)
 }
 
 func PostEdit(w http.ResponseWriter, r *http.Request) {
-    session := session.GetCurrentSession(r)
+    session := GetCurrentSession(r)
 
     if !checkEditorAccess(session) {
        renderPageWithAccessViolation(w, r)
@@ -60,12 +62,12 @@ func PostEdit(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    fil, _ := read_artifact("post/edit.html", w.Header())
-    Render(session, w, fil, post)
+    fil, _ := renderer.ReadArtifact("post/edit.html", w.Header())
+    renderer.Render(session, w, fil, post)
 }
 
 func PostDelete(w http.ResponseWriter, r *http.Request) {
-    session := session.GetCurrentSession(r)
+    session := GetCurrentSession(r)
 
     if !checkEditorAccess(session) {
        renderPageWithAccessViolation(w, r)
@@ -90,7 +92,7 @@ func PostDelete(w http.ResponseWriter, r *http.Request) {
 }
 
 func PostSave(w http.ResponseWriter, r *http.Request) {
-    session := session.GetCurrentSession(r)
+    session := GetCurrentSession(r)
 
     if !checkEditorAccess(session) {
        renderPageWithAccessViolation(w, r)
@@ -117,7 +119,7 @@ func PostSave(w http.ResponseWriter, r *http.Request) {
 }
 
 func PostSaveImage(w http.ResponseWriter, r *http.Request) {
-    session := session.GetCurrentSession(r)
+    session := GetCurrentSession(r)
 
     if !checkEditorAccess(session) {
        renderPageWithAccessViolation(w, r)
@@ -142,7 +144,7 @@ func PostSaveImage(w http.ResponseWriter, r *http.Request) {
 
     // FIXME: Save which photos are being used...
     save_name := "/photos/" + header.Filename
-    err = save_artifact(save_name, file)
+    err = renderer.SaveArtifact(save_name, file)
     if nil != err {
         io.WriteString(w, string(err_ret))
         return
