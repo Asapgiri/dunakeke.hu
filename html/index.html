@@ -1,7 +1,7 @@
 <div class="container-xl flex-fill postshow">
 
 {{range .Dto.Posts}}
-<div class="row border-top m-2">
+<div class="row border-top m-2 {{if not .Public}}bg-dark{{end}}">
     <div class="col-md-3">
         <a href="/post/{{if .Path}}{{.Path}}{{else}}{{.Id}}{{end}}">
             <img src="{{.Image}}">

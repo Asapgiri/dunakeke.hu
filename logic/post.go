@@ -40,10 +40,15 @@ func PostUpdate(ps PostSave) error {
 }
 
 
-
-func (post *Post) List() []Post {
+func (post *Post) List(show_private bool) []Post {
     dpost := dbase.Post{}
-    dposts, err := dpost.List()
+    var dposts []dbase.Post
+    var err error
+    if show_private {
+        dposts, err = dpost.List()
+    } else {
+        dposts, err = dpost.ListPublic()
+    }
     if nil != err {
         log.Println(err)
         return []Post{}

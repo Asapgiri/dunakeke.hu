@@ -50,7 +50,7 @@ func AdminPosts(w http.ResponseWriter, r *http.Request) {
     }
 
     post := logic.Post{}
-    posts := post.List()
+    posts := post.List(true)
 
     fil, _ := renderer.ReadArtifact("admin/posts.html", w.Header())
     renderer.Render(session, w, fil, posts)

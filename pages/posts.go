@@ -118,6 +118,27 @@ func PostSave(w http.ResponseWriter, r *http.Request) {
     io.WriteString(w, "OK")
 }
 
+func PostPublish(w http.ResponseWriter, r *http.Request) {
+    session := GetCurrentSession(r)
+
+    if !checkEditorAccess(session) {
+       renderPageWithAccessViolation(w, r)
+       return
+    }
+
+    post := logic.Post{}
+    err := post.Select(r.PathValue("id"))
+    if nil != err {
+        NotFound(w, r)
+        return
+    }
+
+    post.Public = "public" == r.PathValue("val")
+    err = post.Update()
+
+    http.Redirect(w, r, r.Referer(), http.StatusSeeOther)
+}
+
 func PostSaveImage(w http.ResponseWriter, r *http.Request) {
     session := GetCurrentSession(r)
 

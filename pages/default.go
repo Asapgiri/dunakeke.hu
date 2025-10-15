@@ -44,7 +44,7 @@ func Root(w http.ResponseWriter, r *http.Request) {
     session := GetCurrentSession(r)
 
     post := logic.Post{}
-    plist := post.List()
+    plist := post.List(checkEditorAccess(session))
 
     // FIXME: Check if post is public or not..
     sort.Slice(plist, func(i, j int) bool { return plist[i].EditDate.After(plist[j].EditDate) })

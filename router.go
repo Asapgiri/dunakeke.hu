@@ -44,6 +44,7 @@ func setup_routes() {
     http.HandleFunc("GET /post/new",            pages.PostNew)
     http.HandleFunc("GET /post/edit/{id}",      pages.PostEdit)
     http.HandleFunc("GET /post/delete/{id}",    pages.PostDelete)
+    http.HandleFunc("GET /post/pub/{id}/{val}", pages.PostPublish)
 
     http.HandleFunc("POST /api/post/save",      pages.PostSave)
     http.HandleFunc("POST /api/post/image",     pages.PostSaveImage)

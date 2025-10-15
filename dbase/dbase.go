@@ -125,6 +125,16 @@ func (post *Post) List() ([]Post, error) {
     return posts, err
 }
 
+func (post *Post) ListPublic() ([]Post, error) {
+    var posts []Post
+    cursor, err := dbPOSTS.Find(context.TODO(), bson.D{{"public", true}})
+    if err != nil {
+        return posts, err
+    }
+    err = cursor.All(context.TODO(), &posts)
+    return posts, err
+}
+
 func (post *Post) Select(id primitive.ObjectID) error {
     return dbPOSTS.FindOne(context.TODO(), bson.D{{"_id", id}}).Decode(post)
 }
