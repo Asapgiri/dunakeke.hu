@@ -6,9 +6,9 @@ Webpage for DUNAKEKE
 
 ## focus
 - [ ] fix per site roles
-- [ ] proper post view
+- [x] proper post view
 - [ ] post route translation
-- [ ] hidden post handling
+- [x] hidden post handling
 - [ ] user role handling
 - [ ] import existing pages
 - [ ] expost modules

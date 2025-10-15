@@ -15,6 +15,7 @@ func GetCurrentSession(r *http.Request) session.Sessioner {
 
     session.Dictionary = dictionary.GetLanguage(r)
     session.Config = config.Config.Site
+    session.Path = r.URL.String()
 
     // FIXME: Put this to somewhere
     logic.SaveStatistics(r, session.Auth.Id)

@@ -1,16 +1,26 @@
+<!-- Editor.md Styles -->
 <link rel="stylesheet" href="/editor.md/css/editormd.min.css" />
-<div class="input-group">
-    <!-- <button class="btn btn-outline-secondary" type="button" id="button-addon1">{{.Dictionary.Editor.BtnImage}}</button> -->
-    <!-- <span class="input-group-text" id="basic-addon1">{{.Dto.Image}}</span> -->
-    <input id="title" type="text" class="form-control" placeholder="{{.Dictionary.Editor.TitlePlaceholder}}" value="{{.Dto.Title}}">
-    <button id="save-btn" class="btn btn-outline-secondary" type="button" style="min-width: 120px;">{{.Dictionary.Editor.BtnSave}}</button>
+
+<div class="container-xl py-5">
+
+    <!-- Editor Header -->
+    <div class="mb-4">
+        <div class="input-group shadow-sm">
+            <input id="title" type="text" class="form-control form-control-lg border-end-0" placeholder="{{.Dictionary.Editor.TitlePlaceholder}}" value="{{.Dto.Title}}">
+            <button id="save-btn" class="btn btn-outline-success px-4" type="button">
+                💾 {{.Dictionary.Editor.BtnSave}}
+            </button>
+        </div>
+    </div>
+
+    <!-- Editor Markdown Area -->
+    <div id="editor">
+        <!-- Editor.md will inject the textarea here -->
+        <textarea style="display:none;">{{.Dto.Markdown}}</textarea>
+    </div>
+
 </div>
 
-<div id="editor">
-    <!-- Tips: Editor.md can auto append a `<textarea>` tag -->
-    <!-- TODO: Add save and autosave -->
-    <textarea style="display:none;">{{.Dto.Markdown}}</textarea>
-</div>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="/editor.md/editormd.min.js"></script>
 <script src="/editor.js"></script>
@@ -31,7 +41,7 @@
             saveHTMLToTextarea : true,    // 保存 HTML 到 Textarea
             searchReplace : true,
             // watch : false,                // 关闭实时预览
-            htmlDecode : "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启    
+            htmlDecode : "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启
             // toolbar  : false,             //关闭工具栏
             // previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
             emoji : true,

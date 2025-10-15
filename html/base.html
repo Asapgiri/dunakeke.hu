@@ -1,88 +1,115 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{{.Config.Title}}</title>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{.Config.Title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.4.1.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Shrikhand&amp;family=Montserrat&amp;family=Roboto&amp;display=swap" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Roboto&display=swap" rel="stylesheet">
 
-        <link href="/common.css" rel="stylesheet">
-        <!-- <script src="/common.js"></script> -->
-        <script>
-            $(document).ready(function () {
-                bsCustomFileInput.init()
-            })
-        </script>
-        <!-- <script src="/newsletter.js"></script> -->
-    </head>
-    <body class="bg-light">
-        <div class="d-flex flex-column min-vh-100 page-wrapper">
-            <nav class="navbar navbar-expand-md px-2 navbar-fixed-top navbar-dark bg-dark">
-                <a class="navbar-brand news-text" href="/">{{.Config.SiteTitle}}</a>
-                <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsmn" aria-controls="navbarsmn" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+    <!-- Custom CSS -->
+    <link href="/common.css" rel="stylesheet">
 
-                <div class="navbar-collapse collapse" id="navbarsmn" style="">
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="/">{{.Dictionary.Page.BaseHome}}</a>
-                        </li>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .navbar-brand {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.4rem;
+        }
+        .nav-link {
+            transition: color 0.2s ease-in-out;
+        }
+        .nav-link:hover {
+            color: #f8f9fa;
+        }
+        main {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+        .dropdown-menu {
+            min-width: 10rem;
+        }
+    </style>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="/donate">{{.Dictionary.Page.BaseDonate}}</a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav my-2 my-md-0">
-                        <ul class="navbar-nav me-auto">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    &#127757;
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="/api/lang/hu">Magyar</a></li>
-                                    <li><a class="dropdown-item" href="/api/lang/en">English</a></li>
-                                </ul>
-                            </li>
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            bsCustomFileInput.init();
+        });
+    </script>
+</head>
+<body class="bg-light">
+    <div class="d-flex flex-column min-vh-100">
+
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark px-3">
+            <a class="navbar-brand" href="/">{{.Config.SiteTitle}}</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">{{.Dictionary.Page.BaseHome}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/donate">{{.Dictionary.Page.BaseDonate}}</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav mb-2 mb-md-0">
+                    <!-- Language Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            🌍
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
+                            <li><a class="dropdown-item" href="/api/lang/hu">Magyar</a></li>
+                            <li><a class="dropdown-item" href="/api/lang/en">English</a></li>
                         </ul>
-                        {{if .Auth.Username}}
-                        <ul class="navbar-nav me-auto">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{.Auth.Username}}
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="/user">{{.Dictionary.Auth.Account}}</a></li>
-                                    {{if .Auth.IsMod}}
-                                    <li><a class="dropdown-item" href="/admin">{{.Dictionary.Auth.AdminSite}}</a></li>
-                                    {{end}}
-                                    <li><a class="dropdown-item" href="/logout">{{.Dictionary.Auth.Logout}}</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                        {{else}}
-                        <ul class="navbar-nav me-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" href="/login">{{.Dictionary.Auth.Login}}</a>
-                            </li>
-                        </ul>
-                        {{end}}
-                    </ul>
-                </div>
-            </nav>
+                    </li>
 
-            <main role="main" class="flex-fill">
-                {{.Main}}
-            </main>
+                    <!-- User Dropdown or Login -->
+                    {{if .Auth.Username}}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{.Auth.Username}}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="/user">{{.Dictionary.Auth.Account}}</a></li>
+                            {{if .Auth.IsMod}}
+                            <li><a class="dropdown-item" href="/admin">{{.Dictionary.Auth.AdminSite}}</a></li>
+                            {{end}}
+                            <li><a class="dropdown-item" href="/logout">{{.Dictionary.Auth.Logout}}</a></li>
+                        </ul>
+                    </li>
+                    {{else}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">{{.Dictionary.Auth.Login}}</a>
+                    </li>
+                    {{end}}
+                </ul>
+            </div>
+        </nav>
 
-        </div>
-    </body>
+        <!-- Main Content -->
+        <main class="flex-fill">
+            {{.Main}}
+        </main>
+
+    </div>
+</body>
 </html>

@@ -1,18 +1,41 @@
-<div class="container-xl flex-fill postshow">
+<div class="container-xl py-5 flex-fill postshow">
+
     {{if or .Auth.IsAdmin .Auth.IsMod}}
-    <div class="my-3">
-        <a class="btn btn-primary" href="/post/edit/{{.Dto.Id}}">Edit</a>
-        <a class="btn btn-danger" href="/post/delete/{{.Dto.Id}}">Delete</a>
+    <div class="mb-4 d-flex flex-wrap gap-2">
+        <a class="btn btn-outline-primary" href="/post/edit/{{.Dto.Id}}">
+            ✏️ Edit
+        </a>
+        <a class="btn btn-outline-danger" href="/post/delete/{{.Dto.Id}}">
+            🗑️ Delete
+        </a>
         {{if .Dto.Public}}
-        <a class="btn btn-primary" href="/post/pub/{{.Dto.Id}}/hidden">Hide</a>
+        <a class="btn btn-outline-warning" href="/post/pub/{{.Dto.Id}}/hidden">
+            👁️ Hide
+        </a>
         {{else}}
-        <a class="btn btn-success" href="/post/pub/{{.Dto.Id}}/public">Publish</a>
+        <a class="btn btn-outline-success" href="/post/pub/{{.Dto.Id}}/public">
+            ✅ Publish
+        </a>
         {{end}}
     </div>
     {{end}}
-    <h1>{{.Dto.Title}}</h1>
-    <h6>{{.Dictionary.Editor.Author}}: <a href="/user/{{.Dto.Author.Username}}">@{{.Dto.Author.Username}}</a></h6>
-    <h6>{{tformat .Dto.EditDate}}</h6>
 
-    {{.Dto.Html}}
+    <!-- Post Header -->
+    <div class="mb-4">
+        <h1 class="fw-bold display-5 mb-3">{{.Dto.Title}}</h1>
+        <div class="text-muted small">
+            {{.Dictionary.Editor.Author}}:
+            <a href="/user/{{.Dto.Author.Username}}" class="text-decoration-none text-primary fw-semibold">
+                @{{if .Dto.Author.Name}}{{.Dto.Author.Name}}{{else}}{{.Dto.Author.Username}}{{end}}
+            </a>
+            &middot;
+            <span>{{tformat .Dto.EditDate}}</span>
+        </div>
+    </div>
+
+    <!-- Post Content -->
+    <article class="post-content bg-white p-5 rounded-3 shadow-sm border border-light-subtle">
+        {{.Dto.Html}}
+    </article>
+
 </div>

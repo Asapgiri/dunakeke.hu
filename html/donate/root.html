@@ -3,14 +3,13 @@
         <h1>{{.Dictionary.Donate.Header}}</h1>
         <h5 class="text-muted">{{.Dictionary.Donate.Description}}</h5>
 
-        <form name="form" method="post" class="mt-5">
+        <form name="form" method="post" class="mt-5 border rounded-3 p-4 shadow-sm bg-white">
             <div class="btn-group w-100" role="group">
                 <input type="radio" class="btn-check" name="form[recurring]" id="form_recurring0" value="0" autocomplete="off" required checked>
                 <label class="btn btn-outline-primary w-100" for="form_recurring0">{{.Dictionary.Donate.OneTime}}</label>
 
                 <input type="radio" class="btn-check" name="form[recurring]" id="form_recurring1" value="1" autocomplete="off" disabled>
                 <label class="btn btn-outline-primary w-100" for="form_recurring1">{{.Dictionary.Donate.Recurring}}</label>
-                </div>
             </div>
 
             <div class="row mt-4">

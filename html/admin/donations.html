@@ -1,170 +1,190 @@
-<div class="row mb-2">
-    <div class="col-lg-2 px-2">
-        <div class="my-3 p-3 leftmenu">
-            <div class="border-top border-bottom border-gray mb-0">
-                <h6 class="border-bottom border-gray py-2"><b>{{.Dictionary.Admin.Settings}}:</b></h6>
-                <div class="list-group list-group-flush">
-                    <a class="list-group-item list-group-item-action p-2" href="/admin/users">{{.Dictionary.Admin.Users}}</a>
-                    <a class="list-group-item list-group-item-action p-2" href="/admin/posts">{{.Dictionary.Admin.Posts}}</a>
-                    <a class="list-group-item list-group-item-action p-2" href="/admin/comments">{{.Dictionary.Admin.Comments}}</a>
-                    <a class="list-group-item list-group-item-action p-2" href="/admin/links">{{.Dictionary.Admin.Links}}</a>
-                    <a class="list-group-item list-group-item-action p-2" href="/admin/statistics">{{.Dictionary.Admin.Statistics}}</a>
-                </div>
-            </div>
-            <div class="border-top border-bottom border-gray mt-2">
-                <div class="list-group list-group-flush">
-                    <a class="list-group-item list-group-item-action p-2" href="/admin/newsletter">{{.Dictionary.Admin.Newsletter}}</a>
-                    <a class="list-group-item list-group-item-action p-2 active" href="/admin/donations">{{.Dictionary.Admin.Donations}}</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-10 px-2">
-        <div class="my-3 p-3">
-            <h6 class="border-top border-bottom border-gray py-2 mb-0">
-                <span class=""><b>{{.Dictionary.Admin.Donations}}</b></span>
-            </h6>
-            <div class="text-muted pt-3">
-                <p><input class="" type="text" id="searchbar" onkeyup="searchFunction()" placeholder="keresés.."></p>
-                <p><h6>{{.Dictionary.Donate.SumCollected}}: <b>{{.Dto.Sum}} Ft</b></h6></p>
-                <ul class="list-group list-group-flush" id="table">
-                    <li class="list-group-item list-group-item-action p-2 disabled">
-                        <strong>
-                            <div class="row">
-                                <div class="col-md-1">id</div>
-                                <div class="col-md-1">SimplePayId</div>
-                                <div class="col-md-2">{{.Dictionary.Donate.Name}}</div>
-                                <div class="col-md-2">{{.Dictionary.Donate.Email}}</div>
-                                <div class="col-md-1">{{.Dictionary.Donate.Amount}}</div>
-                                <div class="col-md-2">{{.Dictionary.Donate.DateCreated}}</div>
-                                <div class="col-md-1">{{.Dictionary.Donate.Status}}</div>
-                                <div class="col-md-1">{{.Dictionary.Donate.Recurring}}</div>
-                                <div class="col-md-1">{{.Dictionary.Donate.Action}}</div>
-                            </div>
-                        </strong>
-                    </li>
+<h6 class="border-top border-gray py-2 mb-3 fw-semibold">
+    {{.Dictionary.Admin.Donations}}
+</h6>
 
-                    {{range $i, $d := .Dto.Donations}}
-                    <li class="list-group-item list-group-item-action p-2 small searchable cursor-pointer"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#collapse-{{$i}}"
-                        aria-expanded="false"
-                        aria-controls="collapse-{{$i}}">
-
-                        <div class="row">
-                            <div class="col-md-1 d-flex align-items-center">
-                                <a href="/donate/{{.Id}}">@{{shorten .Id 4}}</a>
-                            </div>
-                            <div class="col-md-1">{{.TransactionId}}</div>
-                            <div class="col-md-2">{{.Name}}</div>
-                            <div class="col-md-2">{{.Email}}</div>
-                            <div class="col-md-1">{{.Amount}} Ft</div>
-                            <div class="col-md-2">{{tformat .Date}}</div>
-                            <div class="col-md-1">{{.Status}}</div>
-                            <div class="col-md-1">{{.Recurring}}</div>
-                            <div class="col-md-1"></div>
-                        </div>
-                    </li>
-
-                    <li class="list-group-item border-dark list-group-item-action p-0 bg-light overflow-auto small collapse" id="collapse-{{$i}}" style="max-height: 500px">
-                        <div class="m-1 row border-bottom">
-                            <div class="col-md-2">id</div><div class="col-md-10"><a href="/donate/{{.Id}}">@{{.Id}}</a></div>
-                        </div>
-                        <div class="m-1 row border-bottom">
-                            <div class="col-md-2">SimplePayId</div><div class="col-md-10">{{.TransactionId}}</div>
-                        </div>
-                        <div class="m-1 row border-bottom">
-                            {{$user := (index $.Dto.Username $i)}}
-                            <div class="col-md-2">userid</div><div class="col-md-10">{{if $user}}<a href="/user/{{$user}}">@{{$user}}</a>{{end}}</div>
-                        </div>
-                        <div class="m-1 row border-bottom">
-                            <div class="col-md-2">token count</div><div class="col-md-10">{{len .Tokens}}</div>
-                        </div>
-                        <div class="m-1 row border-bottom">
-                            <div class="col-md-2">{{$.Dictionary.Donate.Name}}</div><div class="col-md-10">{{.Name}}</div>
-                        </div>
-                        <div class="m-1 row border-bottom">
-                            <div class="col-md-2">{{$.Dictionary.Donate.Email}}</div><div class="col-md-10">{{.Email}}</div>
-                        </div>
-                        <div class="m-1 row border-bottom">
-                            <div class="col-md-2">{{$.Dictionary.Donate.DateCreated}}</div><div class="col-md-10">{{tformat .Date}}</div>
-                        </div>
-                        <div class="m-1 row border-bottom bg-info">
-                            <div class="col-md-2">{{$.Dictionary.Donate.Amount}}</div><div class="col-md-10">{{.Amount}} Ft</div>
-                        </div>
-                        <div class="m-1 row border-bottom bg-{{if .Successful}}success{{else}}warning{{end}}">
-                            <div class="col-md-2">{{$.Dictionary.Donate.Status}}</div><div class="col-md-10">{{.Status}}</div>
-                        </div>
-                        <div class="m-1 row border-bottom">
-                            <div class="col-md-2">{{$.Dictionary.Donate.Recurrence}}</div><div class="col-md-10">{{if .Recurring}}{{.Dictionary.Donate.Monthly}}{{end}}</div>
-                        </div>
-                        <!-- <div class="m-1 row border-bottom"> -->
-                        <!--     <div class="col-md-2">userid</div><div class="col-md-10">{{.RecurringActive}}</div> -->
-                        <!-- </div> -->
-                        <div class="m-1 row border-bottom">
-                            {{range $i, $o := .Occurences}}
-                            <div class="col-md-2">{{if eq $i 0}}{{$.Dictionary.Donate.Occurances}}{{end}}</div><div class="col-md-10">{{tformat .}}</div>
-                            {{end}}
-                        </div>
-                        <div class="m-1 row border-bottom">
-                            <div class="col-md-2">{{$.Dictionary.Admin.Newsletter}}</div><div class="col-md-10">{{.Newsletter}}</div>
-                        </div>
-                        <div class="m-1 row border-bottom">
-                            <div class="col-md-2">{{$.Dictionary.Donate.GDPRaszf}}</div><div class="col-md-10">{{.GDPR}}</div>
-                        </div>
-                        <div class="m-1 row border-bottom">
-                            <div class="col-md-2">{{$.Dictionary.Donate.WantInvoice}}</div><div class="col-md-10">{{.InvoiceNeeded}}</div>
-                        </div>
-                        {{if .InvoiceNeeded}}
-                        <div class="m-1 row border-bottom">
-                            <h5 class="text-muted">{{$.Dictionary.Donate.InvoiceData}}:</h5>
-                            <div class="row">
-                                <label class="col-sm-2">{{$.Dictionary.Donate.Name}}:</label>
-                                <div class="col-sm-10">{{.Invoice.Name}}</div>
-                            </div>
-                            <div class="row">
-                                <label class="col-sm-2">{{$.Dictionary.Donate.InvoiceCompany}}:</label>
-                                <div class="col-sm-10">{{.Invoice.Company}}</div>
-                            </div>
-                            <div class="row">
-                                <label class="col-sm-2">{{$.Dictionary.Donate.InvoiceTaxNumber}}:</label>
-                                <div class="col-sm-10">{{.Invoice.TaxNumber}}</div>
-                            </div>
-                            <div class="row">
-                                <label class="col-sm-2">{{$.Dictionary.Donate.InvoiceCountry}}:</label>
-                                <div class="col-sm-10">{{.Invoice.Country}}</div>
-                            </div>
-                            <div class="row">
-                                <label class="col-sm-2">{{$.Dictionary.Donate.InvoiceState}}:</label>
-                                <div class="col-sm-10">{{.Invoice.State}}</div>
-                            </div>
-                            <div class="row">
-                                <label class="col-sm-2">{{$.Dictionary.Donate.InvoiceCity}}:</label>
-                                <div class="col-sm-10">{{.Invoice.City}}</div>
-                            </div>
-                            <div class="row">
-                                <label class="col-sm-2">{{$.Dictionary.Donate.InvoiceZip}}:</label>
-                                <div class="col-sm-10">{{.Invoice.Zip}}</div>
-                            </div>
-                            <div class="row">
-                                <label class="col-sm-2">{{$.Dictionary.Donate.InvoiceAddress}}:</label>
-                                <div class="col-sm-10">{{.Invoice.Address}}</div>
-                            </div>
-                            <div class="row">
-                                <label class="col-sm-2">{{$.Dictionary.Donate.InvoiceAddress2}}:</label>
-                                <div class="col-sm-10">{{.Invoice.Address2}}</div>
-                            </div>
-                            <div class="row">
-                                <label class="col-sm-2">{{$.Dictionary.Donate.InvoicePhone}}:</label>
-                                <div class="col-sm-10">{{.Invoice.Phone}}</div>
-                            </div>
-                        </div>
-                        {{end}}
-                    </li>
-                    {{end}}
-
-                </ul>
-            </div>
-        </div>
-    </div>
+<div class="mb-4">
+    <input
+    type="search"
+    id="searchbar"
+    onkeyup="searchFunction()"
+    placeholder="Keresés..."
+    class="form-control"
+    aria-label="Keresés adományokra"
+    >
 </div>
+
+<div class="mb-3">
+    <h6>
+        {{.Dictionary.Donate.SumCollected}}: <strong>{{.Dto.Sum}} Ft</strong>
+    </h6>
+</div>
+
+<ul class="list-group list-group-flush" id="table" style="overflow-y: auto;">
+    <li class="list-group-item list-group-item-secondary d-none d-md-flex fw-bold">
+        <div class="row w-100 gx-2">
+            <div class="col-md-1">ID</div>
+            <div class="col-md-1">SimplePayId</div>
+            <div class="col-md-2">{{.Dictionary.Donate.Name}}</div>
+            <div class="col-md-2">{{.Dictionary.Donate.Email}}</div>
+            <div class="col-md-1">{{.Dictionary.Donate.Amount}}</div>
+            <div class="col-md-2">{{.Dictionary.Donate.DateCreated}}</div>
+            <div class="col-md-1">{{.Dictionary.Donate.Status}}</div>
+            <div class="col-md-1">{{.Dictionary.Donate.Recurring}}</div>
+            <div class="col-md-1">{{.Dictionary.Donate.Action}}</div>
+        </div>
+    </li>
+
+    {{range $i, $d := .Dto.Donations}}
+    <li
+        class="list-group-item list-group-item-action p-2 small searchable cursor-pointer"
+        data-bs-toggle="collapse"
+        data-bs-target="#collapse-{{$i}}"
+        aria-expanded="false"
+        aria-controls="collapse-{{$i}}"
+        >
+        <div class="row align-items-center gx-2">
+            <div class="col-md-1 d-flex align-items-center">
+                <a href="/donate/{{.Id}}" class="text-decoration-none">@{{shorten .Id 4}}</a>
+            </div>
+            <div class="col-md-1 text-truncate">{{.TransactionId}}</div>
+            <div class="col-md-2 text-truncate">{{.Name}}</div>
+            <div class="col-md-2 text-truncate">{{.Email}}</div>
+            <div class="col-md-1">{{.Amount}} Ft</div>
+            <div class="col-md-2">{{tformat .Date}}</div>
+            <div class="col-md-1">{{.Status}}</div>
+            <div class="col-md-1">{{.Recurring}}</div>
+            <div class="col-md-1"></div>
+        </div>
+    </li>
+
+    <li
+        class="list-group-item border-dark p-0 bg-light collapse"
+        id="collapse-{{$i}}"
+        style="max-height: 500px; overflow-y: auto;"
+        >
+        <div class="m-3 small">
+            <div class="row border-bottom py-1">
+                <div class="col-md-2 fw-semibold">ID</div>
+                <div class="col-md-10"><a href="/donate/{{.Id}}">@{{.Id}}</a></div>
+            </div>
+
+            <div class="row border-bottom py-1">
+                <div class="col-md-2 fw-semibold">SimplePayId</div>
+                <div class="col-md-10">{{.TransactionId}}</div>
+            </div>
+
+            <div class="row border-bottom py-1">
+                {{$user := (index $.Dto.Username $i)}}
+                <div class="col-md-2 fw-semibold">UserID</div>
+                <div class="col-md-10">
+                    {{if $user}}<a href="/user/{{$user}}">@{{$user}}</a>{{end}}
+                </div>
+            </div>
+
+            <div class="row border-bottom py-1">
+                <div class="col-md-2 fw-semibold">Token Count</div>
+                <div class="col-md-10">{{len .Tokens}}</div>
+            </div>
+
+            <div class="row border-bottom py-1">
+                <div class="col-md-2 fw-semibold">{{$.Dictionary.Donate.Name}}</div>
+                <div class="col-md-10">{{.Name}}</div>
+            </div>
+
+            <div class="row border-bottom py-1">
+                <div class="col-md-2 fw-semibold">{{$.Dictionary.Donate.Email}}</div>
+                <div class="col-md-10">{{.Email}}</div>
+            </div>
+
+            <div class="row border-bottom py-1">
+                <div class="col-md-2 fw-semibold">{{$.Dictionary.Donate.DateCreated}}</div>
+                <div class="col-md-10">{{tformat .Date}}</div>
+            </div>
+
+            <div class="row border-bottom py-1 bg-gradient-info text-white">
+                <div class="col-md-2 fw-semibold">{{$.Dictionary.Donate.Amount}}</div>
+                <div class="col-md-10">{{.Amount}} Ft</div>
+            </div>
+
+            <div class="row border-bottom py-2 text-white
+                {{if .Successful}}bg-gradient-success{{else}}bg-gradient-warning{{end}}">
+                <div class="col-md-2 fw-semibold">{{$.Dictionary.Donate.Status}}</div>
+                <div class="col-md-10">{{.Status}}</div>
+            </div>
+
+            <div class="row border-bottom py-1 mt-1">
+                <div class="col-md-2 fw-semibold">{{$.Dictionary.Donate.Recurrence}}</div>
+                <div class="col-md-10">{{if .Recurring}}{{$.Dictionary.Donate.Monthly}}{{end}}</div>
+            </div>
+
+            <div class="row border-bottom py-1">
+                {{range $i, $o := .Occurences}}
+                <div class="col-md-2 fw-semibold">{{if eq $i 0}}{{$.Dictionary.Donate.Occurances}}{{end}}</div>
+                <div class="col-md-10">{{tformat .}}</div>
+                {{end}}
+            </div>
+
+            <div class="row border-bottom py-1">
+                <div class="col-md-2 fw-semibold">{{$.Dictionary.Admin.Newsletter}}</div>
+                <div class="col-md-10">{{.Newsletter}}</div>
+            </div>
+
+            <div class="row border-bottom py-1">
+                <div class="col-md-2 fw-semibold">{{$.Dictionary.Donate.GDPRaszf}}</div>
+                <div class="col-md-10">{{.GDPR}}</div>
+            </div>
+
+            <div class="row border-bottom py-1">
+                <div class="col-md-2 fw-semibold">{{$.Dictionary.Donate.WantInvoice}}</div>
+                <div class="col-md-10">{{.InvoiceNeeded}}</div>
+            </div>
+
+            {{if .InvoiceNeeded}}
+            <div class="mt-3">
+                <h5 class="text-muted">{{$.Dictionary.Donate.InvoiceData}}:</h5>
+                <div class="row mb-2">
+                    <label class="col-sm-2 col-form-label">{{$.Dictionary.Donate.Name}}:</label>
+                    <div class="col-sm-10">{{.Invoice.Name}}</div>
+                </div>
+                <div class="row mb-2">
+                    <label class="col-sm-2 col-form-label">{{$.Dictionary.Donate.InvoiceCompany}}:</label>
+                    <div class="col-sm-10">{{.Invoice.Company}}</div>
+                </div>
+                <div class="row mb-2">
+                    <label class="col-sm-2 col-form-label">{{$.Dictionary.Donate.InvoiceTaxNumber}}:</label>
+                    <div class="col-sm-10">{{.Invoice.TaxNumber}}</div>
+                </div>
+                <div class="row mb-2">
+                    <label class="col-sm-2 col-form-label">{{$.Dictionary.Donate.InvoiceCountry}}:</label>
+                    <div class="col-sm-10">{{.Invoice.Country}}</div>
+                </div>
+                <div class="row mb-2">
+                    <label class="col-sm-2 col-form-label">{{$.Dictionary.Donate.InvoiceState}}:</label>
+                    <div class="col-sm-10">{{.Invoice.State}}</div>
+                </div>
+                <div class="row mb-2">
+                    <label class="col-sm-2 col-form-label">{{$.Dictionary.Donate.InvoiceCity}}:</label>
+                    <div class="col-sm-10">{{.Invoice.City}}</div>
+                </div>
+                <div class="row mb-2">
+                    <label class="col-sm-2 col-form-label">{{$.Dictionary.Donate.InvoiceZip}}:</label>
+                    <div class="col-sm-10">{{.Invoice.Zip}}</div>
+                </div>
+                <div class="row mb-2">
+                    <label class="col-sm-2 col-form-label">{{$.Dictionary.Donate.InvoiceAddress}}:</label>
+                    <div class="col-sm-10">{{.Invoice.Address}}</div>
+                </div>
+                <div class="row mb-2">
+                    <label class="col-sm-2 col-form-label">{{$.Dictionary.Donate.InvoiceAddress2}}:</label>
+                    <div class="col-sm-10">{{.Invoice.Address2}}</div>
+                </div>
+                <div class="row mb-2">
+                    <label class="col-sm-2 col-form-label">{{$.Dictionary.Donate.InvoicePhone}}:</label>
+                    <div class="col-sm-10">{{.Invoice.Phone}}</div>
+                </div>
+            </div>
+            {{end}}
+        </div>
+    </li>
+    {{end}}
+</ul>

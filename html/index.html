@@ -1,19 +1,34 @@
-<div class="container-xl flex-fill postshow">
+<div class="container-xl flex-fill postshow py-4">
 
-{{range .Dto.Posts}}
-<div class="row border-top m-2 {{if not .Public}}bg-dark{{end}}">
-    <div class="col-md-3">
-        <a href="/post/{{if .Path}}{{.Path}}{{else}}{{.Id}}{{end}}">
-            <img src="{{.Image}}">
-        </a>
+    {{range .Dto.Posts}}
+    <div class="card mb-4 shadow-sm border-0 {{if not .Public}}bg-light border-start border-5 border-danger{{end}}">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <a href="/post/{{if .Path}}{{.Path}}{{else}}{{.Id}}{{end}}">
+                    <img src="{{.Image}}" alt="{{.Title}}" class="img-fluid rounded-start w-100 h-100 object-fit-cover" style="max-height: 200px; object-fit: cover;">
+                </a>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="/post/{{if .Path}}{{.Path}}{{else}}{{.Id}}{{end}}" class="text-decoration-none text-dark">
+                            {{.Title}}
+                        </a>
+                    </h5>
+                    <p class="card-text text-muted small mb-2">{{tformat .EditDate}}</p>
+                    <p class="card-text">{{.Short}}</p>
+                    <p class="card-text">
+                        <a href="/user/{{.Author.Username}}" class="text-muted text-decoration-none">
+                            <strong>@{{if .Author.Name}}{{.Author.Name}}{{else}}{{.Author.Username}}{{end}}</strong>
+                        </a>
+                    </p>
+                    {{if not .Public}}
+                    <span class="badge bg-danger">Private</span>
+                    {{end}}
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-9">
-        <h4><a href="/post/{{if .Path}}{{.Path}}{{else}}{{.Id}}{{end}}">{{.Title}}</a></h4>
-        <p>{{.Short}}</p>
-        <p>{{tformat .EditDate}}</p>
-        <p><a href="/user/{{.Author.Username}}">@{{if .Author.Name}}{{.Author.Name}}{{else}}{{.Author.Username}}{{end}}</a></p>
-    </div>
-</div>
-{{end}}
+    {{end}}
 
 </div>

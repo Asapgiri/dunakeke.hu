@@ -1,100 +1,105 @@
-<div class="container-xl flex-fill">
-    <div class="my-5">
-        <h1>{{.Dictionary.Donate.Header}}</h1>
-        <h5 class="text-muted">{{.Dictionary.Donate.Description}}</h5>
+<style>
+.bg-gradient-info {
+    background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+    box-shadow: 0 4px 12px rgba(0, 114, 255, 0.5);
+    backdrop-filter: saturate(180%) blur(10px);
+    border: 1px solid rgba(0, 114, 255, 0.5);
+}
 
-        {{if .Dto.Successful}}
-        <h1 class="mb-5">{{.Dictionary.Donate.TransactionSuccess}}</h1>
-        {{else}}
-        <h1>{{.Dictionary.Donate.TransactionFailed}}</h1>
-        {{end}}
+  .bg-gradient-success {
+      background: linear-gradient(135deg, #00f260 0%, #0575e6 100%);
+      box-shadow: 0 4px 12px rgba(5, 117, 230, 0.5);
+      backdrop-filter: saturate(180%) blur(10px);
+      border: 1px solid rgba(5, 117, 230, 0.5);
+  }
 
-        <div class="row my-2">
-            <label class="col-sm-3">{{.Dictionary.Donate.Name}}:</label>
-            <div class="col-sm-9">{{if .Dto.Name}}{{.Dto.Name}}{{else}}{{.Dictionary.Donate.NameEmpty}}{{end}}</div>
-        </div>
+  .bg-gradient-warning {
+      background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+      box-shadow: 0 4px 12px rgba(255, 210, 0, 0.5);
+      backdrop-filter: saturate(180%) blur(10px);
+      border: 1px solid rgba(255, 210, 0, 0.5);
+      color: #212529 !important;
+  }
+</style>
 
-        <div class="row my-2">
-            <label class="col-sm-3">{{.Dictionary.Donate.Email}}:</label>
-            <div class="col-sm-9">{{.Dto.Email}}</div>
-        </div>
+<div class="container-xl flex-fill my-5">
+    <h1 class="mb-2">{{.Dictionary.Donate.Header}}</h1>
+    <p class="text-muted">{{.Dictionary.Donate.Description}}</p>
 
-        <div class="row my-2">
-            <label class="col-sm-3">{{.Dictionary.Donate.DateCreated}}:</label>
-            <div class="col-sm-9">{{tformat .Dto.Date}}</div>
-        </div>
-
-        <div class="row my-2">
-            <label class="col-sm-3">{{.Dictionary.Donate.Amount}}:</label>
-            <div class="col-sm-9">{{.Dto.Amount}} Ft</div>
-        </div>
-
-        <div class="row my-2">
-            <label class="col-sm-3">{{.Dictionary.Donate.Status}}:</label>
-            <div class="col-sm-9">{{.Dto.Status}}</div>
-        </div>
-
-        {{if .Dto.Recurring}}
-        <div class="row my-2">
-            <label class="col-sm-3">{{.Dictionary.Donate.Recurrence}}:</label>
-            <div class="col-sm-9">{{.Dictionary.Donate.Monthly}}</div>
-        </div>
-        {{end}}
-
-        {{if .Dto.InvoiceNeeded}}
-        <h5 class="text-muted mt-3">{{.Dictionary.Donate.InvoiceData}}:</h5>
-
-        <div class="row my-2">
-            <label class="col-sm-3">{{.Dictionary.Donate.Name}}:</label>
-            <div class="col-sm-9">{{.Dto.Invoice.Name}}</div>
-        </div>
-
-        <div class="row my-2">
-            <label class="col-sm-3">{{.Dictionary.Donate.InvoiceCompany}}:</label>
-            <div class="col-sm-9">{{.Dto.Invoice.Company}}</div>
-        </div>
-
-        <div class="row my-2">
-            <label class="col-sm-3">{{.Dictionary.Donate.InvoiceTaxNumber}}:</label>
-            <div class="col-sm-9">{{.Dto.Invoice.TaxNumber}}</div>
-        </div>
-
-        <div class="row my-2">
-            <label class="col-sm-3">{{.Dictionary.Donate.InvoiceCountry}}:</label>
-            <div class="col-sm-9">{{.Dto.Invoice.Country}}</div>
-        </div>
-
-        <div class="row my-2">
-            <label class="col-sm-3">{{.Dictionary.Donate.InvoiceState}}:</label>
-            <div class="col-sm-9">{{.Dto.Invoice.State}}</div>
-        </div>
-
-        <div class="row my-2">
-            <label class="col-sm-3">{{.Dictionary.Donate.InvoiceCity}}:</label>
-            <div class="col-sm-9">{{.Dto.Invoice.City}}</div>
-        </div>
-
-        <div class="row my-2">
-            <label class="col-sm-3">{{.Dictionary.Donate.InvoiceZip}}:</label>
-            <div class="col-sm-9">{{.Dto.Invoice.Zip}}</div>
-        </div>
-
-        <div class="row my-2">
-            <label class="col-sm-3">{{.Dictionary.Donate.InvoiceAddress}}:</label>
-            <div class="col-sm-9">{{.Dto.Invoice.Address}}</div>
-        </div>
-
-        <div class="row my-2">
-            <label class="col-sm-3">{{.Dictionary.Donate.InvoiceAddress2}}:</label>
-            <div class="col-sm-9">{{.Dto.Invoice.Address2}}</div>
-        </div>
-
-        <div class="row my-2">
-            <label class="col-sm-3">{{.Dictionary.Donate.InvoicePhone}}:</label>
-            <div class="col-sm-9">{{.Dto.Invoice.Phone}}</div>
-        </div>
-        {{end}}
-
+    {{if .Dto.Successful}}
+    <div class="alert bg-gradient-success my-4" role="alert">
+        <h4 class="mb-0">{{.Dictionary.Donate.TransactionSuccess}}</h4>
     </div>
-            <!-- FIXME: Show simple pay logo -->
+    {{else}}
+    <div class="alert bg-gradient-warning my-4" role="alert">
+        <h4 class="mb-0">{{.Dictionary.Donate.TransactionFailed}}</h4>
+    </div>
+    {{end}}
+
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-3">{{.Dictionary.Donate.Name}}</dt>
+                <dd class="col-sm-9">{{if .Dto.Name}}{{.Dto.Name}}{{else}}<span class="text-muted">{{.Dictionary.Donate.NameEmpty}}</span>{{end}}</dd>
+
+                <dt class="col-sm-3">{{.Dictionary.Donate.Email}}</dt>
+                <dd class="col-sm-9">{{.Dto.Email}}</dd>
+
+                <dt class="col-sm-3">{{.Dictionary.Donate.DateCreated}}</dt>
+                <dd class="col-sm-9">{{tformat .Dto.Date}}</dd>
+
+                <dt class="col-sm-3">{{.Dictionary.Donate.Amount}}</dt>
+                <dd class="col-sm-9 fw-bold">{{.Dto.Amount}} Ft</dd>
+
+                <dt class="col-sm-3">{{.Dictionary.Donate.Status}}</dt>
+                <dd class="col-sm-9">{{.Dto.Status}}</dd>
+
+                {{if .Dto.Recurring}}
+                <dt class="col-sm-3">{{.Dictionary.Donate.Recurrence}}</dt>
+                <dd class="col-sm-9"><span class="badge bg-info text-dark">{{.Dictionary.Donate.Monthly}}</span></dd>
+                {{end}}
+            </dl>
+        </div>
+    </div>
+
+    {{if .Dto.InvoiceNeeded}}
+    <div class="card bg-light border-0 shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title text-muted">{{.Dictionary.Donate.InvoiceData}}</h5>
+            <dl class="row mb-0">
+                <dt class="col-sm-3">{{.Dictionary.Donate.Name}}</dt>
+                <dd class="col-sm-9">{{.Dto.Invoice.Name}}</dd>
+
+                <dt class="col-sm-3">{{.Dictionary.Donate.InvoiceCompany}}</dt>
+                <dd class="col-sm-9">{{.Dto.Invoice.Company}}</dd>
+
+                <dt class="col-sm-3">{{.Dictionary.Donate.InvoiceTaxNumber}}</dt>
+                <dd class="col-sm-9">{{.Dto.Invoice.TaxNumber}}</dd>
+
+                <dt class="col-sm-3">{{.Dictionary.Donate.InvoiceCountry}}</dt>
+                <dd class="col-sm-9">{{.Dto.Invoice.Country}}</dd>
+
+                <dt class="col-sm-3">{{.Dictionary.Donate.InvoiceState}}</dt>
+                <dd class="col-sm-9">{{.Dto.Invoice.State}}</dd>
+
+                <dt class="col-sm-3">{{.Dictionary.Donate.InvoiceCity}}</dt>
+                <dd class="col-sm-9">{{.Dto.Invoice.City}}</dd>
+
+                <dt class="col-sm-3">{{.Dictionary.Donate.InvoiceZip}}</dt>
+                <dd class="col-sm-9">{{.Dto.Invoice.Zip}}</dd>
+
+                <dt class="col-sm-3">{{.Dictionary.Donate.InvoiceAddress}}</dt>
+                <dd class="col-sm-9">{{.Dto.Invoice.Address}}</dd>
+
+                <dt class="col-sm-3">{{.Dictionary.Donate.InvoiceAddress2}}</dt>
+                <dd class="col-sm-9">{{.Dto.Invoice.Address2}}</dd>
+
+                <dt class="col-sm-3">{{.Dictionary.Donate.InvoicePhone}}</dt>
+                <dd class="col-sm-9">{{.Dto.Invoice.Phone}}</dd>
+            </dl>
+        </div>
+    </div>
+    {{end}}
+
+    <!-- TODO: Add SimplePay logo -->
 </div>

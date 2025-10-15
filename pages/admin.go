@@ -14,6 +14,10 @@ func checkAdminPageAccess(session session.Sessioner) bool {
            slices.Contains(session.Auth.Roles, logic.ROLES.MODERATOR)
 }
 
+func adminRender(session session.Sessioner, w http.ResponseWriter, temp string, dto any) {
+    renderer.RenderMultiTemplate(session, w, []string{temp, "admin/base.html"}, dto)
+}
+
 func AdminPage(w http.ResponseWriter, r *http.Request) {
     session := GetCurrentSession(r)
 
@@ -22,8 +26,7 @@ func AdminPage(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    fil, _ := renderer.ReadArtifact("admin/index.html", w.Header())
-    renderer.Render(session, w, fil, nil)
+    adminRender(session, w, "admin/index.html", nil)
 }
 
 func AdminUsers(w http.ResponseWriter, r *http.Request) {
@@ -37,8 +40,7 @@ func AdminUsers(w http.ResponseWriter, r *http.Request) {
     user := logic.User{}
     users := user.List()
 
-    fil, _ := renderer.ReadArtifact("admin/users.html", w.Header())
-    renderer.Render(session, w, fil, users)
+    adminRender(session, w, "admin/users.html", users)
 }
 
 func AdminPosts(w http.ResponseWriter, r *http.Request) {
@@ -52,8 +54,7 @@ func AdminPosts(w http.ResponseWriter, r *http.Request) {
     post := logic.Post{}
     posts := post.List(true)
 
-    fil, _ := renderer.ReadArtifact("admin/posts.html", w.Header())
-    renderer.Render(session, w, fil, posts)
+    adminRender(session, w, "admin/posts.html", posts)
 }
 
 func AdminDonations(w http.ResponseWriter, r *http.Request) {
@@ -79,6 +80,5 @@ func AdminDonations(w http.ResponseWriter, r *http.Request) {
         }
     }
 
-    fil, _ := renderer.ReadArtifact("admin/donations.html", w.Header())
-    renderer.Render(session, w, fil, ad)
+    adminRender(session, w, "admin/donations.html", ad)
 }
