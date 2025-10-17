@@ -1,7 +1,28 @@
 <!-- Editor.md Styles -->
 <link rel="stylesheet" href="/editor.md/css/editormd.min.css" />
 
-<div class="container-xl py-5">
+<div class="container-xl">
+    {{if .Error}}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{.Error}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {{end}}
+
+    <div class="row mb-3">
+        <div class="col-lg-9">
+            <div class="input-group shadow-sm">
+                <form id="image-form" name="image-form" method="post" enctype='multipart/form-data' class="w-100">
+                    <input id="image-input" name="image-input" type="file" class="form-control form-control-lg border-end-0" accept="image/*">
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <a href="{{.Dto.Image}}" data-lightbox="image-{{.Dto.Id}}" data-title="{{.Dto.Title}}">
+                <img src="{{.Dto.Image}}" alt="{{.Dto.Title}}" class="img-fluid rounded-start w-100 object-fit-cover" style="max-height: 200px; object-fit: cover; height: 50px;">
+            </a>
+        </div>
+    </div>
 
     <!-- Editor Header -->
     <div class="mb-4">
@@ -172,5 +193,16 @@
             title = document.getElementById('title').value
             save_post('{{.Dto.Id}}', title, editor.getMarkdown(), editor.getHTML());
         }
+
+        document.getElementById('image-input').onchange = function() {
+            document.getElementById('save-btn').click()
+            this.parentElement.submit()
+        }
     });
 </script>
+
+<!-- Lightbox2 CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet" />
+
+<!-- Lightbox2 JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>

@@ -44,6 +44,8 @@ var dict_hu = Dictionary{
         BtnSave:                                 "Mentés",
         BtnImage:                                "Kép",
         Author:                                  "Szerző",
+        ErrorFileIsLargerThan:                   "A megadott file nagyobb mint ",
+        ErrorFromFile:                           "Fájl feldolgozási hiba",
 
         Description                            : "Nyílt forráskódú online Markdown szerkesztő.",
         TocTitle                               : "Tartalomjegyzék",
@@ -129,6 +131,17 @@ var dict_hu = Dictionary{
         Statistics: "Statisztika",
         Donations:  "Adományok",
         Settings:   "Beállítások",
+
+        PostImg:    "Kép",
+        PostId:     "Id",
+        PostTitle:  "Cím",
+        PostDate:   "Dátum",
+        PostAction: "Actions",
+        PostEdit:   "Szerkesztés",
+        PostDelete: "Törlés",
+        PostShow:   "Publikálás",
+        PostHide:   "Elrejtés",
+        PostHidden: "Rejtett",
     },
     Donate: Donate{
         Action:             "Action",

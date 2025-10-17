@@ -7,7 +7,9 @@ Webpage for DUNAKEKE
 ## focus
 - [ ] fix per site roles
 - [x] proper post view
+- [x] proper post photo editing
 - [ ] post route translation
+- [ ] check if saving per-user site statistics hurts GDPR
 - [x] hidden post handling
 - [ ] user role handling
 - [ ] import existing pages
@@ -25,6 +27,8 @@ Webpage for DUNAKEKE
 - [x] Donation backend
     - [ ] Check Donation backend
 - [ ] Handle link redirecting...
+- [ ] Add artifacts and other directories to config
+- [ ] Image gallery and selection
 - [ ] Everything else
 - [ ] User role add
 - [ ] Make all cruds editable from the UI

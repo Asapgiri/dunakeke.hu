@@ -33,6 +33,7 @@ func Authenticate(a *session.Auth) {
         a.Error = ""
         a.IsAdmin = slices.Contains(user.Roles, ROLES.ADMIN)
         a.IsMod = a.IsAdmin || slices.Contains(user.Roles, ROLES.MODERATOR)
+        a.IsEditor = a.IsAdmin || a.IsMod || slices.Contains(user.Roles, ROLES.EDITOR)
     }
 }
 

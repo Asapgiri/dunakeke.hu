@@ -44,6 +44,8 @@ var dict_en = Dictionary{
         BtnSave:                                 "Save",
         BtnImage:                                "Image",
         Author:                                  "Author",
+        ErrorFileIsLargerThan:                   "File is larger than ",
+        ErrorFromFile:                           "File parsing error",
 
         Description                            : "Open source online Markdown editor.",
         TocTitle                               : "Table of Contents",
@@ -129,6 +131,17 @@ var dict_en = Dictionary{
         Statistics: "Statistics",
         Donations:  "Donations",
         Settings:   "Settings",
+
+        PostImg:    "Image",
+        PostId:     "Id",
+        PostTitle:  "Title",
+        PostDate:   "Date",
+        PostAction: "Actions",
+        PostEdit:   "Edit",
+        PostDelete: "Delete",
+        PostShow:   "Publicate",
+        PostHide:   "Hide",
+        PostHidden: "Hidden",
     },
     Donate: Donate{
         Action:             "Action",

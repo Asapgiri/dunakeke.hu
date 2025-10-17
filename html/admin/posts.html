@@ -30,14 +30,14 @@
   </a>
 </div>
 
-<ul class="list-group list-group-flush" id="table" style="max-height: 600px; overflow-y: auto;">
+<ul class="list-group list-group-flush" id="table">
   <li class="list-group-item list-group-item-secondary d-none d-md-flex fw-bold">
     <div class="row w-100 gx-2">
-      <div class="col-md-2">{{.Dictionary.Auth.Username}}</div>
-      <div class="col-md-3">{{.Dictionary.Auth.Name}}</div>
-      <div class="col-md-3">{{.Dictionary.Auth.Email}}</div>
-      <div class="col-md-2">{{.Dictionary.Auth.Phone}}</div>
-      <div class="col-md-2 text-end">{{.Dictionary.Auth.Roles}}</div>
+      <div class="col-md-2">{{.Dictionary.Admin.PostImg}}</div>
+      <div class="col-md-2">{{.Dictionary.Admin.PostId}}</div>
+      <div class="col-md-4">{{.Dictionary.Admin.PostTitle}}</div>
+      <div class="col-md-2">{{.Dictionary.Admin.PostDate}}</div>
+      <div class="col-md-2 text-end">{{.Dictionary.Admin.PostAction}}</div>
     </div>
   </li>
 
@@ -61,8 +61,8 @@
       </div>
       <div class="col-md-2">{{tformat .EditDate}}</div>
       <div class="col-md-2 text-end">
-        <a class="btn btn-sm btn-primary me-1" href="/post/edit/{{.Id}}">Edit</a>
-        <a class="btn btn-sm btn-danger" href="/post/delete/{{.Id}}">Delete</a>
+        <a class="btn btn-sm btn-primary me-1" href="/post/edit/{{.Id}}">{{$.Dictionary.Admin.PostEdit}}</a>
+        <a class="btn btn-sm btn-danger" href="/post/delete/{{.Id}}">{{$.Dictionary.Admin.PostDelete}}</a>
         <!-- collapse toggle icon -->
         <button
           class="btn btn-sm btn-outline-secondary collapse-toggle"

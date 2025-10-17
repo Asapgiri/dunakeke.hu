@@ -50,6 +50,8 @@ type Editor struct {
     BtnSave                                 string
     BtnImage                                string
     Author                                  string
+    ErrorFileIsLargerThan                   string
+    ErrorFromFile                           string
 
     Description                             string
     TocTitle                                string
@@ -136,6 +138,17 @@ type Admin struct {
     Statistics                              string
     Donations                               string
     Settings                                string
+
+    PostImg                                 string
+    PostId                                  string
+    PostTitle                               string
+    PostDate                                string
+    PostAction                              string
+    PostEdit                                string
+    PostDelete                              string
+    PostShow                                string
+    PostHide                                string
+    PostHidden                              string
 }
 
 type Donate struct {

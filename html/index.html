@@ -1,7 +1,21 @@
+<style>
+
+.bg-gradient-disabled {
+  background: linear-gradient(135deg, #f0f0f0 0%, #dcdcdc 100%);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 0 0 1000px rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px) saturate(80%);
+  opacity: 0.9;
+  user-select: none;
+  color: #555;
+}
+
+</style>
+
 <div class="container-xl flex-fill postshow py-4">
 
     {{range .Dto.Posts}}
-    <div class="card mb-4 shadow-sm border-0 {{if not .Public}}bg-light border-start border-5 border-danger{{end}}">
+    <div class="card mb-4 shadow-sm border-0 {{if not .Public}}bg-light border-start border-5 border-danger bg-gradient-disabled{{end}}">
         <div class="row g-0">
             <div class="col-md-4">
                 <a href="/post/{{if .Path}}{{.Path}}{{else}}{{.Id}}{{end}}">
@@ -10,20 +24,30 @@
             </div>
             <div class="col-md-8">
                 <div class="card-body">
-                    <h5 class="card-title">
+                    <h5 class="card-title mb-0">
                         <a href="/post/{{if .Path}}{{.Path}}{{else}}{{.Id}}{{end}}" class="text-decoration-none text-dark">
                             {{.Title}}
                         </a>
                     </h5>
-                    <p class="card-text text-muted small mb-2">{{tformat .EditDate}}</p>
-                    <p class="card-text">{{.Short}}</p>
+                    <p class="card-text mb-2">{{.Short}}</p>
+                    <p class="card-text text-muted small mb-0">{{tformat .EditDate}}</p>
                     <p class="card-text">
                         <a href="/user/{{.Author.Username}}" class="text-muted text-decoration-none">
                             <strong>@{{if .Author.Name}}{{.Author.Name}}{{else}}{{.Author.Username}}{{end}}</strong>
                         </a>
                     </p>
                     {{if not .Public}}
-                    <span class="badge bg-danger">Private</span>
+                    <span class="badge bg-danger">{{$.Dictionary.Admin.PostHidden}}</span>
+                    {{end}}
+                    {{if $.Auth.IsEditor}}
+                    <a class="btn badge bg-info" href="/post/edit/{{.Id}}">
+                        {{$.Dictionary.Admin.PostEdit}}
+                    </a>
+                    {{end}}
+                    {{if not .Public}}
+                    <a class="btn badge bg-success" href="/post/pub/{{.Id}}/public">
+                        ✅ {{$.Dictionary.Admin.PostShow}}
+                    </a>
                     {{end}}
                 </div>
             </div>

@@ -7,9 +7,13 @@ import (
 	"dunakeke/dictionary"
 	"dunakeke/logic"
 	"encoding/json"
+	"errors"
 	"io"
 	"net/http"
 	"slices"
+	"strconv"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func checkEditorAccess(session session.Sessioner) bool {
@@ -47,14 +51,7 @@ func PostNew(w http.ResponseWriter, r *http.Request) {
     http.Redirect(w, r, "/post/edit/" + id, http.StatusSeeOther)
 }
 
-func PostEdit(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
-
-    if !checkEditorAccess(session) {
-       renderPageWithAccessViolation(w, r)
-       return
-    }
-
+func postEdit(session session.Sessioner, w http.ResponseWriter, r *http.Request) {
     post := logic.Post{}
     err := post.Select(r.PathValue("id"))
     if nil != err {
@@ -64,6 +61,17 @@ func PostEdit(w http.ResponseWriter, r *http.Request) {
 
     fil, _ := renderer.ReadArtifact("post/edit.html", w.Header())
     renderer.Render(session, w, fil, post)
+}
+
+func PostEdit(w http.ResponseWriter, r *http.Request) {
+    session := GetCurrentSession(r)
+
+    if !checkEditorAccess(session) {
+       renderPageWithAccessViolation(w, r)
+       return
+    }
+
+    postEdit(session, w, r)
 }
 
 func PostDelete(w http.ResponseWriter, r *http.Request) {
@@ -139,6 +147,30 @@ func PostPublish(w http.ResponseWriter, r *http.Request) {
     http.Redirect(w, r, r.Referer(), http.StatusSeeOther)
 }
 
+func saveImageFromForm(dict dictionary.Dictionary, fileTag string, r *http.Request) (string, error) {
+    err := r.ParseMultipartForm(config.Config.Site.MaxImgUploadMB << 20)
+    if nil != err {
+        log.Println(err)
+        return "", errors.New(dict.Editor.ErrorFileIsLargerThan+strconv.FormatInt(config.Config.Site.MaxImgUploadMB, 10)+"MB")
+    }
+
+    file, header, err := r.FormFile(fileTag)
+    if nil != err {
+        return "", errors.New(dict.Editor.ErrorFromFile)
+    }
+    defer file.Close()
+
+    // FIXME: Save which photos are being used...
+    id := primitive.NewObjectID()
+    save_name := "/photos/" + id.Hex() + "-" + header.Filename
+    err = renderer.SaveArtifact(save_name, file)
+    if nil != err {
+        return "", errors.New(dict.Editor.ErrorFromFile)
+    }
+
+    return save_name, nil
+}
+
 func PostSaveImage(w http.ResponseWriter, r *http.Request) {
     session := GetCurrentSession(r)
 
@@ -150,22 +182,7 @@ func PostSaveImage(w http.ResponseWriter, r *http.Request) {
     psir := PostSaveImageResponse{Success: 0}
     err_ret, _ := json.Marshal(psir)
 
-    err := r.ParseMultipartForm(config.Config.Site.MaxImgUploadMB << 20)
-    if nil != err {
-        io.WriteString(w, string(err_ret))
-        return
-    }
-    
-    file, header, err := r.FormFile("editormd-image-file")
-    if nil != err {
-        io.WriteString(w, string(err_ret))
-        return
-    }
-    defer file.Close()
-
-    // FIXME: Save which photos are being used...
-    save_name := "/photos/" + header.Filename
-    err = renderer.SaveArtifact(save_name, file)
+    save_name, err := saveImageFromForm(session.Dictionary.(dictionary.Dictionary), "editormd-image-file", r)
     if nil != err {
         io.WriteString(w, string(err_ret))
         return
@@ -175,4 +192,32 @@ func PostSaveImage(w http.ResponseWriter, r *http.Request) {
     psir.Success = 1
     success_ret, _ := json.Marshal(psir)
     io.WriteString(w, string(success_ret))
+}
+
+func PostEditPhotoSave(w http.ResponseWriter, r *http.Request) {
+    session := GetCurrentSession(r)
+
+    if !checkEditorAccess(session) {
+       renderPageWithAccessViolation(w, r)
+       return
+    }
+
+    image_name, err := saveImageFromForm(session.Dictionary.(dictionary.Dictionary), "image-input", r)
+    if nil != err {
+        session.Error = err.Error()
+        postEdit(session, w, r)
+        return
+    }
+
+    post := logic.Post{}
+    err = post.Select(r.PathValue("id"))
+    if nil != err {
+        session.Error = err.Error()
+        postEdit(session, w, r)
+        return
+    }
+    post.Image = image_name
+    post.Update()
+
+    postEdit(session, w, r)
 }

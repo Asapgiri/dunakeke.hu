@@ -13,7 +13,9 @@ func PostNew(dict dictionary.Dictionary, author User) string {
         Author: author,
         Date: time.Now(),
         Markdown: dict.Editor.StartMessage,
+        Image: "/placeholder.jpg",
     }
+    post.EditDate = post.Date
 
     post.Add()
 
