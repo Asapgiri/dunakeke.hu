@@ -91,7 +91,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                             <li><a class="dropdown-item" href="/user">{{.Dictionary.Auth.Account}}</a></li>
-                            {{if .Auth.IsMod}}
+                            {{if .Auth.IsEditor}}
                             <li><a class="dropdown-item" href="/admin">{{.Dictionary.Auth.AdminSite}}</a></li>
                             {{end}}
                             <li><a class="dropdown-item" href="/logout">{{.Dictionary.Auth.Logout}}</a></li>
