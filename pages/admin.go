@@ -29,6 +29,17 @@ func AdminPage(w http.ResponseWriter, r *http.Request) {
     adminRender(session, w, "admin/index.html", nil)
 }
 
+func adminRenderUsers(session session.Sessioner, w http.ResponseWriter) {
+    user := logic.User{}
+
+    dto := DtoAdminUsers{
+        Users: user.List(),
+        Roles: logic.RolePerms,
+    }
+
+    adminRender(session, w, "admin/users.html", dto)
+}
+
 func AdminUsers(w http.ResponseWriter, r *http.Request) {
     session := GetCurrentSession(r)
 
@@ -37,10 +48,7 @@ func AdminUsers(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    user := logic.User{}
-    users := user.List()
-
-    adminRender(session, w, "admin/users.html", users)
+    adminRenderUsers(session, w)
 }
 
 func AdminPosts(w http.ResponseWriter, r *http.Request) {
@@ -81,4 +89,52 @@ func AdminDonations(w http.ResponseWriter, r *http.Request) {
     }
 
     adminRender(session, w, "admin/donations.html", ad)
+}
+
+func AdminUserSetRole(w http.ResponseWriter, r *http.Request) {
+    session := GetCurrentSession(r)
+
+    if !checkAdminPageAccess(session) {
+        NotFound(w, r)
+        return
+    }
+
+    id := r.PathValue("id")
+    trole := r.PathValue("role")
+
+    eperm := logic.FindPermsFor(trole)
+
+    log.Println(id)
+    log.Println(trole)
+    log.Println(eperm)
+
+    if !renderer.Subset(session.Auth.Roles, eperm.EditPerm) {
+        session.Error = "You cannot edit user!"
+        // FIXME: should be a better way to redirect and show errors
+
+        log.Println(session.Error)
+        adminRenderUsers(session, w)
+        return
+    }
+
+    user := logic.User{}
+    user.Find(id)
+    if "" == user.Username {
+        session.Error = "User not found!"
+        log.Println(session.Error)
+        adminRenderUsers(session, w)
+        return
+    }
+
+
+
+    if slices.Contains(user.Roles, trole) {
+        i := slices.Index(user.Roles, trole)
+        user.Roles = append(user.Roles[:i], user.Roles[i+1:]...)
+    } else {
+        user.Roles = append(user.Roles, trole)
+    }
+    user.Update()
+
+    http.Redirect(w, r, r.Referer(), http.StatusSeeOther)
 }

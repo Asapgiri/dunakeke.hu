@@ -17,36 +17,47 @@
     <li class="list-group-item list-group-item-secondary d-none d-md-flex fw-bold">
         <div class="row w-100">
             <div class="col-md-2">{{.Dictionary.Auth.Username}}</div>
-            <div class="col-md-3">{{.Dictionary.Auth.Name}}</div>
-            <div class="col-md-3">{{.Dictionary.Auth.Email}}</div>
-            <div class="col-md-2">{{.Dictionary.Auth.Phone}}</div>
-            <div class="col-md-2 text-end">{{.Dictionary.Auth.Roles}}</div>
+            <div class="col-md-2">{{.Dictionary.Auth.Name}}</div>
+            <div class="col-md-2">{{.Dictionary.Auth.Email}}</div>
+            <div class="col-md-1">{{.Dictionary.Auth.Phone}}</div>
+            <div class="col-md-5 text-end">{{.Dictionary.Auth.Roles}}</div>
         </div>
     </li>
 
-    {{range $i, $d := .Dto}}
-    <li
-        class="list-group-item list-group-item-action p-2 small searchable cursor-pointer"
-        data-bs-toggle="collapse"
-        data-bs-target="#collapse-{{$i}}"
-        aria-expanded="false"
-        aria-controls="collapse-{{$i}}"
-        >
+    {{range $i, $d := .Dto.Users}}
+    <li class="list-group-item list-group-item-action p-2 small searchable">
+        <!-- data-bs-toggle="collapse" -->
+        <!-- data-bs-target="#collapse-{{$i}}" -->
+        <!-- aria-expanded="false" -->
+        <!-- aria-controls="collapse-{{$i}}" -->
+        <!-- > -->
         <div class="row align-items-center">
             <div class="col-md-2"><a href="/user/{{.Username}}" class="text-decoration-none">@{{.Username}}</a></div>
-            <div class="col-md-3">{{.Name}}</div>
-            <div class="col-md-3 text-truncate">{{.Email}}</div>
-            <div class="col-md-2">{{.Phone}}</div>
-            <div class="col-md-2 text-end text-truncate">{{.Roles}}</div>
+            <div class="col-md-2">{{.Name}}</div>
+            <div class="col-md-2 text-truncate">{{.Email}}</div>
+            <div class="col-md-1">{{.Phone}}</div>
+            <div class="col-md-5 text-end text-truncate">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    {{$userRoles := .Roles}}
+                    {{range $i, $r := $.Dto.Roles}}
+                    <a href="/admin/user/setrole/{{$d.Id}}/{{$r.Name}}"
+                        class="btn btn-{{if not (scon $userRoles $r.Name)}}outline-{{end}}primary py-0 {{if not (subset $.Auth.Roles $r.EditPerm)}}disabled{{end}}"
+                        value="{{$r.Name}}"
+                        style="opacity: 0.85;">
+                        {{$r.Name}}
+                    </a>
+                    {{end}}
+                </div>
+            </div>
         </div>
     </li>
-    <li
-        class="list-group-item border-dark p-0 bg-light collapse"
-        id="collapse-{{$i}}"
-        >
-        <div class="m-2 overflow-auto small" style="max-height: 500px;" id="usermessage-{{$i}}">
-            <!-- User details here -->
-        </div>
-    </li>
+    <!-- <li -->
+    <!--     class="list-group-item border-dark p-0 bg-light collapse" -->
+    <!--     id="collapse-{{$i}}" -->
+    <!--     > -->
+    <!--     <div class="m-2 small" style="max-height: 500px;" id="usermessage-{{$i}}"> -->
+    <!--         <!-- User details here -->
+    <!--     </div> -->
+    <!-- </li> -->
     {{end}}
 </ul>

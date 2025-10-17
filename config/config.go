@@ -26,6 +26,7 @@ type DbConfig struct {
 }
 
 type UserConfig struct {
+    MinUsernameLen      int
     MinPasswordLen      int
     NameCantContain     []string
 }
@@ -57,6 +58,7 @@ var Config = ConfigT{
         Name:   "dunakeke",
     },
     User: UserConfig{
+        MinUsernameLen: 3,
         MinPasswordLen: 8,
         NameCantContain: []string{},
     },

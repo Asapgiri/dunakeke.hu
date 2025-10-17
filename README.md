@@ -8,6 +8,7 @@ Webpage for DUNAKEKE
 - [ ] fix per site roles
 - [x] proper post view
 - [x] proper post photo editing
+- [ ] set choose file text
 - [ ] post route translation
 - [ ] check if saving per-user site statistics hurts GDPR
 - [x] hidden post handling
@@ -27,6 +28,7 @@ Webpage for DUNAKEKE
 - [x] Donation backend
     - [ ] Check Donation backend
 - [ ] Handle link redirecting...
+- [ ] Proper messaging between states
 - [ ] Add artifacts and other directories to config
 - [ ] Image gallery and selection
 - [ ] Everything else

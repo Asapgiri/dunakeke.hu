@@ -18,6 +18,11 @@ type DtoAdminDonations struct {
     Username    []string
 }
 
+type DtoAdminUsers struct {
+    Roles   []logic.RolePerm
+    Users   []logic.User
+}
+
 type DtoEditor struct {
     Id          string
     Markdown    string
