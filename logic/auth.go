@@ -96,18 +96,12 @@ func (user *User) Login(dict dictionary.Dictionary, uname_or_email string, passw
         return errors.New(dict.Auth.LoginErrBadUsernameOrEmail)
     }
 
-    log.Println(duser_uname)
-    log.Println(duser_email)
-
     if nil == err_uname {
         duser = duser_uname
     } else {
         duser = duser_email
     }
 
-    log.Println(password_clear)
-
-    log.Println(duser)
     if nil != bcrypt.CompareHashAndPassword([]byte(duser.PasswordHash), []byte(password_clear)) {
         return errors.New(dict.Auth.LoginErrBadPassword)
     }

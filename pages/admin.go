@@ -133,6 +133,8 @@ func AdminUserSetRole(w http.ResponseWriter, r *http.Request) {
         return
     }
 
+    log.Println(user)
+
 
 
     if slices.Contains(user.Roles, trole) {
@@ -141,6 +143,8 @@ func AdminUserSetRole(w http.ResponseWriter, r *http.Request) {
     } else {
         user.Roles = append(user.Roles, trole)
     }
+
+    log.Println(user)
     user.Update()
 
     http.Redirect(w, r, r.Referer(), http.StatusSeeOther)

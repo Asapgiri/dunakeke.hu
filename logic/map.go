@@ -57,8 +57,10 @@ func (user *User) Map(duser dbase.User) {
 
 func (user *User) UnMap() dbase.User {
     duser := dbase.User{}
+    oid, _ := primitive.ObjectIDFromHex(user.Id)
+    duser.Select(oid)
 
-    duser.Id, _      = primitive.ObjectIDFromHex(user.Id)
+    duser.Id         = oid
     duser.RegDate    = user.RegDate
     duser.EditDate   = user.EditDate
     duser.Username   = user.Username

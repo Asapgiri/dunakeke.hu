@@ -9,7 +9,6 @@ Webpage for DUNAKEKE
 - [ ] set choose file text
 - [ ] check if saving per-user site statistics hurts GDPR
 - [ ] import existing pages
-- [ ] random login failure bug and password hash deletion fix
 - [ ] email password reset
 - [ ] expost modules
     - [ ] authentication?
@@ -67,3 +66,5 @@ Webpage for DUNAKEKE
 - [x] Fix page not found translation
 - [x] Link otpay correctly...
 - [x] Donation backend
+- [x] random login failure bug and password hash deletion fix
+    - [x] user logic dto didn't contain the password hash, so it avoided to save it back on update
