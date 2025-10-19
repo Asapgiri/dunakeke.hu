@@ -42,12 +42,12 @@ type Post struct {
     Date            time.Time
     EditDate        time.Time
     Public          bool
-    Path            string
     Title           string
     Short           string
     Image           string
     Markdown        string
     Html            string
+    Alternative     primitive.ObjectID
 }
 
 type Photo struct {
@@ -68,7 +68,7 @@ type Link struct {
     Id              primitive.ObjectID `bson:"_id"`
     Author          primitive.ObjectID
     Date            time.Time
-    Link            string
+    Original        string
     Alternative     string
 }
 

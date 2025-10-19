@@ -1,11 +1,15 @@
 package pages
 
 import (
-    "asapgiri/golib/renderer"
-    "asapgiri/golib/session"
+	"asapgiri/golib/renderer"
+	"asapgiri/golib/session"
 	"dunakeke/logic"
+	"encoding/json"
+	"io"
 	"net/http"
 	"slices"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func checkAdminPageAccess(session session.Sessioner) bool {
@@ -82,7 +86,10 @@ func AdminDonations(w http.ResponseWriter, r *http.Request) {
     ad.Username = make([]string, len(ad.Donations))
     for i, d := range(ad.Donations) {
         ad.Sum += d.Amount * float64(len(d.Occurences))
-        if "000000000000000000000000" != d.UserId {
+
+        // check invalid "000000000000000000000000" id
+        _, err := primitive.ObjectIDFromHex(d.UserId)
+        if  nil == err {
             user.Find(d.UserId)
             ad.Username[i] = user.Username
         }
@@ -137,4 +144,58 @@ func AdminUserSetRole(w http.ResponseWriter, r *http.Request) {
     user.Update()
 
     http.Redirect(w, r, r.Referer(), http.StatusSeeOther)
+}
+
+func AdminLinks(w http.ResponseWriter, r *http.Request) {
+    session := GetCurrentSession(r)
+
+    if !checkAdminPageAccess(session) {
+        NotFound(w, r)
+        return
+    }
+
+    link := logic.Link{}
+    links := link.List()
+
+    adminRender(session, w, "admin/links.html", links)
+}
+
+func AdminLinksUpdate(w http.ResponseWriter, r *http.Request) {
+    session := GetCurrentSession(r)
+
+    if !checkAdminPageAccess(session) {
+        NotFound(w, r)
+        return
+    }
+
+    lu := LinkUpdate{}
+    de := json.NewDecoder(r.Body)
+    de.DisallowUnknownFields()
+    err := de.Decode(&lu)
+    if nil != err {
+        return
+    }
+
+    user := logic.User{}
+    user.FindByUsername(session.Auth.Username)
+
+    logic.AlternativeUpdate(lu.Original, lu.Alternative, user)
+
+    io.WriteString(w, "OK")
+}
+
+func AdminLinksDelete(w http.ResponseWriter, r *http.Request) {
+    session := GetCurrentSession(r)
+
+    if !checkAdminPageAccess(session) {
+        NotFound(w, r)
+        return
+    }
+
+    id := r.PathValue("id")
+    link := logic.Link{}
+    link.Select(id)
+    link.Delete()
+
+    http.Redirect(w, r, "/admin/links", http.StatusSeeOther)
 }

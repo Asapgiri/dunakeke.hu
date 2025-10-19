@@ -45,6 +45,7 @@ type Auth struct {
 }
 
 type Editor struct {
+    AlternativePlaceholder                  string
     TitlePlaceholder                        string
     StartMessage                            string
     BtnSave                                 string
@@ -149,6 +150,10 @@ type Admin struct {
     PostShow                                string
     PostHide                                string
     PostHidden                              string
+
+    LinkDate                                string
+    LinkOriginal                            string
+    LinkAlternative                         string
 }
 
 type Donate struct {

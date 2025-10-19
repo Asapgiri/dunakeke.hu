@@ -1,0 +1,78 @@
+<h6 class="border-top border-gray py-2 mb-3 fw-semibold">
+    {{.Dictionary.Admin.Links}}
+</h6>
+
+<div class="mb-4">
+    <input
+    type="search"
+    id="searchbar"
+    onkeyup="searchFunction()"
+    placeholder="Link keresése.."
+    class="form-control"
+    aria-label="Search users"
+    >
+</div>
+
+<ul class="list-group list-group-flush" id="table">
+    <li class="list-group-item list-group-item-secondary fw-bold">
+        <div class="row">
+            <div class="col-md-1">Id</div>
+            <div class="col-md-1">{{.Dictionary.Auth.Username}}</div>
+            <div class="col-md-2">{{.Dictionary.Admin.LinkDate}}</div>
+            <div class="col-md-4">{{.Dictionary.Admin.LinkOriginal}}</div>
+            <div class="col-md-4">{{.Dictionary.Admin.LinkAlternative}}</div>
+        </div>
+    </li>
+
+    {{range $i, $d := .Dto}}
+    <li class="list-group-item list-group-item-action small searchable">
+        <div class="row align-items-center">
+            <div class="col-md-1">@{{shorten .Id 6}}</div>
+            <div class="col-md-1"><a href="/user/{{.Author.Username}}" class="text-decoration-none">@{{.Author.Username}}</a></div>
+            <div class="col-md-2">{{tformat .Date}}</div>
+            <div class="col-md-4">
+                <div class="input-group shadow-sm">
+                    <input id="original-{{.Id}}" type="text" class="form-control form-control-sm border-end-0" value="{{.Original}}">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group shadow-sm">
+                    <input id="alternative-{{.Id}}" type="text" class="form-control form-control-sm border-end-0" value="{{.Alternative}}">
+                    <button class="btn btn-outline-secondary py-0" type="button" onclick="update_link('{{.Id}}')">Update</button>
+                    <a class="btn btn-outline-danger py-1" type="button" href="/admin/links/delete/{{.Id}}">Remove</a>
+                </div>
+            </div>
+        </div>
+    </li>
+    {{end}}
+
+    <li class="list-group-item list-group-item-action small searchable">
+        <div class="row align-items-center">
+            <div class="col-md-1">-</div>
+            <div class="col-md-1">-</div>
+            <div class="col-md-2">{{tformat now}}</div>
+            <div class="col-md-4">
+                <div class="input-group shadow-sm">
+                    <input id="original-new" type="text" class="form-control form-control-sm border-end-0" value="/">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group shadow-sm">
+                    <input id="alternative-new" type="text" class="form-control form-control-sm border-end-0" value="/">
+                    <button class="btn btn-success py-0" type="button" onclick="update_link('new')">Add</button>
+                </div>
+            </div>
+        </div>
+    </li>
+</ul>
+
+<script src="/editor.js"></script>
+<script>
+    function update_link(id) {
+        fetch_with_json('/admin/links/update', {
+            original: document.getElementById('original-'+id).value,
+            alternative: document.getElementById('alternative-'+id).value,
+        })
+        window.location.reload()
+    }
+</script>

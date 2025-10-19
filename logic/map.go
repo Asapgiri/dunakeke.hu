@@ -73,34 +73,37 @@ func (user *User) UnMap() dbase.User {
 func (post *Post) Map(dpost dbase.Post) {
     author := User{}
     author.Find(dpost.Author.Hex())
+    alternative := Link{}
+    alternative.Select(dpost.Alternative.Hex())
 
-    post.Id         = dpost.Id.Hex()
-    post.Author     = author
-    post.Date       = dpost.Date
-    post.EditDate   = dpost.EditDate
-    post.Public     = dpost.Public
-    post.Path       = dpost.Path
-    post.Title      = dpost.Title
-    post.Short      = dpost.Short
-    post.Image      = dpost.Image
-    post.Markdown   = dpost.Markdown
-    post.Html       = dpost.Html
+    post.Id             = dpost.Id.Hex()
+    post.Author         = author
+    post.Date           = dpost.Date
+    post.EditDate       = dpost.EditDate
+    post.Public         = dpost.Public
+    post.Path           = alternative.Alternative
+    post.Title          = dpost.Title
+    post.Short          = dpost.Short
+    post.Image          = dpost.Image
+    post.Markdown       = dpost.Markdown
+    post.Html           = dpost.Html
+    post.Alternative    = alternative
 }
 
 func (post *Post) UnMap() dbase.Post {
     dpost := dbase.Post{}
 
-    dpost.Id, _     = primitive.ObjectIDFromHex(post.Id)
-    dpost.Author, _ = primitive.ObjectIDFromHex(post.Author.Id)
-    dpost.Date      = post.Date
-    dpost.EditDate  = post.EditDate
-    dpost.Public    = post.Public
-    dpost.Path      = post.Path
-    dpost.Title     = post.Title
-    dpost.Short     = post.Short
-    dpost.Image     = post.Image
-    dpost.Markdown  = post.Markdown
-    dpost.Html      = post.Html
+    dpost.Id, _             = primitive.ObjectIDFromHex(post.Id)
+    dpost.Author, _         = primitive.ObjectIDFromHex(post.Author.Id)
+    dpost.Date              = post.Date
+    dpost.EditDate          = post.EditDate
+    dpost.Public            = post.Public
+    dpost.Title             = post.Title
+    dpost.Short             = post.Short
+    dpost.Image             = post.Image
+    dpost.Markdown          = post.Markdown
+    dpost.Html              = post.Html
+    dpost.Alternative, _    = primitive.ObjectIDFromHex(post.Alternative.Id)
 
     return dpost
 }
@@ -196,4 +199,27 @@ func (iv *Invoice) UnMap() dbase.DonationInvoice {
     div.TaxNumber   = iv.TaxNumber
 
     return div
+}
+
+func (link *Link)Map(dlink dbase.Link) {
+    author := User{}
+    author.Find(dlink.Author.Hex())
+
+    link.Id             = dlink.Id.Hex()
+    link.Author         = author
+    link.Date           = dlink.Date
+    link.Original       = dlink.Original
+    link.Alternative    = dlink.Alternative
+}
+
+func (link *Link)UnMap() dbase.Link {
+    dlink := dbase.Link{}
+
+    dlink.Id, _         = primitive.ObjectIDFromHex(link.Id)
+    dlink.Author, _     = primitive.ObjectIDFromHex(link.Author.Id)
+    dlink.Date          = link.Date
+    dlink.Original      = link.Original
+    dlink.Alternative   = link.Alternative
+
+    return dlink
 }

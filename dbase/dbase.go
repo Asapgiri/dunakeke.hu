@@ -246,8 +246,12 @@ func (link *Link) Select(id primitive.ObjectID) error {
     return dbLINKS.FindOne(context.TODO(), bson.D{{"_id", id}}).Decode(link)
 }
 
-func (link *Link) FindByLink(qlink string) error {
-    return dbLINKS.FindOne(context.TODO(), bson.D{{"link", qlink}}).Decode(link)
+func (link *Link) FindByOriginal(qlink string) error {
+    return dbLINKS.FindOne(context.TODO(), bson.D{{"original", qlink}}).Decode(link)
+}
+
+func (link *Link) FindByAlternative(alternative string) error {
+    return dbLINKS.FindOne(context.TODO(), bson.D{{"alternative", alternative}}).Decode(link)
 }
 
 func (link *Link) Add() error {

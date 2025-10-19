@@ -18,14 +18,14 @@
     <div class="card mb-4 shadow-sm border-0 {{if not .Public}}bg-light border-start border-5 border-danger bg-gradient-disabled{{end}}">
         <div class="row g-0">
             <div class="col-md-4">
-                <a href="/post/{{if .Path}}{{.Path}}{{else}}{{.Id}}{{end}}">
+                <a href="{{if .Path}}{{.Path}}{{else}}/post/{{.Id}}{{end}}">
                     <img src="{{.Image}}" alt="{{.Title}}" class="img-fluid rounded-start w-100 h-100 object-fit-cover" style="max-height: 200px; object-fit: cover;">
                 </a>
             </div>
             <div class="col-md-8">
                 <div class="card-body">
                     <h5 class="card-title mb-0">
-                        <a href="/post/{{if .Path}}{{.Path}}{{else}}{{.Id}}{{end}}" class="text-decoration-none text-dark">
+                        <a href="{{if .Path}}{{.Path}}{{else}}/post/{{.Id}}{{end}}" class="text-decoration-none text-dark">
                             {{.Title}}
                         </a>
                     </h5>

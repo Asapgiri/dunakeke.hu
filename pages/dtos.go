@@ -37,3 +37,8 @@ type PostSaveImageResponse struct {
     Success int     `json:"success"`
     Url     string  `json:"url"`
 }
+
+type LinkUpdate struct {
+    Original    string  `json:"original"`
+    Alternative string  `json:"alternative"`
+}

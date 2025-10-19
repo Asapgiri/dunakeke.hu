@@ -6,25 +6,23 @@ Webpage for DUNAKEKE
 
 ## focus
 - [ ] fix per site roles
-- [x] proper post view
-- [x] proper post photo editing
 - [ ] set choose file text
-- [ ] post route translation
 - [ ] check if saving per-user site statistics hurts GDPR
-- [x] hidden post handling
-- [ ] user role handling
 - [ ] import existing pages
+- [ ] random login failure bug and password hash deletion fix
+- [ ] email password reset
 - [ ] expost modules
     - [ ] authentication?
-    - [x] rendering
     - [ ] config
-    - [x] logger
-    - [x] sessions
 
 ## overall
 
-- [x] Fix page not found translation
+- [ ] improve routing with getting the routes from somewhere...
+- [ ] set admin page access for roles
+- [ ] make crud options <templates>
+- [ ] alternatives input validation to match root link format
 - [ ] Sanitize inputs!
+- [ ] add delete user option
 - [x] Donation backend
     - [ ] Check Donation backend
 - [ ] Handle link redirecting...
@@ -48,7 +46,24 @@ Webpage for DUNAKEKE
 
 - [ ] Add statistics
     - [ ] Log statistics from every site opening
-        - [x] Logging
         - [ ] From
         - [ ] Else
     - [ ] Show it on admins page
+
+## done
+
+- [x] proper post view
+- [x] proper post photo editing
+- [x] post route translation
+- [x] hidden post handling
+- [x] user role handling
+- [x] expost modules
+    - [x] rendering
+    - [x] logger
+    - [x] sessions
+- [x] Add statistics
+    - [x] Log statistics from every site opening
+        - [x] Logging
+- [x] Fix page not found translation
+- [x] Link otpay correctly...
+- [x] Donation backend

@@ -59,7 +59,7 @@ var Config = ConfigT{
     },
     User: UserConfig{
         MinUsernameLen: 3,
-        MinPasswordLen: 8,
+        MinPasswordLen: 5,
         NameCantContain: []string{},
     },
     Site: session.Config{

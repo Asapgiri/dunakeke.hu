@@ -22,7 +22,7 @@ func PostNew(dict dictionary.Dictionary, author User) string {
     return post.Id
 }
 
-func PostUpdate(ps PostSave) error {
+func PostUpdate(ps PostSave, user User) error {
     log.Println("Post Save Body:")
     log.Println(ps)
 
@@ -37,6 +37,22 @@ func PostUpdate(ps PostSave) error {
     post.Title      = ps.Title
     post.Markdown   = ps.Markdown
     post.Html       = ps.Html
+
+    if post.Alternative.Alternative != ps.Alternative {
+        link := &post.Alternative
+        link.Alternative = ps.Alternative
+        link.Date = time.Now()
+
+        // check invalid "000000000000000000000000" id
+        _, err := primitive.ObjectIDFromHex(link.Id)
+        if nil == err {
+            link.Update()
+        } else {
+            link.Author = user
+            link.Original = "/post/" + post.Id
+            link.Add()
+        }
+    }
 
     return post.Update()
 }

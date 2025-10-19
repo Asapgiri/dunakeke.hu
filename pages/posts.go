@@ -113,13 +113,16 @@ func PostSave(w http.ResponseWriter, r *http.Request) {
 
     err := de.Decode(&ps)
     if nil != err {
-        io.WriteString(w, "NOK")
+        io.WriteString(w, "NOK - Decode")
         return
     }
 
-    err = logic.PostUpdate(ps)
+    user := logic.User{}
+    user.FindByUsername(session.Auth.Username)
+
+    err = logic.PostUpdate(ps, user)
     if nil != err {
-        io.WriteString(w, "NOK")
+        io.WriteString(w, "NOK - Update")
         return
     }
 

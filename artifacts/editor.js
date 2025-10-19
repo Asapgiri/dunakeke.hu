@@ -1,18 +1,26 @@
-function save_post(id, title, markdown, html) {
-    console.log('id:',      id)
-    console.log('title:',   title)
-    console.log('md:',      markdown)
-    console.log('html:',    html)
+function save_post(id, title, markdown, html, alternative) {
+    console.log('id:',          id)
+    console.log('title:',       title)
+    console.log('md:',          markdown)
+    console.log('html:',        html)
+    console.log('alternative:', alternative)
 
-    fetch('/api/post/save', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
+    fetch_with_json('/api/post/save',
+        {
             id: id,
             title: title,
             markdown: markdown,
-            html: html
-        })
+            html: html,
+            alternative: alternative
+        }
+    )
+}
+
+function fetch_with_json(route, obj) {
+    fetch(route, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(obj)
     })
     .then(res => res.text())
     .then(data => console.log('resp: ', data))

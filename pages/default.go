@@ -16,16 +16,20 @@ var log = logger.Logger {
 }
 
 func Unexpected(session session.Sessioner, w http.ResponseWriter, r *http.Request) {
-    alternative := logic.LinkFind(r.URL.Path)
+    link := logic.Link{}
+    link.SelectByAlternative(r.URL.Path)
 
-    if "" !=  alternative {
-        http.Redirect(w, r, alternative, http.StatusSeeOther)
+    if "" !=  link.Original {
+        r.URL.Path = link.Original
+        http.DefaultServeMux.ServeHTTP(w, r)
+        return
     }
 
     fil, typ := renderer.ReadArtifact(r.URL.Path, w.Header())
     if "" == fil {
         // FIXME: Redirect due to request type...
         //http.Error(w, "File not found", http.StatusNotFound)
+
         NotFound(w, r)
         return
     }

@@ -10,7 +10,12 @@
     {{end}}
 
     <div class="row mb-3">
-        <div class="col-lg-9">
+        <div class="col-lg-5">
+            <div class="input-group shadow-sm">
+                <input id="alternative-input" name="alternative-input" type="text" class="form-control form-control-lg border-end-0" placeholder="{{.Dictionary.Editor.AlternativePlaceholder}}" value="{{.Dto.Path}}">
+            </div>
+        </div>
+        <div class="col-lg-4">
             <div class="input-group shadow-sm">
                 <form id="image-form" name="image-form" method="post" enctype='multipart/form-data' class="w-100">
                     <input id="image-input" name="image-input" type="file" class="form-control form-control-lg border-end-0" accept="image/*">
@@ -191,7 +196,8 @@
 
         document.getElementById('save-btn').onclick = function() {
             title = document.getElementById('title').value
-            save_post('{{.Dto.Id}}', title, editor.getMarkdown(), editor.getHTML());
+            alter = document.getElementById('alternative-input').value
+            save_post('{{.Dto.Id}}', title, editor.getMarkdown(), editor.getHTML(), alter);
         }
 
         document.getElementById('image-input').onchange = function() {

@@ -58,13 +58,14 @@ type Post struct {
     Image           string
     Markdown        string
     Html            string
+    Alternative     Link
 }
 
 type Link struct {
     Id              string
     Author          User
     Date            time.Time
-    Link            string
+    Original        string
     Alternative     string
 }
 
@@ -128,4 +129,5 @@ type PostSave struct {
     Title       string  `json:"title"`
     Markdown    string  `json:"markdown"`
     Html        string  `json:"html"`
+    Alternative string  `json:"alternative"`
 }
