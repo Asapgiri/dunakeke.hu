@@ -157,6 +157,7 @@ var dict_hu = Dictionary{
         Other:              "Egyéb",
         Amount:             "Összeg",
         Name:               "Név",
+        Message:            "Üzenet",
         Email:              "Email",
         DonateButton:       "Adományozás",
         Newsletter:         "Feliratkozom a hírlevélre.",

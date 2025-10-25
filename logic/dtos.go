@@ -99,6 +99,7 @@ type Donation struct {
     UserId          string
     Tokens          []string
     Name            string
+    Message         string
     Email           string
     Date            time.Time
     Amount          float64

@@ -58,7 +58,12 @@
                 <dt class="col-sm-3">{{.Dictionary.Donate.Recurrence}}</dt>
                 <dd class="col-sm-9"><span class="badge bg-info text-dark">{{.Dictionary.Donate.Monthly}}</span></dd>
                 {{end}}
+
+                <dt class="col-sm-3">{{.Dictionary.Donate.Message}}</dt>
+                <dd class="col-sm-9" style="white-space: pre-wrap;">{{.Dto.Message}}</dd>
             </dl>
+
+            <img class="float-sm-end mt-3" src="/simplepay_200x50.png"/>
         </div>
     </div>
 

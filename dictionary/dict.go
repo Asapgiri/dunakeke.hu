@@ -165,6 +165,7 @@ type Donate struct {
     Other                                   string
     Amount                                  string
     Name                                    string
+    Message                                 string
     Email                                   string
     DonateButton                            string
     Newsletter                              string

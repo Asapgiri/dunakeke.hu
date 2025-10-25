@@ -92,6 +92,7 @@ type Donation struct {
     User            primitive.ObjectID
     Tokens          []string
     Name            string
+    Message         string
     Email           string
     Date            time.Time
     Amount          float64

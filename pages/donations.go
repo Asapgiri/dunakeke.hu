@@ -55,6 +55,7 @@ func DonationInProgress(w http.ResponseWriter, r *http.Request) {
         UserId: session.Auth.Id,
         Date: time.Now(),
         Name: r.FormValue("form[name]"),
+        Message: r.FormValue("form[message]"),
         Email: r.FormValue("form[email]"),
         Amount: amount,
         Newsletter: "1" == r.FormValue("form[subscribeToNewsletter]"),

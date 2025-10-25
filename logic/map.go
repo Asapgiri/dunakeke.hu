@@ -146,6 +146,7 @@ func (donation *Donation) Map(ddon dbase.Donation) {
     donation.UserId             = ddon.User.Hex()
     donation.Tokens             = ddon.Tokens
     donation.Name               = ddon.Name
+    donation.Message            = ddon.Message
     donation.Email              = ddon.Email
     donation.Date               = ddon.Date
     donation.Amount             = ddon.Amount
@@ -166,6 +167,7 @@ func (donation *Donation) UnMap() dbase.Donation {
     ddon.User, _            = primitive.ObjectIDFromHex(donation.UserId)
     ddon.Tokens             = donation.Tokens
     ddon.Name               = donation.Name
+    ddon.Message            = donation.Message
     ddon.Email              = donation.Email
     ddon.Date               = donation.Date
     ddon.Amount             = donation.Amount

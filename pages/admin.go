@@ -109,6 +109,10 @@ func AdminDonations(w http.ResponseWriter, r *http.Request) {
         }
     }
 
+    slices.SortFunc(ad.Donations, func(a, b logic.Donation) int {
+        return b.Date.Compare(a.Date)
+    })
+
     adminRender(session, w, "admin/donations.html", ad)
 }
 

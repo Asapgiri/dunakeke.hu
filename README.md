@@ -11,7 +11,6 @@ Webpage for DUNAKEKE
 - [ ] remove TODO() contexts
 - [ ] email password reset
 - [ ] file/picture selector/search
-- [ ] add simplepay logo
 - [ ] add supporter and their logos...
 - [ ] page for yearly income/stuff...
     - [ ] way to upload pdf files.
@@ -25,6 +24,7 @@ Webpage for DUNAKEKE
 
 ## overall
 
+- [ ] sanitize form lengths
 - [ ] move styles to stylesheets instead of template files
 - [ ] gitlab diff like editor
 - [ ] editable menubar
@@ -85,3 +85,4 @@ Webpage for DUNAKEKE
 - [x] post tags
     - [x] should show up on front page
     - [x] tags should prevent public listing of posts
+- [x] add simplepay logo

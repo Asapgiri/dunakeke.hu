@@ -157,6 +157,7 @@ var dict_en = Dictionary{
         Other:              "Other",
         Amount:             "Amount",
         Name:               "Name",
+        Message:            "Message",
         Email:              "Email",
         DonateButton:       "Donate",
         Newsletter:         "I subscribe to the newsletter.",
