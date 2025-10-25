@@ -33,16 +33,16 @@
                     </h5>
                     <p class="card-text mb-2">{{.Short}}</p>
                     <p class="card-text text-muted small mb-0">{{tformat .EditDate}}</p>
-                    <p class="card-text">
+                    <p class="card-text mb-1">
                         <a href="/user/{{.Author.Username}}" class="text-muted text-decoration-none">
                             <strong>@{{if .Author.Name}}{{.Author.Name}}{{else}}{{.Author.Username}}{{end}}</strong>
                         </a>
                     </p>
-                    <p>
+                    <div class="mb-1">
                     {{range .Tags}}
                         <a class="badge rounded-pill btn" href="/tag/{{.Name}}" style="background-color: {{.Color}};">{{.Name}}</a>
                     {{end}}
-                    </p>
+                    </div>
                     {{if not .Public}}
                     <span class="badge bg-danger">{{$.Dictionary.Admin.PostHidden}}</span>
                     {{end}}
