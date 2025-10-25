@@ -38,6 +38,11 @@ func PostUpdate(ps PostSave, user User) error {
     post.Markdown   = ps.Markdown
     post.Html       = ps.Html
 
+    post.Tags = make([]Tag, len(ps.Tags))
+    for i, t := range(ps.Tags) {
+        post.Tags[i].Select(t)
+    }
+
     if post.Alternative.Alternative != ps.Alternative {
         link := &post.Alternative
         link.Alternative = ps.Alternative

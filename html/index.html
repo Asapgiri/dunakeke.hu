@@ -36,6 +36,11 @@
                             <strong>@{{if .Author.Name}}{{.Author.Name}}{{else}}{{.Author.Username}}{{end}}</strong>
                         </a>
                     </p>
+                    <p>
+                    {{range .Tags}}
+                        <span class="badge rounded-pill" style="background-color: {{.Color}};">{{.Name}}</span>
+                    {{end}}
+                    </p>
                     {{if not .Public}}
                     <span class="badge bg-danger">{{$.Dictionary.Admin.PostHidden}}</span>
                     {{end}}

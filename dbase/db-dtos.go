@@ -48,6 +48,14 @@ type Post struct {
     Markdown        string
     Html            string
     Alternative     primitive.ObjectID
+    Tags            []primitive.ObjectID
+}
+
+type Tag struct {
+    Id              primitive.ObjectID `bson:"_id"`
+    Name            string
+    Listable        bool
+    Color           string
 }
 
 type Photo struct {

@@ -1,6 +1,16 @@
 <!-- Editor.md Styles -->
 <link rel="stylesheet" href="/editor.md/css/editormd.min.css" />
 
+<style>
+.dropdown-menu.searchable { min-width: 280px; max-width: 100%; padding: 0.5rem; }
+.dropdown-item-selectable { padding: .25rem .5rem; cursor: pointer; border-radius: .25rem; }
+.dropdown-item-selectable:hover { background-color: #f8f9fa; }
+.dropdown-item-selectable.active { background-color: #0d6efd; color: white; }
+.no-results { padding: .5rem .75rem; color: #6c757d; }
+.search-input { margin-bottom: .5rem; }
+.item-list { max-height: 240px; overflow: auto; }
+</style>
+
 <div class="container-xl">
     {{if .Error}}
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -12,7 +22,7 @@
     <div class="row mb-3">
         <div class="col-lg-5">
             <div class="input-group shadow-sm">
-                <input id="alternative-input" name="alternative-input" type="text" class="form-control form-control-lg border-end-0" placeholder="{{.Dictionary.Editor.AlternativePlaceholder}}" value="{{.Dto.Path}}">
+                <input id="alternative-input" name="alternative-input" type="text" class="form-control form-control-lg border-end-0" placeholder="{{.Dictionary.Editor.AlternativePlaceholder}}" value="{{.Dto.Post.Path}}">
             </div>
         </div>
         <div class="col-lg-4">
@@ -23,26 +33,49 @@
             </div>
         </div>
         <div class="col-lg-3">
-            <a href="{{.Dto.Image}}" data-lightbox="image-{{.Dto.Id}}" data-title="{{.Dto.Title}}">
-                <img src="{{.Dto.Image}}" alt="{{.Dto.Title}}" class="img-fluid rounded-start w-100 object-fit-cover" style="max-height: 200px; object-fit: cover; height: 50px;">
+            <a href="{{.Dto.Post.Image}}" data-lightbox="image-{{.Dto.Post.Id}}" data-title="{{.Dto.Post.Title}}">
+                <img src="{{.Dto.Post.Image}}" alt="{{.Dto.Post.Title}}" class="img-fluid rounded-start w-100 object-fit-cover" style="max-height: 200px; object-fit: cover; height: 50px;">
             </a>
         </div>
     </div>
 
     <!-- Editor Header -->
-    <div class="mb-4">
-        <div class="input-group shadow-sm">
-            <input id="title" type="text" class="form-control form-control-lg border-end-0" placeholder="{{.Dictionary.Editor.TitlePlaceholder}}" value="{{.Dto.Title}}">
-            <button id="save-btn" class="btn btn-outline-success px-4" type="button">
-                💾 {{.Dictionary.Editor.BtnSave}}
-            </button>
+    <div class="row mb-4">
+        <div class="col-lg-3">
+            <div class="dropdown">
+                <button id="ddButton" class="btn btn-outline-secondary dropdown-toggle px-4" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 100%; height: 100%;">
+                    Tags <span id="selectedCount" class="badge bg-primary ms-2">0</span>
+                </button>
+
+                <div class="dropdown-menu p-2 searchable" aria-labelledby="ddButton">
+                    <div class="search-input">
+                        <input id="ddSearch" class="form-control form-control-sm" type="search" placeholder="Search..." aria-label="Search options">
+                    </div>
+
+                    <div id="itemList" class="item-list">
+                        {{range .Dto.Tags}}
+                        <div class="dropdown-item-selectable {{if .Selected}}active{{end}}" data-value="{{.Tag.Name}}" id="{{.Tag.Id}}">{{.Tag.Name}}</div>
+                        {{end}}
+                    </div>
+
+                    <div id="noResults" class="no-results d-none">No results</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="input-group shadow-sm">
+                <input id="title" type="text" class="form-control form-control-lg border-end-0" placeholder="{{.Dictionary.Editor.TitlePlaceholder}}" value="{{.Dto.Post.Title}}">
+                <button id="save-btn" class="btn btn-outline-success px-4" type="button">
+                    💾 {{.Dictionary.Editor.BtnSave}}
+                </button>
+            </div>
         </div>
     </div>
 
     <!-- Editor Markdown Area -->
     <div id="editor">
         <!-- Editor.md will inject the textarea here -->
-        <textarea style="display:none;">{{.Dto.Markdown}}</textarea>
+        <textarea style="display:none;">{{.Dto.Post.Markdown}}</textarea>
     </div>
 
 </div>
@@ -197,7 +230,10 @@
         document.getElementById('save-btn').onclick = function() {
             title = document.getElementById('title').value
             alter = document.getElementById('alternative-input').value
-            save_post('{{.Dto.Id}}', title, editor.getMarkdown(), editor.getHTML(), alter);
+
+            tags = Array.from(itemList.querySelectorAll('.dropdown-item-selectable')).filter(it => it.classList.contains('active')).map(it => it.id);
+
+            save_post('{{.Dto.Post.Id}}', title, editor.getMarkdown(), editor.getHTML(), alter, tags);
         }
 
         document.getElementById('image-input').onchange = function() {
@@ -212,3 +248,58 @@
 
 <!-- Lightbox2 JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+
+
+<script>
+    (function(){
+        const ddSearch = document.getElementById('ddSearch');
+        const itemList = document.getElementById('itemList');
+        const items = () => Array.from(itemList.querySelectorAll('.dropdown-item-selectable'));
+        const selectedCount = document.getElementById('selectedCount');
+        const noResults = document.getElementById('noResults');
+        // const clearBtn = document.getElementById('clearBtn');
+        const ddButton = document.getElementById('ddButton');
+
+
+        function updateSelectedCount() {
+            const count = items().filter(it => it.classList.contains('active')).length;
+            selectedCount.textContent = count;
+        }
+
+        function filterList() {
+            const q = ddSearch.value.trim().toLowerCase();
+            let visible = 0;
+            items().forEach(item => {
+                const label = item.textContent.toLowerCase();
+                if (!q || label.includes(q)) {
+                    item.classList.remove('d-none');
+                    visible++;
+                } else {
+                    item.classList.add('d-none');
+                }
+            });
+            noResults.classList.toggle('d-none', visible !== 0);
+        }
+
+        itemList.addEventListener('click', (e) => {
+            const item = e.target.closest('.dropdown-item-selectable');
+            if (!item) return;
+            item.classList.toggle('active');
+            updateSelectedCount();
+            const chosen = items().filter(it => it.classList.contains('active')).map(it => it.dataset.value);
+            ddButton.innerHTML = chosen.length ? (chosen.join(', ') + ` <span id="selectedCount" class="badge bg-primary ms-2">${chosen.length}</span>`) : 'Select items <span id="selectedCount" class="badge bg-primary ms-2">0</span>';
+        });
+
+        ddSearch.addEventListener('input', filterList);
+
+        // clearBtn.addEventListener('click', () => {
+        //     items().forEach(it => it.classList.remove('active'));
+        //     updateSelectedCount();
+        // });
+
+        updateSelectedCount();
+        filterList();
+        const chosen = items().filter(it => it.classList.contains('active')).map(it => it.dataset.value);
+        ddButton.innerHTML = chosen.length ? (chosen.join(', ') + ` <span id="selectedCount" class="badge bg-primary ms-2">${chosen.length}</span>`) : 'Select items <span id="selectedCount" class="badge bg-primary ms-2">0</span>';
+    })();
+</script>

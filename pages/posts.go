@@ -52,15 +52,26 @@ func PostNew(w http.ResponseWriter, r *http.Request) {
 }
 
 func postEdit(session session.Sessioner, w http.ResponseWriter, r *http.Request) {
-    post := logic.Post{}
-    err := post.Select(r.PathValue("id"))
+    dp := DtoEditor{}
+    err := dp.Post.Select(r.PathValue("id"))
     if nil != err {
         NotFound(w, r)
         return
     }
 
+    tag := logic.Tag{}
+    tags, err := tag.List()
+
+    dp.Tags = make([]DtoTag, len(tags))
+    for i, t := range(tags) {
+        dp.Tags[i].Tag = t
+        dp.Tags[i].Selected = slices.ContainsFunc(dp.Post.Tags, func(tf logic.Tag) bool {
+            return t.Id == tf.Id
+        })
+    }
+
     fil, _ := renderer.ReadArtifact("post/edit.html", w.Header())
-    renderer.Render(session, w, fil, post)
+    renderer.Render(session, w, fil, dp)
 }
 
 func PostEdit(w http.ResponseWriter, r *http.Request) {

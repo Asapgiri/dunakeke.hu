@@ -65,6 +65,15 @@ type Post struct {
     Markdown        string
     Html            string
     Alternative     Link
+    Tags            []Tag
+}
+
+type Tag struct {
+    _db             dbase.Tag
+    Id              string
+    Name            string
+    Listable        bool
+    Color           string
 }
 
 type Link struct {
@@ -119,9 +128,10 @@ type Stat struct {
 }
 
 type PostSave struct {
-    Id          string  `json:"id"`
-    Title       string  `json:"title"`
-    Markdown    string  `json:"markdown"`
-    Html        string  `json:"html"`
-    Alternative string  `json:"alternative"`
+    Id          string      `json:"id"`
+    Title       string      `json:"title"`
+    Markdown    string      `json:"markdown"`
+    Html        string      `json:"html"`
+    Alternative string      `json:"alternative"`
+    Tags        []string    `json:"tags"`
 }

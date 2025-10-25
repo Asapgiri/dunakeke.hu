@@ -76,6 +76,12 @@ func (post *Post) Map(dpost dbase.Post) {
     author.Find(dpost.Author.Hex())
     alternative := Link{}
     alternative.Select(dpost.Alternative.Hex())
+    tags := make([]Tag, len(dpost.Tags))
+    for i, dt := range(dpost.Tags) {
+        dtag := dbase.Tag{}
+        dtag.Select(dt)
+        tags[i].Map(dtag)
+    }
 
     post._db            = dpost
     post.Id             = dpost.Id.Hex()
@@ -90,6 +96,7 @@ func (post *Post) Map(dpost dbase.Post) {
     post.Markdown       = dpost.Markdown
     post.Html           = dpost.Html
     post.Alternative    = alternative
+    post.Tags           = tags
 }
 
 func (post *Post) UnMap() dbase.Post {
@@ -107,7 +114,30 @@ func (post *Post) UnMap() dbase.Post {
     dpost.Html              = post.Html
     dpost.Alternative, _    = primitive.ObjectIDFromHex(post.Alternative.Id)
 
+    dpost.Tags              = make([]primitive.ObjectID, len(post.Tags))
+    for i, t := range(post.Tags) {
+        dpost.Tags[i], _ = primitive.ObjectIDFromHex(t.Id)
+    }
+
     return dpost
+}
+
+func (tag *Tag) Map(dtag dbase.Tag) {
+    tag._db         = dtag
+    tag.Id          = dtag.Id.Hex()
+    tag.Name        = dtag.Name
+    tag.Listable    = dtag.Listable
+    tag.Color       = dtag.Color
+}
+
+func (tag *Tag) UnMap() dbase.Tag {
+    dtag := tag._db
+    dtag.Id, _      = primitive.ObjectIDFromHex(tag.Id)
+    dtag.Name       = tag.Name
+    dtag.Listable   = tag.Listable
+    dtag.Color      = tag.Color
+
+    return dtag
 }
 
 func (donation *Donation) Map(ddon dbase.Donation) {

@@ -8,6 +8,7 @@ Webpage for DUNAKEKE
 - [ ] fix per site roles
 - [ ] set choose file text
 - [ ] import existing pages
+- [ ] remove TODO() contexts
 - [ ] email password reset
 - [ ] file/picture selector/search
 - [ ] add simplepay logo
@@ -24,7 +25,7 @@ Webpage for DUNAKEKE
 
 ## overall
 
-- [ ] tags
+- [ ] move styles to stylesheets instead of template files
 - [ ] gitlab diff like editor
 - [ ] editable menubar
 - [ ] improve routing with getting the routes from somewhere...
@@ -53,6 +54,7 @@ Webpage for DUNAKEKE
 - [ ] Make everything fancier
 - [ ] fix editor translations
 - [ ] use statistics
+- [ ] make comments work
 
 - [ ] Add statistics
     - [ ] Log statistics from every site opening

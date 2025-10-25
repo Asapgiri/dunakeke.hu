@@ -16,6 +16,7 @@ var db *mongo.Database
 
 var dbUSERS             *mongo.Collection
 var dbPOSTS             *mongo.Collection
+var dbTAGS              *mongo.Collection
 var dbPHOTOS            *mongo.Collection
 var dbCOMMENTS          *mongo.Collection
 var dbLINKS             *mongo.Collection
@@ -55,6 +56,7 @@ func Connect() error {
 
     dbUSERS             = db.Collection("users")
     dbPOSTS             = db.Collection("posts")
+    dbTAGS              = db.Collection("tags")
     dbPHOTOS            = db.Collection("photos")
     dbCOMMENTS          = db.Collection("comments")
     dbLINKS             = db.Collection("links")
@@ -65,6 +67,16 @@ func Connect() error {
 
     return nil
 }
+
+// func (coll *mongo.Collection) List[T interface{Id primitive.ObjectID}](s T) ([]T, error) {
+//     var ret []T
+//     cursor, err := coll.Find(context.TODO(), bson.D{{}})
+//     if nil != err {
+//         return ret, err
+//     }
+//     err = cursor.All(context.TODO(), &ret)
+//     return ret, err
+// }
 
 // =====================================================================================================================
 // Internal User Listing CRUD
@@ -152,6 +164,37 @@ func (post *Post) Delete() error {
     return err
 }
 
+// =====================================================================================================================
+// Internal Tags CRUD
+
+func (tag *Tag) List() ([]Tag, error) {
+    var tags []Tag
+    cursor, err := dbTAGS.Find(context.TODO(), bson.D{{}})
+    if err != nil {
+        return tags, err
+    }
+    err = cursor.All(context.TODO(), &tags)
+    return tags, err
+}
+
+func (tag *Tag) Select(id primitive.ObjectID) error {
+    return dbTAGS.FindOne(context.TODO(), bson.D{{"_id", id}}).Decode(tag)
+}
+
+func (tag *Tag) Add() error {
+    _, err := dbTAGS.InsertOne(context.TODO(), tag)
+    return err
+}
+
+func (tag *Tag) Update() error {
+    _, err := dbTAGS.ReplaceOne(context.TODO(), bson.D{{"_id", tag.Id}}, tag)
+    return err
+}
+
+func (tag *Tag) Delete() error {
+    _, err := dbTAGS.DeleteOne(context.TODO(), bson.D{{"_id", tag.Id}})
+    return err
+}
 
 // =====================================================================================================================
 // Internal Photos CRUD

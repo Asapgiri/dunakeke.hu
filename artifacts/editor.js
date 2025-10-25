@@ -1,9 +1,10 @@
-function save_post(id, title, markdown, html, alternative) {
+function save_post(id, title, markdown, html, alternative, tags) {
     console.log('id:',          id)
     console.log('title:',       title)
     console.log('md:',          markdown)
     console.log('html:',        html)
     console.log('alternative:', alternative)
+    console.log('tags:',        tags)
 
     fetch_with_json('/api/post/save',
         {
@@ -11,7 +12,8 @@ function save_post(id, title, markdown, html, alternative) {
             title: title,
             markdown: markdown,
             html: html,
-            alternative: alternative
+            alternative: alternative,
+            tags: tags
         }
     )
 }

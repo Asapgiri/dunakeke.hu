@@ -23,9 +23,14 @@ type DtoAdminUsers struct {
     Users   []logic.User
 }
 
+type DtoTag struct {
+    Tag         logic.Tag
+    Selected    bool
+}
+
 type DtoEditor struct {
-    Id          string
-    Markdown    string
+    Post    logic.Post
+    Tags    []DtoTag
 }
 
 type DtoPostShow struct {
