@@ -3,7 +3,7 @@ package pages
 import "dunakeke/logic"
 
 type DtoMain struct {
-    Session string
+    Title   string
     // etc...
 }
 
@@ -46,4 +46,10 @@ type PostSaveImageResponse struct {
 type LinkUpdate struct {
     Original    string  `json:"original"`
     Alternative string  `json:"alternative"`
+}
+
+type TagUpdate struct {
+    Id      string `json:"id"`
+    Name    string `json:"name"`
+    Color   string `json:"color"`
 }

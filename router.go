@@ -23,6 +23,7 @@ func setup_routes() {
     http.HandleFunc("GET /admin/links",         pages.AdminLinks)
     http.HandleFunc("GET /admin/users",         pages.AdminUsers)
     http.HandleFunc("GET /admin/posts",         pages.AdminPosts)
+    http.HandleFunc("GET /admin/tags",          pages.AdminTags)
     http.HandleFunc("GET /admin/comments",      pages.NotFound)
     http.HandleFunc("GET /admin/newsletter",    pages.NotFound)
     http.HandleFunc("GET /admin/statistics",    pages.NotFound)
@@ -30,6 +31,10 @@ func setup_routes() {
 
     http.HandleFunc("POST /admin/links/update",         pages.AdminLinksUpdate)
     http.HandleFunc("GET /admin/links/delete/{id}",     pages.AdminLinksDelete)
+
+    http.HandleFunc("POST /admin/tag/update",           pages.AdminTagsUpdate)
+    http.HandleFunc("GET /admin/tag/tl/{id}",           pages.AdminTagsToggleListable)
+    http.HandleFunc("GET /admin/tag/delete/{id}",       pages.AdminTagsDelete)
 
     http.HandleFunc("GET /admin/user/setrole/{id}/{role}",  pages.AdminUserSetRole)
 
@@ -48,6 +53,9 @@ func setup_routes() {
     http.HandleFunc("POST /post/edit/{id}",     pages.PostEditPhotoSave)
     http.HandleFunc("GET /post/delete/{id}",    pages.PostDelete)
     http.HandleFunc("GET /post/pub/{id}/{val}", pages.PostPublish)
+
+    http.HandleFunc("GET /tag/{tagname}",       pages.TagList)
+    http.HandleFunc("POST /tag/add",            pages.TagAdd)
 
     http.HandleFunc("POST /api/post/save",      pages.PostSave)
     http.HandleFunc("POST /api/post/image",     pages.PostSaveImage)

@@ -55,6 +55,11 @@
                     </a>
                 </li>
                 <li>
+                    <a href="/admin/tags" class="d-block py-2 px-3 rounded text-decoration-none text-secondary hover-primary {{if eq .Path "/admin/tags"}}active{{end}}">
+                        - {{.Dictionary.Admin.Tags}}
+                    </a>
+                </li>
+                <li>
                     <a href="/admin/comments" class="d-block py-2 px-3 rounded text-decoration-none text-secondary hover-primary {{if eq .Path "/admin/comments"}}active{{end}}">
                         {{.Dictionary.Admin.Comments}}
                     </a>

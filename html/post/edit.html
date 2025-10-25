@@ -47,18 +47,28 @@
                     Tags <span id="selectedCount" class="badge bg-primary ms-2">0</span>
                 </button>
 
-                <div class="dropdown-menu p-2 searchable" aria-labelledby="ddButton">
+                <div class="dropdown-menu p-2 searchable" aria-labelledby="ddButton" style="width: 100%;">
                     <div class="search-input">
                         <input id="ddSearch" class="form-control form-control-sm" type="search" placeholder="Search..." aria-label="Search options">
                     </div>
 
                     <div id="itemList" class="item-list">
                         {{range .Dto.Tags}}
-                        <div class="dropdown-item-selectable {{if .Selected}}active{{end}}" data-value="{{.Tag.Name}}" id="{{.Tag.Id}}">{{.Tag.Name}}</div>
+                        <div class="dropdown-item-selectable {{if .Selected}}active{{end}}" data-value="{{.Tag.Name}}" id="{{.Tag.Id}}">
+                            {{.Tag.Name}}
+                            <span class="badge rounded-pill ms-2 pull-right" style="background-color: {{.Tag.Color}};"> </span>
+                        </div>
                         {{end}}
                     </div>
 
                     <div id="noResults" class="no-results d-none">No results</div>
+
+                    <div class="mt-2 d-flex justify-content-between">
+                        <div class="input-group shadow-sm">
+                            <input id="tag-title" type="text" class="form-control form-control-sm border-end-0" placeholder="Tag">
+                            <button id="save-tag-btn" class="btn btn-outline-secondary" type="button">+</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -234,6 +244,21 @@
             tags = Array.from(itemList.querySelectorAll('.dropdown-item-selectable')).filter(it => it.classList.contains('active')).map(it => it.id);
 
             save_post('{{.Dto.Post.Id}}', title, editor.getMarkdown(), editor.getHTML(), alter, tags);
+            document.location.href = "/"
+        }
+
+        document.getElementById('save-tag-btn').onclick = function() {
+            tag = document.getElementById('tag-title').value
+            fetch_with_json('/tag/add', {name: tag}, (tag) => {
+                itemList = document.getElementById('itemList')
+                itemList.innerHTML += `<div id="dropdown-`+tag.Name+`" class="dropdown-item-selectable" data-value="`+tag.name+`" id="`+tag.id+`">
+                    `+tag.name+`
+                    <span class="badge rounded-pill ms-2 pull-right" style="background-color: `+tag.color+`;"> </span>
+                </div>`
+
+                newTag = document.getElementById('dropdown-'+tag.Name)
+                newTag.click()
+            })
         }
 
         document.getElementById('image-input').onchange = function() {

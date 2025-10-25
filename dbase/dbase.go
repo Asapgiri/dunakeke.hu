@@ -125,19 +125,18 @@ func (user *User) Delete() error {
 // =====================================================================================================================
 // Internal Post CRUD
 
-func (post *Post) List() ([]Post, error) {
+func (post *Post) List(public_only bool, tagId *primitive.ObjectID) ([]Post, error) {
     var posts []Post
-    cursor, err := dbPOSTS.Find(context.TODO(), bson.D{{}})
-    if err != nil {
-        return posts, err
-    }
-    err = cursor.All(context.TODO(), &posts)
-    return posts, err
-}
+    var query = bson.M{}
 
-func (post *Post) ListPublic() ([]Post, error) {
-    var posts []Post
-    cursor, err := dbPOSTS.Find(context.TODO(), bson.D{{"public", true}})
+    if public_only {
+        query["public"] = true
+    }
+    if nil != tagId {
+        query["tags"] = *tagId
+    }
+
+    cursor, err := dbPOSTS.Find(context.TODO(), query)
     if err != nil {
         return posts, err
     }
@@ -179,6 +178,10 @@ func (tag *Tag) List() ([]Tag, error) {
 
 func (tag *Tag) Select(id primitive.ObjectID) error {
     return dbTAGS.FindOne(context.TODO(), bson.D{{"_id", id}}).Decode(tag)
+}
+
+func (tag *Tag) SelectByName(name string) error {
+    return dbTAGS.FindOne(context.TODO(), bson.D{{"name", name}}).Decode(tag)
 }
 
 func (tag *Tag) Add() error {

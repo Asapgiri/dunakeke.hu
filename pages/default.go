@@ -47,13 +47,14 @@ func Unexpected(session session.Sessioner, w http.ResponseWriter, r *http.Reques
 func Root(w http.ResponseWriter, r *http.Request) {
     session := GetCurrentSession(r)
 
-    post := logic.Post{}
-    plist := post.List(checkEditorAccess(session))
-
-    // FIXME: Check if post is public or not..
-    sort.Slice(plist, func(i, j int) bool { return plist[i].EditDate.After(plist[j].EditDate) })
-
     if "/" == r.URL.Path {
+        post := logic.Post{}
+        plist := post.List(checkEditorAccess(session), nil, false)
+
+        // FIXME: Check if post is public or not..
+        sort.Slice(plist, func(i, j int) bool { return plist[i].EditDate.After(plist[j].EditDate) })
+
+
         dto := DtoRoot{
             Main: DtoMain{},
             Posts: plist,

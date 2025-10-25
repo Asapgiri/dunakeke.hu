@@ -44,10 +44,10 @@
   {{range $i, $d := .Dto}}
   <!-- main row -->
   <li
-    class="list-group-item p-3 small user-row"
+    class="list-group-item small user-row"
   >
     <div class="row gx-2 align-items-center">
-      <div class="col-md-2">
+      <div class="col-md-2 {{if not .Public}}bg-light border-start border-5 border-danger bg-gradient-disabled{{end}}">
         <a href="/post/{{.Id}}">
           <img src="{{.Image}}" alt="Post image" class="img-fluid rounded" />
         </a>
@@ -57,7 +57,8 @@
       </div>
       <div class="col-md-4">
         <strong>{{.Title}}</strong>
-        {{if .Public}} <span class="badge bg-success ms-1">Public</span>{{end}}
+        {{if .Public}}<span class="badge bg-success ms-1">Public</span>{{else}}<span class="badge bg-danger ms-1">Hidden</span>{{end}}
+        {{range .Tags}}<a class="badge rounded-pill btn" href="/tag/{{.Name}}" style="background-color: {{.Color}};">{{.Name}}</a>{{end}}
       </div>
       <div class="col-md-2">{{tformat .EditDate}}</div>
       <div class="col-md-2 text-end">

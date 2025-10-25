@@ -32,3 +32,31 @@ func (tag *Tag) Select(id string) error {
     tag.Map(dtag)
     return nil
 }
+
+func (tag *Tag) SelectByName(name string) error {
+    dtag := dbase.Tag{}
+    err := dtag.SelectByName(name)
+    if nil != err {
+        return err
+    }
+
+    tag.Map(dtag)
+    return nil
+}
+
+func (tag *Tag) Add() error {
+    dtag := tag.UnMap()
+    dtag.Id = primitive.NewObjectID()
+    tag.Id = dtag.Id.Hex()
+    return dtag.Add()
+}
+
+func (tag *Tag) Update() error {
+    dtag := tag.UnMap()
+    return dtag.Update()
+}
+
+func (tag *Tag) Delete() error {
+    dtag := tag.UnMap()
+    return dtag.Delete()
+}

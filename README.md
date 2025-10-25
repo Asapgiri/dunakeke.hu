@@ -17,11 +17,11 @@ Webpage for DUNAKEKE
     - [ ] way to upload pdf files.
 - [ ] impressum
 - [ ] contacts page
-- [ ] post tags
-    - [ ] should show up on front page
 - [ ] expost modules
     - [ ] authentication?
     - [ ] config
+- [ ] show page Titles properly
+- [ ] Add missing translations
 
 ## overall
 
@@ -82,3 +82,6 @@ Webpage for DUNAKEKE
 - [x] random login failure bug and password hash deletion fix
     - [x] user logic dto didn't contain the password hash, so it avoided to save it back on update
 - [x] check if saving per-user site statistics hurts GDPR: they do not
+- [x] post tags
+    - [x] should show up on front page
+    - [x] tags should prevent public listing of posts

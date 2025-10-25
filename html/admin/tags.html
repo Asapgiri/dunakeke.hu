@@ -1,0 +1,76 @@
+<h6 class="border-top border-gray py-2 mb-3 fw-semibold">
+    {{.Dictionary.Admin.Tags}}
+</h6>
+
+<div class="mb-4">
+    <input
+    type="search"
+    id="searchbar"
+    onkeyup="searchFunction()"
+    placeholder="Link keresése.."
+    class="form-control"
+    aria-label="Search users"
+    >
+</div>
+
+<ul class="list-group list-group-flush" id="table">
+    <li class="list-group-item list-group-item-secondary fw-bold">
+        <div class="row">
+            <div class="col-md-2">Id</div>
+        </div>
+    </li>
+
+    {{range $i, $d := .Dto}}
+    <li class="list-group-item list-group-item-action small searchable">
+        <div class="row align-items-center">
+            <div class="col-md-2">@{{shorten .Id 6}}</div>
+            <div class="col-md-2"><a href="/tag/{{.Name}}" class="text-decoration-none">@{{.Name}}</a></div>
+            <div class="col-md-6">
+                <div class="input-group shadow-sm">
+                    <input id="tag-{{.Id}}" type="text" class="form-control form-control-sm border-end-0" value="{{.Name}}">
+                    <input id="color-{{.Id}}" type="color" class="form-control form-control-color" value="{{.Color}}" title="Choose your color">
+                    <button class="btn btn-success py-0" type="button" onclick="update_link('{{.Id}}')">Update</button>
+                </div>
+            </div>
+            <div class="col-md-2 text-end text-truncate">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="/admin/tag/tl/{{.Id}}"
+                        class="btn btn-{{if not .Listable}}outline-{{end}}primary py-0"
+                        style="opacity: 0.85;">
+                        Listable
+                    </a>
+                    <a href="/admin/tag/delete/{{.Id}}"
+                        class="btn btn-danger py-0"
+                        style="opacity: 0.85;">
+                        Delete
+                    </a>
+                </div>
+            </div>
+        </div>
+    </li>
+    {{end}}
+
+    <li class="list-group-item list-group-item-action small searchable">
+        <div class="row align-items-center">
+            <div class="col-md-2">-</div>
+            <div class="col-md-2">-</div>
+            <div class="col-md-8">
+                <div class="input-group shadow-sm">
+                    <input id="tag-new" type="text" class="form-control form-control-sm border-end-0">
+                    <input id="color-new" type="color" class="form-control form-control-color" value="#000000" title="Choose your color">
+                    <button class="btn btn-success py-0" type="button" onclick="update_link('new')">Add</button>
+                </div>
+            </div>
+    </li>
+</ul>
+
+<script src="/editor.js"></script>
+<script>
+    function update_link(id) {
+        fetch_with_json('/admin/tag/update', {
+            id: id,
+            name: document.getElementById('tag-'+id).value,
+            color: document.getElementById('color-'+id).value,
+        }, data => window.location.reload())
+    }
+</script>

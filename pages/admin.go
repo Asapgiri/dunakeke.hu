@@ -64,9 +64,23 @@ func AdminPosts(w http.ResponseWriter, r *http.Request) {
     }
 
     post := logic.Post{}
-    posts := post.List(true)
+    posts := post.List(true, nil, true)
 
     adminRender(session, w, "admin/posts.html", posts)
+}
+
+func AdminTags(w http.ResponseWriter, r *http.Request) {
+    session := GetCurrentSession(r)
+
+    if !checkAdminPageAccess(session) {
+        NotFound(w, r)
+        return
+    }
+
+    tag := logic.Tag{}
+    tags, _ := tag.List()
+
+    adminRender(session, w, "admin/tags.html", tags)
 }
 
 func AdminDonations(w http.ResponseWriter, r *http.Request) {
@@ -202,4 +216,74 @@ func AdminLinksDelete(w http.ResponseWriter, r *http.Request) {
     link.Delete()
 
     http.Redirect(w, r, "/admin/links", http.StatusSeeOther)
+}
+
+func AdminTagsUpdate(w http.ResponseWriter, r *http.Request) {
+    session := GetCurrentSession(r)
+
+    if !checkAdminPageAccess(session) {
+        NotFound(w, r)
+        return
+    }
+
+    lu := TagUpdate{}
+    de := json.NewDecoder(r.Body)
+    de.DisallowUnknownFields()
+    err := de.Decode(&lu)
+    if nil != err {
+        return
+    }
+
+    log.Println(lu)
+
+    tag := logic.Tag{}
+    err = tag.Select(lu.Id)
+
+    tag.Name = lu.Name
+    tag.Color = lu.Color
+
+    if nil != err {
+        tag.Listable = true
+        tag.Add()
+    } else {
+        tag.Update()
+    }
+
+    log.Println(tag)
+
+    io.WriteString(w, "OK")
+}
+
+func AdminTagsToggleListable(w http.ResponseWriter, r *http.Request) {
+    session := GetCurrentSession(r)
+
+    if !checkAdminPageAccess(session) {
+        NotFound(w, r)
+        return
+    }
+
+    tagId := r.PathValue("id")
+    tag := logic.Tag{}
+    tag.Select(tagId)
+
+    tag.Listable = !tag.Listable
+    tag.Update()
+
+    http.Redirect(w, r, "/admin/tags", http.StatusSeeOther)
+}
+
+func AdminTagsDelete(w http.ResponseWriter, r *http.Request) {
+    session := GetCurrentSession(r)
+
+    if !checkAdminPageAccess(session) {
+        NotFound(w, r)
+        return
+    }
+
+    id := r.PathValue("id")
+    tag := logic.Tag{}
+    tag.Select(id)
+    tag.Delete()
+
+    http.Redirect(w, r, "/admin/tags", http.StatusSeeOther)
 }

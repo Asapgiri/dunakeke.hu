@@ -133,6 +133,7 @@ type Editor struct {
 type Admin struct {
     Users                                   string
     Posts                                   string
+    Tags                                    string
     Comments                                string
     Links                                   string
     Newsletter                              string

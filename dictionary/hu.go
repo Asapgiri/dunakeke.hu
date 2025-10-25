@@ -126,6 +126,7 @@ var dict_hu = Dictionary{
     Admin: Admin{
         Users:              "Felhasználók",
         Posts:              "Bejegyzések",
+        Tags:               "Tags",
         Comments:           "Megjegyzések",
         Links:              "Átlinkelések",
         Newsletter:         "Hírlevél",

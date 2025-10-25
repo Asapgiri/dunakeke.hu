@@ -126,6 +126,7 @@ var dict_en = Dictionary{
     Admin: Admin{
         Users:              "Users",
         Posts:              "Posts",
+        Tags:               "Tags",
         Comments:           "Comments",
         Links:              "Links routing",
         Newsletter:         "Newsletter",

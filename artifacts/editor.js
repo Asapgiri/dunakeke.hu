@@ -18,13 +18,23 @@ function save_post(id, title, markdown, html, alternative, tags) {
     )
 }
 
-function fetch_with_json(route, obj) {
+function fetch_with_json(route, obj, callback = null) {
     fetch(route, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(obj)
     })
     .then(res => res.text())
-    .then(data => console.log('resp: ', data))
+    .then(data => {
+        console.log('resp: ', data)
+        if (null != callback) {
+            try {
+                callback(JSON.parse(data))
+            }
+            catch (e) {
+                callback(data)
+            }
+        }
+    })
     .catch(err => console.log('err:', err))
 }

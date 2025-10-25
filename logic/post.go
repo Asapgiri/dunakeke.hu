@@ -62,16 +62,16 @@ func PostUpdate(ps PostSave, user User) error {
     return post.Update()
 }
 
-
-func (post *Post) List(show_private bool) []Post {
+func (post *Post) List(show_private bool, tagId *string, admin bool) []Post {
     dpost := dbase.Post{}
-    var dposts []dbase.Post
-    var err error
-    if show_private {
-        dposts, err = dpost.List()
-    } else {
-        dposts, err = dpost.ListPublic()
+    var tag *primitive.ObjectID = nil
+    if nil != tagId {
+        ttag, err := primitive.ObjectIDFromHex(*tagId)
+        if nil == err {
+            tag = &ttag
+        }
     }
+    dposts, err := dpost.List(!show_private, tag)
     if nil != err {
         log.Println(err)
         return []Post{}
@@ -80,6 +80,18 @@ func (post *Post) List(show_private bool) []Post {
     posts := make([]Post, len(dposts))
     for i, p := range(dposts) {
         posts[i].Map(p)
+    }
+
+    if !admin && nil == tagId {
+        posts = filter(posts, func(p Post) bool {
+            if len(p.Tags) <= 0 {
+                return true
+            }
+            ft := filter(p.Tags, func(t Tag) bool {
+                return !t.Listable
+            })
+            return len(ft) == 0
+        })
     }
 
     return posts

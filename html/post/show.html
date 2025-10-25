@@ -13,6 +13,11 @@
                     &middot;
                     <span>{{tformat .Dto.EditDate}}</span>
                 </div>
+                <div>
+                    {{range .Dto.Tags}}
+                    <a class="badge rounded-pill btn" href="/tag/{{.Name}}" style="background-color: {{.Color}};">{{.Name}}</a>
+                    {{end}}
+                </div>
             </div>
 
             {{if or .Auth.IsEditor}}

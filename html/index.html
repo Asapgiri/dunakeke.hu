@@ -14,6 +14,8 @@
 
 <div class="container-xl flex-fill postshow py-4">
 
+    <h2>{{.Dto.Main.Title}}</h2>
+
     {{range .Dto.Posts}}
     <div class="card mb-4 shadow-sm border-0 {{if not .Public}}bg-light border-start border-5 border-danger bg-gradient-disabled{{end}}">
         <div class="row g-0">
@@ -38,7 +40,7 @@
                     </p>
                     <p>
                     {{range .Tags}}
-                        <span class="badge rounded-pill" style="background-color: {{.Color}};">{{.Name}}</span>
+                        <a class="badge rounded-pill btn" href="/tag/{{.Name}}" style="background-color: {{.Color}};">{{.Name}}</a>
                     {{end}}
                     </p>
                     {{if not .Public}}
