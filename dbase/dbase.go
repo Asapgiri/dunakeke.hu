@@ -22,7 +22,6 @@ var dbLINKS             *mongo.Collection
 var dbNEWSLETTER        *mongo.Collection
 var dbDONATIONS         *mongo.Collection
 var dbDONATIONOPTS      *mongo.Collection
-var dbDONATIONINVOICE   *mongo.Collection
 var dbSTATISTICS        *mongo.Collection
 
 var log = logger.Logger {
@@ -62,7 +61,6 @@ func Connect() error {
     dbNEWSLETTER        = db.Collection("newsletter")
     dbDONATIONS         = db.Collection("donations")
     dbDONATIONOPTS      = db.Collection("donation-options")
-    dbDONATIONINVOICE   = db.Collection("donation-invoice")
     dbSTATISTICS        = db.Collection("statistics")
 
     return nil
@@ -303,35 +301,6 @@ func (newsletter *Newsletter) Delete() error {
 
 // =====================================================================================================================
 // Internal Donation CRUD
-
-func (iv *DonationInvoice) List() ([]DonationInvoice, error) {
-    var donations []DonationInvoice
-    cursor, err := dbDONATIONINVOICE.Find(context.TODO(), bson.D{{}})
-    if err != nil {
-        return donations, err
-    }
-    err = cursor.All(context.TODO(), &donations)
-    return donations, err
-}
-
-func (iv *DonationInvoice) Select(id primitive.ObjectID) error {
-    return dbDONATIONINVOICE.FindOne(context.TODO(), bson.D{{"_id", id}}).Decode(iv)
-}
-
-func (iv *DonationInvoice) Add() error {
-    _, err := dbDONATIONINVOICE.InsertOne(context.TODO(), iv)
-    return err
-}
-
-func (iv *DonationInvoice) Update() error {
-    _, err := dbDONATIONINVOICE.ReplaceOne(context.TODO(), bson.D{{"_id", iv.Id}}, iv)
-    return err
-}
-
-func (iv *DonationInvoice) Delete() error {
-    _, err := dbDONATIONINVOICE.DeleteOne(context.TODO(), bson.D{{"_id", iv.Id}})
-    return err
-}
 
 func (donation *Donation) List() ([]Donation, error) {
     var donations []Donation

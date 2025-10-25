@@ -7,7 +7,6 @@ Webpage for DUNAKEKE
 ## focus
 - [ ] fix per site roles
 - [ ] set choose file text
-- [ ] check if saving per-user site statistics hurts GDPR
 - [ ] import existing pages
 - [ ] email password reset
 - [ ] file/picture selector/search
@@ -80,3 +79,4 @@ Webpage for DUNAKEKE
 - [x] Donation backend
 - [x] random login failure bug and password hash deletion fix
     - [x] user logic dto didn't contain the password hash, so it avoided to save it back on update
+- [x] check if saving per-user site statistics hurts GDPR: they do not

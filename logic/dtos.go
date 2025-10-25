@@ -84,21 +84,6 @@ type Newsletter struct {
     Email           string
 }
 
-type Invoice struct {
-    _db         dbase.DonationInvoice
-    Id          string
-    Name        string
-    Company     string
-    Country     string
-    State       string
-    City        string
-    Zip         string
-    Address     string
-    Address2    string
-    Phone       string
-    TaxNumber   string
-}
-
 type Donation struct {
     _db             dbase.Donation
     Id              string
@@ -115,8 +100,6 @@ type Donation struct {
     Occurences      []time.Time
     Newsletter      bool
     GDPR            bool
-    InvoiceNeeded   bool
-    Invoice         Invoice
     TransactionId   int
 }
 

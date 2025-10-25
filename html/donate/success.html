@@ -62,44 +62,5 @@
         </div>
     </div>
 
-    {{if .Dto.InvoiceNeeded}}
-    <div class="card bg-light border-0 shadow-sm">
-        <div class="card-body">
-            <h5 class="card-title text-muted">{{.Dictionary.Donate.InvoiceData}}</h5>
-            <dl class="row mb-0">
-                <dt class="col-sm-3">{{.Dictionary.Donate.Name}}</dt>
-                <dd class="col-sm-9">{{.Dto.Invoice.Name}}</dd>
-
-                <dt class="col-sm-3">{{.Dictionary.Donate.InvoiceCompany}}</dt>
-                <dd class="col-sm-9">{{.Dto.Invoice.Company}}</dd>
-
-                <dt class="col-sm-3">{{.Dictionary.Donate.InvoiceTaxNumber}}</dt>
-                <dd class="col-sm-9">{{.Dto.Invoice.TaxNumber}}</dd>
-
-                <dt class="col-sm-3">{{.Dictionary.Donate.InvoiceCountry}}</dt>
-                <dd class="col-sm-9">{{.Dto.Invoice.Country}}</dd>
-
-                <dt class="col-sm-3">{{.Dictionary.Donate.InvoiceState}}</dt>
-                <dd class="col-sm-9">{{.Dto.Invoice.State}}</dd>
-
-                <dt class="col-sm-3">{{.Dictionary.Donate.InvoiceCity}}</dt>
-                <dd class="col-sm-9">{{.Dto.Invoice.City}}</dd>
-
-                <dt class="col-sm-3">{{.Dictionary.Donate.InvoiceZip}}</dt>
-                <dd class="col-sm-9">{{.Dto.Invoice.Zip}}</dd>
-
-                <dt class="col-sm-3">{{.Dictionary.Donate.InvoiceAddress}}</dt>
-                <dd class="col-sm-9">{{.Dto.Invoice.Address}}</dd>
-
-                <dt class="col-sm-3">{{.Dictionary.Donate.InvoiceAddress2}}</dt>
-                <dd class="col-sm-9">{{.Dto.Invoice.Address2}}</dd>
-
-                <dt class="col-sm-3">{{.Dictionary.Donate.InvoicePhone}}</dt>
-                <dd class="col-sm-9">{{.Dto.Invoice.Phone}}</dd>
-            </dl>
-        </div>
-    </div>
-    {{end}}
-
     <!-- TODO: Add SimplePay logo -->
 </div>

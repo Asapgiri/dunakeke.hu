@@ -126,12 +126,7 @@ func (donation *Donation) Map(ddon dbase.Donation) {
     donation.Occurences         = ddon.Occurences
     donation.Newsletter         = ddon.Newsletter
     donation.GDPR               = ddon.Gdpr
-    donation.InvoiceNeeded      = ddon.InvoiceNeeded
     donation.TransactionId      = ddon.TransactionId
-
-    invoice := dbase.DonationInvoice{}
-    invoice.Select(ddon.Invoice)
-    donation.Invoice.Map(invoice)
 }
 
 func (donation *Donation) UnMap() dbase.Donation {
@@ -151,8 +146,6 @@ func (donation *Donation) UnMap() dbase.Donation {
     ddon.Occurences         = donation.Occurences
     ddon.Newsletter         = donation.Newsletter
     ddon.Gdpr               = donation.GDPR
-    ddon.InvoiceNeeded      = donation.InvoiceNeeded
-    ddon.Invoice, _         = primitive.ObjectIDFromHex(donation.Invoice.Id)
     ddon.TransactionId      = donation.TransactionId
 
     return ddon
@@ -171,39 +164,6 @@ func (do *DonationOption) UnMap() dbase.DonationOption {
     ddon.Amount     = do.Amount
 
     return ddon
-}
-
-func (iv *Invoice) Map(div dbase.DonationInvoice) {
-    iv._db         = div
-    iv.Id          = div.Id.Hex()
-    iv.Name        = div.Name
-    iv.Company     = div.Company
-    iv.Country     = div.Country
-    iv.State       = div.State
-    iv.City        = div.City
-    iv.Zip         = div.Zip
-    iv.Address     = div.Address
-    iv.Address2    = div.Address2
-    iv.Phone       = div.Phone
-    iv.TaxNumber   = div.TaxNumber
-}
-
-func (iv *Invoice) UnMap() dbase.DonationInvoice {
-    div := iv._db
-
-    div.Id, _       = primitive.ObjectIDFromHex(iv.Id)
-    div.Name        = iv.Name
-    div.Company     = iv.Company
-    div.Country     = iv.Country
-    div.State       = iv.State
-    div.City        = iv.City
-    div.Zip         = iv.Zip
-    div.Address     = iv.Address
-    div.Address2    = iv.Address2
-    div.Phone       = iv.Phone
-    div.TaxNumber   = iv.TaxNumber
-
-    return div
 }
 
 func (link *Link)Map(dlink dbase.Link) {

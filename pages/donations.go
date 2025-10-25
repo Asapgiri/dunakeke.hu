@@ -59,23 +59,7 @@ func DonationInProgress(w http.ResponseWriter, r *http.Request) {
         Amount: amount,
         Newsletter: "1" == r.FormValue("form[subscribeToNewsletter]"),
         GDPR: "1" == r.FormValue("form[gdprAgreed]"),
-        InvoiceNeeded: "1" == r.FormValue("form[invoiceneeded]"),
         Recurring: "1" == r.FormValue("form[recurring]"),
-    }
-
-    if donation.InvoiceNeeded {
-        donation.Invoice = logic.Invoice{
-            Name:       donation.Name,
-            Company:    r.FormValue("form[invoicecompany]"),
-            Country:    r.FormValue("form[invoicecountry]"),
-            State:      r.FormValue("form[invoicestate]"),
-            City:       r.FormValue("form[invoicecity]"),
-            Zip:        r.FormValue("form[invoicezip]"),
-            Address:    r.FormValue("form[invoiceaddress]"),
-            Address2:   r.FormValue("form[invoiceaddress2]"),
-            Phone:      r.FormValue("form[invoicephone]"),
-            TaxNumber:  r.FormValue("form[invoictaxnumber]"),
-        }
     }
 
     log.Println(donation)

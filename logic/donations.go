@@ -24,18 +24,6 @@ import (
 // =====================================================================================================================
 // private api logic
 
-type OtpApiStartMessageInvoice struct {
-    Name        string  `json:"name"`
-    Company     string  `json:"company"`
-    Country     string  `json:"country"`
-    State       string  `json:"state"`
-    City        string  `json:"city"`
-    Zip         string  `json:"zip"`
-    Address     string  `json:"address"`
-    Address2    string  `json:"address2"`
-    Phone       string  `json:"phone"`
-}
-
 type OtpApiStartMessageRecurring struct {
     Times       int     `json:"times"`
     Until       string  `json:"until"`
@@ -54,7 +42,6 @@ type OtpApiStartMessage struct {
     Total           string                          `json:"total"`
     Timeout         string                          `json:"timeout"`
     Url             string                          `json:"url"`    // Redirect back URL
-    Invoice         *OtpApiStartMessageInvoice      `json:"invoice,omitempty"`
     Recurring       *OtpApiStartMessageRecurring    `json:"recurring,omitempty"`
 }
 
@@ -152,21 +139,6 @@ func RedirectToOtpApi(dict dictionary.Dictionary, donation Donation) (OtpReturnP
             MaxAmount: int(donation.Amount),
         }
         log.Println("recurring...")
-    }
-
-    if donation.InvoiceNeeded {
-        iv := donation.Invoice
-        simple_start.Invoice = &OtpApiStartMessageInvoice{
-            Name:       iv.Name,
-            Company:    iv.Company,
-            Country:    iv.Country,
-            State:      iv.State,
-            City:       iv.City,
-            Zip:        iv.Zip,
-            Address:    iv.Address,
-            Address2:   iv.Address2,
-            Phone:      iv.Phone,
-        }
     }
 
     body, _ := json.Marshal(simple_start)
@@ -282,14 +254,6 @@ func (donation *Donation) Add() error {
     ddon := donation.UnMap()
     ddon.Id = primitive.NewObjectID()
     donation.Id = ddon.Id.Hex()
-
-    if donation.InvoiceNeeded {
-        iv := donation.Invoice.UnMap()
-        iv.Id = primitive.NewObjectID()
-        iv.Add()
-        ddon.Invoice = iv.Id
-        donation.Invoice.Id = iv.Id.Hex()
-    }
 
     return ddon.Add()
 }

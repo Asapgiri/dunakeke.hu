@@ -176,20 +176,9 @@ type Donate struct {
     OneTime                                 string
     Recurring                               string
     Occurances                              string
-    WantInvoice                             string
-    InvoiceCompany                          string
-    InvoiceCountry                          string
-    InvoiceState                            string
-    InvoiceCity                             string
-    InvoiceZip                              string
-    InvoiceAddress                          string
-    InvoiceAddress2                         string
-    InvoicePhone                            string
-    InvoiceTaxNumber                        string
     NameEmpty                               string
     DateCreated                             string
     Status                                  string
-    InvoiceData                             string
     Recurrence                              string
     Monthly                                 string
     SumCollected                            string

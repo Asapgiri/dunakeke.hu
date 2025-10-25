@@ -134,56 +134,6 @@
                 <div class="col-md-10">{{.GDPR}}</div>
             </div>
 
-            <div class="row border-bottom py-1">
-                <div class="col-md-2 fw-semibold">{{$.Dictionary.Donate.WantInvoice}}</div>
-                <div class="col-md-10">{{.InvoiceNeeded}}</div>
-            </div>
-
-            {{if .InvoiceNeeded}}
-            <div class="mt-3">
-                <h5 class="text-muted">{{$.Dictionary.Donate.InvoiceData}}:</h5>
-                <div class="row mb-2">
-                    <label class="col-sm-2 col-form-label">{{$.Dictionary.Donate.Name}}:</label>
-                    <div class="col-sm-10">{{.Invoice.Name}}</div>
-                </div>
-                <div class="row mb-2">
-                    <label class="col-sm-2 col-form-label">{{$.Dictionary.Donate.InvoiceCompany}}:</label>
-                    <div class="col-sm-10">{{.Invoice.Company}}</div>
-                </div>
-                <div class="row mb-2">
-                    <label class="col-sm-2 col-form-label">{{$.Dictionary.Donate.InvoiceTaxNumber}}:</label>
-                    <div class="col-sm-10">{{.Invoice.TaxNumber}}</div>
-                </div>
-                <div class="row mb-2">
-                    <label class="col-sm-2 col-form-label">{{$.Dictionary.Donate.InvoiceCountry}}:</label>
-                    <div class="col-sm-10">{{.Invoice.Country}}</div>
-                </div>
-                <div class="row mb-2">
-                    <label class="col-sm-2 col-form-label">{{$.Dictionary.Donate.InvoiceState}}:</label>
-                    <div class="col-sm-10">{{.Invoice.State}}</div>
-                </div>
-                <div class="row mb-2">
-                    <label class="col-sm-2 col-form-label">{{$.Dictionary.Donate.InvoiceCity}}:</label>
-                    <div class="col-sm-10">{{.Invoice.City}}</div>
-                </div>
-                <div class="row mb-2">
-                    <label class="col-sm-2 col-form-label">{{$.Dictionary.Donate.InvoiceZip}}:</label>
-                    <div class="col-sm-10">{{.Invoice.Zip}}</div>
-                </div>
-                <div class="row mb-2">
-                    <label class="col-sm-2 col-form-label">{{$.Dictionary.Donate.InvoiceAddress}}:</label>
-                    <div class="col-sm-10">{{.Invoice.Address}}</div>
-                </div>
-                <div class="row mb-2">
-                    <label class="col-sm-2 col-form-label">{{$.Dictionary.Donate.InvoiceAddress2}}:</label>
-                    <div class="col-sm-10">{{.Invoice.Address2}}</div>
-                </div>
-                <div class="row mb-2">
-                    <label class="col-sm-2 col-form-label">{{$.Dictionary.Donate.InvoicePhone}}:</label>
-                    <div class="col-sm-10">{{.Invoice.Phone}}</div>
-                </div>
-            </div>
-            {{end}}
         </div>
     </li>
     {{end}}
