@@ -3,9 +3,12 @@ package logic
 import (
 	"net/http"
 	"time"
+    "dunakeke/dbase"
 )
 
 type SiteStatistic struct {
+    _db         dbase.SiteStatistic
+
     Id          string
     Date        time.Time
     UserId      string
@@ -27,6 +30,7 @@ type SiteStatistic struct {
 }
 
 type User struct {
+    _db             dbase.User
     Id              string
     RegDate         time.Time
     EditDate        time.Time
@@ -38,6 +42,7 @@ type User struct {
 }
 
 type Comment struct {
+    _db             dbase.Comment
     Id              string
     Author          User
     Date            time.Time
@@ -47,6 +52,7 @@ type Comment struct {
 }
 
 type Post struct {
+    _db             dbase.Post
     Id              string
     Author          User
     Date            time.Time
@@ -62,6 +68,7 @@ type Post struct {
 }
 
 type Link struct {
+    _db             dbase.Link
     Id              string
     Author          User
     Date            time.Time
@@ -70,6 +77,7 @@ type Link struct {
 }
 
 type Newsletter struct {
+    _db             dbase.Newsletter
     Id              string
     User            User
     RegDate         time.Time
@@ -77,6 +85,7 @@ type Newsletter struct {
 }
 
 type Invoice struct {
+    _db         dbase.DonationInvoice
     Id          string
     Name        string
     Company     string
@@ -91,6 +100,7 @@ type Invoice struct {
 }
 
 type Donation struct {
+    _db             dbase.Donation
     Id              string
     UserId          string
     Tokens          []string
@@ -111,6 +121,7 @@ type Donation struct {
 }
 
 type DonationOption struct {
+    _db             dbase.DonationOption
     Id              string
     Amount          float64
 }

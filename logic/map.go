@@ -7,6 +7,7 @@ import (
 )
 
 func (s *SiteStatistic) Map(dstat dbase.SiteStatistic) {
+    s._db           = dstat
     s.Id            = dstat.Id.Hex()
     s.Date          = dstat.Date
     s.UserId        = dstat.UserId.Hex()
@@ -24,7 +25,7 @@ func (s *SiteStatistic) Map(dstat dbase.SiteStatistic) {
 }
 
 func (s *SiteStatistic) UnMap() dbase.SiteStatistic {
-    dstat := dbase.SiteStatistic{}
+    dstat := s._db
 
     dstat.Id, _         = primitive.ObjectIDFromHex(s.Id)
     dstat.Date          = s.Date
@@ -45,6 +46,7 @@ func (s *SiteStatistic) UnMap() dbase.SiteStatistic {
 }
 
 func (user *User) Map(duser dbase.User) {
+    user._db        = duser
     user.Id         = duser.Id.Hex()
     user.RegDate    = duser.RegDate
     user.EditDate   = duser.EditDate
@@ -56,11 +58,8 @@ func (user *User) Map(duser dbase.User) {
 }
 
 func (user *User) UnMap() dbase.User {
-    duser := dbase.User{}
-    oid, _ := primitive.ObjectIDFromHex(user.Id)
-    duser.Select(oid)
+    duser := user._db
 
-    duser.Id         = oid
     duser.RegDate    = user.RegDate
     duser.EditDate   = user.EditDate
     duser.Username   = user.Username
@@ -78,6 +77,7 @@ func (post *Post) Map(dpost dbase.Post) {
     alternative := Link{}
     alternative.Select(dpost.Alternative.Hex())
 
+    post._db            = dpost
     post.Id             = dpost.Id.Hex()
     post.Author         = author
     post.Date           = dpost.Date
@@ -93,7 +93,7 @@ func (post *Post) Map(dpost dbase.Post) {
 }
 
 func (post *Post) UnMap() dbase.Post {
-    dpost := dbase.Post{}
+    dpost := post._db
 
     dpost.Id, _             = primitive.ObjectIDFromHex(post.Id)
     dpost.Author, _         = primitive.ObjectIDFromHex(post.Author.Id)
@@ -111,6 +111,7 @@ func (post *Post) UnMap() dbase.Post {
 }
 
 func (donation *Donation) Map(ddon dbase.Donation) {
+    donation._db                = ddon
     donation.Id                 = ddon.Id.Hex()
     donation.UserId             = ddon.User.Hex()
     donation.Tokens             = ddon.Tokens
@@ -134,7 +135,7 @@ func (donation *Donation) Map(ddon dbase.Donation) {
 }
 
 func (donation *Donation) UnMap() dbase.Donation {
-    ddon := dbase.Donation{}
+    ddon := donation._db
 
     ddon.Id, _              = primitive.ObjectIDFromHex(donation.Id)
     ddon.User, _            = primitive.ObjectIDFromHex(donation.UserId)
@@ -158,12 +159,13 @@ func (donation *Donation) UnMap() dbase.Donation {
 }
 
 func (do *DonationOption) Map(ddon dbase.DonationOption) {
+    do._db    = ddon
     do.Id     = ddon.Id.Hex()
     do.Amount = ddon.Amount
 }
 
 func (do *DonationOption) UnMap() dbase.DonationOption {
-    ddon := dbase.DonationOption{}
+    ddon := do._db
 
     ddon.Id, _      = primitive.ObjectIDFromHex(do.Id)
     ddon.Amount     = do.Amount
@@ -172,6 +174,7 @@ func (do *DonationOption) UnMap() dbase.DonationOption {
 }
 
 func (iv *Invoice) Map(div dbase.DonationInvoice) {
+    iv._db         = div
     iv.Id          = div.Id.Hex()
     iv.Name        = div.Name
     iv.Company     = div.Company
@@ -186,7 +189,7 @@ func (iv *Invoice) Map(div dbase.DonationInvoice) {
 }
 
 func (iv *Invoice) UnMap() dbase.DonationInvoice {
-    div := dbase.DonationInvoice{}
+    div := iv._db
 
     div.Id, _       = primitive.ObjectIDFromHex(iv.Id)
     div.Name        = iv.Name
@@ -207,6 +210,7 @@ func (link *Link)Map(dlink dbase.Link) {
     author := User{}
     author.Find(dlink.Author.Hex())
 
+    link._db            = dlink
     link.Id             = dlink.Id.Hex()
     link.Author         = author
     link.Date           = dlink.Date
@@ -215,7 +219,7 @@ func (link *Link)Map(dlink dbase.Link) {
 }
 
 func (link *Link)UnMap() dbase.Link {
-    dlink := dbase.Link{}
+    dlink := link._db
 
     dlink.Id, _         = primitive.ObjectIDFromHex(link.Id)
     dlink.Author, _     = primitive.ObjectIDFromHex(link.Author.Id)

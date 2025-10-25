@@ -10,12 +10,24 @@ Webpage for DUNAKEKE
 - [ ] check if saving per-user site statistics hurts GDPR
 - [ ] import existing pages
 - [ ] email password reset
+- [ ] file/picture selector/search
+- [ ] add simplepay logo
+- [ ] add supporter and their logos...
+- [ ] page for yearly income/stuff...
+    - [ ] way to upload pdf files.
+- [ ] impressum
+- [ ] contacts page
+- [ ] post tags
+    - [ ] should show up on front page
 - [ ] expost modules
     - [ ] authentication?
     - [ ] config
 
 ## overall
 
+- [ ] tags
+- [ ] gitlab diff like editor
+- [ ] editable menubar
 - [ ] improve routing with getting the routes from somewhere...
 - [ ] set admin page access for roles
 - [ ] make crud options <templates>
