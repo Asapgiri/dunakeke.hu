@@ -21,6 +21,7 @@ Webpage for DUNAKEKE
     - [ ] config
 - [ ] show page Titles properly
 - [ ] Add missing translations
+- [ ] Remove debug messaged
 
 ## overall
 

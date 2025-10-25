@@ -248,8 +248,9 @@
         }
 
         document.getElementById('save-tag-btn').onclick = function() {
-            tag = document.getElementById('tag-title').value
-            fetch_with_json('/tag/add', {name: tag}, (tag) => {
+            tag_name = document.getElementById('tag-title')
+            fetch_with_json('/tag/add', {name: tag_name.value}, (tag) => {
+                if (typeof(tag) === 'string') return
                 itemList = document.getElementById('itemList')
                 itemList.innerHTML += `<div id="dropdown-`+tag.Name+`" class="dropdown-item-selectable" data-value="`+tag.name+`" id="`+tag.id+`">
                     `+tag.name+`
@@ -258,6 +259,7 @@
 
                 newTag = document.getElementById('dropdown-'+tag.Name)
                 newTag.click()
+                tag_name.value = ''
             })
         }
 
