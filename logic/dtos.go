@@ -119,6 +119,14 @@ type DonationOption struct {
     Amount          float64
 }
 
+type Supporter struct {
+    _db             dbase.Supporter
+    Id              string
+    Name            string
+    Logo            string
+    DateAdded       time.Time
+}
+
 type Stat struct {
     Id              string
     User            User

@@ -133,6 +133,7 @@ var dict_en = Dictionary{
         Statistics:         "Statistics",
         Donations:          "Donations",
         Settings:           "Settings",
+        Supporters:         "Supporters",
 
         PostImg:            "Image",
         PostId:             "Id",

@@ -170,6 +170,7 @@ func saveImageFromForm(dict dictionary.Dictionary, fileTag string, r *http.Reque
 
     file, header, err := r.FormFile(fileTag)
     if nil != err {
+        log.Println(err)
         return "", errors.New(dict.Editor.ErrorFromFile)
     }
     defer file.Close()
@@ -179,6 +180,7 @@ func saveImageFromForm(dict dictionary.Dictionary, fileTag string, r *http.Reque
     save_name := "/photos/" + id.Hex() + "-" + header.Filename
     err = renderer.SaveArtifact(save_name, file)
     if nil != err {
+        log.Println(err)
         return "", errors.New(dict.Editor.ErrorFromFile)
     }
 

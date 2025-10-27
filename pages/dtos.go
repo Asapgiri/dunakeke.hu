@@ -53,3 +53,7 @@ type TagUpdate struct {
     Name    string `json:"name"`
     Color   string `json:"color"`
 }
+
+type Footer struct {
+    Supporters  []logic.Supporter
+}

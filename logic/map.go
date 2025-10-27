@@ -198,7 +198,7 @@ func (do *DonationOption) UnMap() dbase.DonationOption {
     return ddon
 }
 
-func (link *Link)Map(dlink dbase.Link) {
+func (link *Link) Map(dlink dbase.Link) {
     author := User{}
     author.Find(dlink.Author.Hex())
 
@@ -210,7 +210,7 @@ func (link *Link)Map(dlink dbase.Link) {
     link.Alternative    = dlink.Alternative
 }
 
-func (link *Link)UnMap() dbase.Link {
+func (link *Link) UnMap() dbase.Link {
     dlink := link._db
 
     dlink.Id, _         = primitive.ObjectIDFromHex(link.Id)
@@ -220,4 +220,23 @@ func (link *Link)UnMap() dbase.Link {
     dlink.Alternative   = link.Alternative
 
     return dlink
+}
+
+func (supporter *Supporter) Map(dsupp dbase.Supporter) {
+    supporter._db       = dsupp
+    supporter.Id        = dsupp.Id.Hex()
+    supporter.Name      = dsupp.Name
+    supporter.Logo      = dsupp.Logo
+    supporter.DateAdded = dsupp.DateAdded
+}
+
+func (supporter *Supporter) UnMap() dbase.Supporter {
+    dsupp := supporter._db
+
+    dsupp.Id, _     = primitive.ObjectIDFromHex(supporter.Id)
+    dsupp.Name      = supporter.Name
+    dsupp.Logo      = supporter.Logo
+    dsupp.DateAdded = supporter.DateAdded
+
+    return dsupp
 }

@@ -11,7 +11,6 @@ Webpage for DUNAKEKE
 - [ ] remove TODO() contexts
 - [ ] email password reset
 - [ ] file/picture selector/search
-- [ ] add supporter and their logos...
 - [ ] page for yearly income/stuff...
     - [ ] way to upload pdf files.
 - [ ] impressum
@@ -87,3 +86,4 @@ Webpage for DUNAKEKE
     - [x] should show up on front page
     - [x] tags should prevent public listing of posts
 - [x] add simplepay logo
+- [x] add supporter and their logos...

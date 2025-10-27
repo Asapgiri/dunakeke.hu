@@ -24,6 +24,7 @@ var dbNEWSLETTER        *mongo.Collection
 var dbDONATIONS         *mongo.Collection
 var dbDONATIONOPTS      *mongo.Collection
 var dbSTATISTICS        *mongo.Collection
+var dbSUPPORTERS        *mongo.Collection
 
 var log = logger.Logger {
     Color: logger.Colors.Purple,
@@ -64,6 +65,7 @@ func Connect() error {
     dbDONATIONS         = db.Collection("donations")
     dbDONATIONOPTS      = db.Collection("donation-options")
     dbSTATISTICS        = db.Collection("statistics")
+    dbSUPPORTERS        = db.Collection("supporters")
 
     return nil
 }
@@ -435,5 +437,37 @@ func (stat *SiteStatistic) Update() error {
 
 func (stat *SiteStatistic) Delete() error {
     _, err := dbSTATISTICS.DeleteOne(context.TODO(), bson.D{{"_id", stat.Id}})
+    return err
+}
+
+// =====================================================================================================================
+// Internal Supporters CRUD
+
+func (supporter *Supporter) List() ([]Supporter, error) {
+    var supporters []Supporter
+    cursor, err := dbSUPPORTERS.Find(context.TODO(), bson.D{{}})
+    if err != nil {
+        return supporters, err
+    }
+    err = cursor.All(context.TODO(), &supporters)
+    return supporters, err
+}
+
+func (supporter *Supporter) Select(id primitive.ObjectID) error {
+    return dbSUPPORTERS.FindOne(context.TODO(), bson.D{{"_id", id}}).Decode(supporter)
+}
+
+func (supporter *Supporter) Add() error {
+    _, err := dbSUPPORTERS.InsertOne(context.TODO(), supporter)
+    return err
+}
+
+func (supporter *Supporter) Update() error {
+    _, err := dbSUPPORTERS.ReplaceOne(context.TODO(), bson.D{{"_id", supporter.Id}}, supporter)
+    return err
+}
+
+func (supporter *Supporter) Delete() error {
+    _, err := dbSUPPORTERS.DeleteOne(context.TODO(), bson.D{{"_id", supporter.Id}})
     return err
 }

@@ -60,6 +60,12 @@ func Root(w http.ResponseWriter, r *http.Request) {
             Posts: plist,
         }
 
+        supp := logic.Supporter{}
+        supporters, _ := supp.List()
+        session.MainDto = Footer{
+            Supporters: supporters,
+        }
+
         fil, _ := renderer.ReadArtifact("index.html", w.Header())
         renderer.Render(session, w, fil, dto)
     } else {

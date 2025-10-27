@@ -81,6 +81,11 @@
             </h6>
             <ul class="list-unstyled">
                 <li>
+                    <a href="/admin/supporters" class="d-block py-2 px-3 rounded text-decoration-none text-secondary hover-primary {{if eq .Path "/admin/supporters"}}active{{end}}">
+                        {{.Dictionary.Admin.Supporters}}
+                    </a>
+                </li>
+                <li>
                     <a href="/admin/newsletter" class="d-block py-2 px-3 rounded text-decoration-none text-secondary hover-primary {{if eq .Path "/admin/newsletter"}}active{{end}}">
                         {{.Dictionary.Admin.Newsletter}}
                     </a>

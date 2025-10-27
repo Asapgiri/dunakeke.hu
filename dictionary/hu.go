@@ -133,6 +133,7 @@ var dict_hu = Dictionary{
         Statistics:         "Statisztika",
         Donations:          "Adományok",
         Settings:           "Beállítások",
+        Supporters:         "Támogatók",
 
         PostImg:            "Kép",
         PostId:             "Id",

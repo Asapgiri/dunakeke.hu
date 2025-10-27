@@ -36,6 +36,9 @@ func setup_routes() {
     http.HandleFunc("GET /admin/tag/tl/{id}",           pages.AdminTagsToggleListable)
     http.HandleFunc("GET /admin/tag/delete/{id}",       pages.AdminTagsDelete)
 
+    http.HandleFunc("GET /admin/supporters",            pages.AdminSupporters)
+    http.HandleFunc("POST /admin/supporter/add",        pages.AdminSupporterAdd)
+
     http.HandleFunc("GET /admin/user/setrole/{id}/{role}",  pages.AdminUserSetRole)
 
     http.HandleFunc("GET /donate",              pages.DonationRoot)

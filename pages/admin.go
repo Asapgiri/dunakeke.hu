@@ -3,11 +3,13 @@ package pages
 import (
 	"asapgiri/golib/renderer"
 	"asapgiri/golib/session"
+	"dunakeke/dictionary"
 	"dunakeke/logic"
 	"encoding/json"
 	"io"
 	"net/http"
 	"slices"
+	"time"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -290,4 +292,48 @@ func AdminTagsDelete(w http.ResponseWriter, r *http.Request) {
     tag.Delete()
 
     http.Redirect(w, r, "/admin/tags", http.StatusSeeOther)
+}
+
+func AdminSupporters(w http.ResponseWriter, r *http.Request) {
+    session := GetCurrentSession(r)
+
+    if !checkAdminPageAccess(session) {
+        NotFound(w, r)
+        return
+    }
+
+    supporter := logic.Supporter{}
+    supporters, _ := supporter.List()
+
+    adminRender(session, w, "admin/supporters.html", supporters)
+}
+
+func AdminSupporterAdd(w http.ResponseWriter, r *http.Request) {
+    session := GetCurrentSession(r)
+
+    if !checkAdminPageAccess(session) {
+        NotFound(w, r)
+        return
+    }
+
+    log.Println("trying to add supporter...")
+
+    logo, err := saveImageFromForm(session.Dictionary.(dictionary.Dictionary), "form[logo]", r)
+    if nil != err {
+        session.Error = err.Error()
+        log.Println(err)
+        http.Redirect(w, r, "/admin/supporters", http.StatusSeeOther)
+        return
+    }
+    name := r.FormValue("form[name]")
+
+    supporter := logic.Supporter{
+        Name: name,
+        Logo: logo,
+        DateAdded: time.Now(),
+    }
+    log.Println(supporter)
+    supporter.Add()
+
+    http.Redirect(w, r, "/admin/supporters", http.StatusSeeOther)
 }

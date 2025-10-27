@@ -51,7 +51,7 @@
         });
     </script>
 </head>
-<body class="bg-light">
+<body class="bg-body">
     <div class="d-flex flex-column min-vh-100">
 
         <!-- Navbar -->
@@ -111,6 +111,26 @@
             {{.Main}}
         </main>
 
+        <footer class="footer mt-auto py-3 bg-light">
+            <div class="container">
+                <h2>{{.Dictionary.Admin.Supporters}}:</h2>
+                <div id="supporters" class="d-flex flex-row">
+                    {{range .MainDto.Supporters}}
+                    <div class="m-2 bg-transparent position-relative" style="height: 100px; width: 100px;">
+                        <a href="{{.Logo}}" data-lightbox="image-{{.Id}}" data-title="{{.Name}}" class="position-absolute top-50 start-50 translate-middle" style="max-height: 100px; width: 100px;">
+                            <img src="{{.Logo}}" alt="{{.Name}}" class="rounded w-100" style="max-height: 100px; max-width: 100px; object-fit: cover;">
+                        </a>
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+        </footer>
+
     </div>
+
+    <!-- Lightbox2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet" />
+    <!-- Lightbox2 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
 </body>
 </html>

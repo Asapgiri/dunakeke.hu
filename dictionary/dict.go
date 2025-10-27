@@ -140,6 +140,7 @@ type Admin struct {
     Statistics                              string
     Donations                               string
     Settings                                string
+    Supporters                              string
 
     PostImg                                 string
     PostId                                  string

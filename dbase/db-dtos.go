@@ -111,3 +111,10 @@ type DonationOption struct {
     Date            time.Time
     Amount          float64
 }
+
+type Supporter struct {
+    Id              primitive.ObjectID `bson:"_id"`
+    Name            string
+    Logo            string
+    DateAdded       time.Time
+}
