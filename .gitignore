@@ -1,4 +1,6 @@
 artifacts/trassets
+artifacts/photos
 */env.go
 .config*
 dunakeke.hu
+.DS_store
