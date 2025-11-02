@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
-	"sort"
+	"strconv"
 )
 
 type TagSave struct {
@@ -23,19 +23,29 @@ func TagList(w http.ResponseWriter, r *http.Request) {
     session := GetCurrentSession(r)
 
     tagName := r.PathValue("tagname")
+    page, err := strconv.ParseInt(r.PathValue("page"), 10, 32)
+    if nil != err {
+        page = 0
+    }
+    post_per_page, err := strconv.ParseInt(r.PathValue("ppp"), 10, 32)
+    if nil != err {
+        post_per_page = 25
+    }
 
     tag := logic.Tag{}
     tag.SelectByName(tagName)
 
     post := logic.Post{}
-    plist := post.List(checkEditorAccess(session), &tag.Id, false)
-
-    // FIXME: Check if post is public or not..
-    sort.Slice(plist, func(i, j int) bool { return plist[i].EditDate.After(plist[j].EditDate) })
+    plist, pages := post.List(checkEditorAccess(session), &tag.Id, int(page), int(post_per_page), false)
 
     dto := DtoRoot{
         Main: DtoMain{Title: "Tag: "+tag.Name},
         Posts: plist,
+        Page: Pages{
+            Current: int(page),
+            Count: pages,
+            Ppp: int(post_per_page),
+        },
     }
 
     fil, _ := renderer.ReadArtifact("index.html", w.Header())

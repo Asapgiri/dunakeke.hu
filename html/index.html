@@ -13,6 +13,7 @@
 </style>
 
 <div class="container-xl flex-fill postshow py-4">
+    {{template "pagination" .Dto.Page}}
 
     <h2>{{.Dto.Main.Title}}</h2>
 
@@ -62,4 +63,6 @@
     </div>
     {{end}}
 
+    {{template "pagination" .Dto.Page}}
 </div>
+

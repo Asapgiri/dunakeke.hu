@@ -43,7 +43,9 @@
         </div>
 
         <div class="col-lg-3">
-            <img src="{{.Dto.Image}}" alt="{{.Dto.Title}}" class="img-fluid rounded-start w-100 h-100 object-fit-cover" style="max-height: 200px; object-fit: cover;">
+            <a href="{{.Dto.Image}}" data-lightbox="image-{{.Dto.Id}}" data-title="{{.Dto.Title}}">
+                <img src="{{.Dto.Image}}" alt="{{.Dto.Title}}" class="img-fluid rounded-start w-100 h-100 object-fit-cover" style="max-height: 200px; object-fit: cover;">
+            </a>
         </div>
     </div>
 

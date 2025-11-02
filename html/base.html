@@ -115,12 +115,14 @@
             <div class="container">
                 <h2>{{.Dictionary.Admin.Supporters}}:</h2>
                 <div id="supporters" class="d-flex flex-row">
+                    {{if .MainDto}}
                     {{range .MainDto.Supporters}}
                     <div class="m-2 bg-transparent position-relative" style="height: 100px; width: 100px;">
                         <a href="{{.Logo}}" data-lightbox="image-{{.Id}}" data-title="{{.Name}}" class="position-absolute top-50 start-50 translate-middle" style="max-height: 100px; width: 100px;">
                             <img src="{{.Logo}}" alt="{{.Name}}" class="rounded w-100" style="max-height: 100px; max-width: 100px; object-fit: cover;">
                         </a>
                     </div>
+                    {{end}}
                     {{end}}
                 </div>
             </div>

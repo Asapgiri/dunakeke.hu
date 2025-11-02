@@ -66,7 +66,7 @@ func AdminPosts(w http.ResponseWriter, r *http.Request) {
     }
 
     post := logic.Post{}
-    posts := post.List(true, nil, true)
+    posts, _ := post.List(true, nil, 0, 0xFFFF, true)
 
     adminRender(session, w, "admin/posts.html", posts)
 }

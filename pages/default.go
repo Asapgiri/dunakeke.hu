@@ -7,7 +7,7 @@ import (
 	"dunakeke/logic"
 	"io"
 	"net/http"
-	"sort"
+	"strconv"
 )
 
 var log = logger.Logger {
@@ -48,22 +48,31 @@ func Root(w http.ResponseWriter, r *http.Request) {
     session := GetCurrentSession(r)
 
     if "/" == r.URL.Path {
+        page, err := strconv.ParseInt(r.URL.Query().Get("page"), 10, 32)
+        if nil != err {
+            log.Println(err)
+            page = 0
+        }
+        post_per_page, err := strconv.ParseInt(r.URL.Query().Get("ppp"), 10, 32)
+        if nil != err {
+            log.Println(err)
+            post_per_page = 25
+        }
+        log.Println(page, post_per_page)
+
         post := logic.Post{}
-        plist := post.List(checkEditorAccess(session), nil, false)
-
-        // FIXME: Check if post is public or not..
-        sort.Slice(plist, func(i, j int) bool { return plist[i].EditDate.After(plist[j].EditDate) })
-
+        plist, pages := post.List(checkEditorAccess(session), nil, int(page), int(post_per_page), false)
+        log.Println(pages)
 
         dto := DtoRoot{
             Main: DtoMain{},
             Posts: plist,
-        }
-
-        supp := logic.Supporter{}
-        supporters, _ := supp.List()
-        session.MainDto = Footer{
-            Supporters: supporters,
+            Page: Pages{
+                Current: int(page),
+                Count: pages,
+                Ppp: int(post_per_page),
+                PppOpts: []int{10, 25, 50, 100},
+            },
         }
 
         fil, _ := renderer.ReadArtifact("index.html", w.Header())

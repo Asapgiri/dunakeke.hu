@@ -7,9 +7,17 @@ type DtoMain struct {
     // etc...
 }
 
+type Pages struct {
+    Current int
+    Count   int
+    Ppp     int
+    PppOpts []int
+}
+
 type DtoRoot struct {
     Main    DtoMain
     Posts   []logic.Post
+    Page    Pages
 }
 
 type DtoAdminDonations struct {

@@ -1,9 +1,10 @@
 package dbase
 
 import (
+	"asapgiri/golib/logger"
 	"context"
 	"dunakeke/config"
-	"asapgiri/golib/logger"
+	"errors"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -29,6 +30,44 @@ var dbSUPPORTERS        *mongo.Collection
 var log = logger.Logger {
     Color: logger.Colors.Purple,
     Pretext: "database",
+}
+
+func filter[T any](s []T, keep func(T) bool) []T {
+    var result []T
+    for _, v := range(s) {
+        if keep(v) {
+            result = append(result, v)
+        }
+    }
+    return result
+}
+
+func count(db *mongo.Collection, pipeline mongo.Pipeline) int {
+    pipeline = append(pipeline, bson.D{{Key: "$count", Value: "count"}})
+    log.Println(pipeline)
+
+    cursor, err := db.Aggregate(context.TODO(), pipeline)
+    if nil != err {
+        log.Println(err)
+        return 0
+    }
+    defer cursor.Close(context.TODO())
+
+    var result []bson.M
+    err = cursor.All(context.TODO(), &result)
+    if nil != err {
+        return 0
+    }
+    log.Println(result)
+
+    var count int
+    if len(result) > 0 {
+        log.Println(result[0])
+        log.Println(result[0]["count"])
+        count = int(result[0]["count"].(int32))
+    }
+
+    return count
 }
 
 // =====================================================================================================================
@@ -90,6 +129,7 @@ func (user *User) List() ([]User, error) {
     if nil != err {
         return anyime, err
     }
+    defer cursor.Close(context.TODO())
 
     err = cursor.All(context.TODO(), &anyime)
 
@@ -127,23 +167,69 @@ func (user *User) Delete() error {
 // =====================================================================================================================
 // Internal Post CRUD
 
-func (post *Post) List(public_only bool, tagId *primitive.ObjectID) ([]Post, error) {
+func (post *Post) List(public_only bool, tagId *primitive.ObjectID, page int, limit int, admin bool) ([]Post, int, error) {
     var posts []Post
-    var query = bson.M{}
+    var query = bson.D{}
+    var pipeline = mongo.Pipeline{}
 
     if public_only {
-        query["public"] = true
+        query = append(query, bson.E{Key: "public", Value: true})
     }
     if nil != tagId {
-        query["tags"] = *tagId
+        query = append(query, bson.E{Key: "tags", Value: *tagId})
     }
 
-    cursor, err := dbPOSTS.Find(context.TODO(), query)
-    if err != nil {
-        return posts, err
+    if len(query) > 0 {
+        pipeline = append(pipeline, bson.D{{Key: "$match", Value: query}})
     }
+
+    if !admin && nil == tagId {
+        // Lookup tags
+        pipeline = append(pipeline, bson.D{{
+            Key: "$lookup", Value: bson.D{
+                {Key: "from", Value: "tags"},
+                {Key: "localField", Value: "tags"},
+                {Key: "foreignField", Value: "_id"},
+                {Key: "as", Value: "tag_docs"},
+            },
+        }})
+
+        // Match posts that have at least one listable tag
+        pipeline = append(pipeline, bson.D{{
+            Key: "$match", Value: bson.D{
+                {Key: "$or", Value: bson.A{
+                    bson.D{{Key: "tag_docs.listable", Value: true}},
+                    bson.D{{Key: "tag_docs", Value: bson.D{{Key: "$size", Value: 0}}}},
+                }},
+            },
+        }})
+    }
+
+    // Count before the filtering..
+    full_len := count(dbPOSTS, pipeline)
+    page_count := full_len / limit
+    if full_len % limit > 0 {
+        page_count++
+    }
+
+    cursor_start := page * limit
+    if full_len < cursor_start {
+        return posts, page_count, errors.New("Page does not exists")
+    }
+
+    pipeline = append(pipeline, bson.D{{Key: "$sort",   Value: bson.D{{Key: "date", Value: -1}}}},
+                                bson.D{{Key: "$skip",   Value: cursor_start}},
+                                bson.D{{Key: "$limit",  Value: limit}})
+
+    posts = []Post{}
+    cursor, err := dbPOSTS.Aggregate(context.TODO(), pipeline)
+    if err != nil {
+        return posts, 0, err
+    }
+    defer cursor.Close(context.TODO())
+
     err = cursor.All(context.TODO(), &posts)
-    return posts, err
+    return posts, page_count, err
 }
 
 func (post *Post) Select(id primitive.ObjectID) error {
@@ -174,6 +260,7 @@ func (tag *Tag) List() ([]Tag, error) {
     if err != nil {
         return tags, err
     }
+    defer cursor.Close(context.TODO())
     err = cursor.All(context.TODO(), &tags)
     return tags, err
 }
@@ -210,6 +297,7 @@ func (photo *Photo) List() ([]Photo, error) {
     if err != nil {
         return posts, err
     }
+    defer cursor.Close(context.TODO())
     err = cursor.All(context.TODO(), &posts)
     return posts, err
 }
@@ -242,6 +330,7 @@ func (comment *Comment) List() ([]Comment, error) {
     if err != nil {
         return comments, err
     }
+    defer cursor.Close(context.TODO())
     err = cursor.All(context.TODO(), &comments)
     return comments, err
 }
@@ -256,6 +345,7 @@ func (comment *Comment) ListByPost(postID primitive.ObjectID) ([]Comment, error)
     if err != nil {
         return comments, err
     }
+    defer cursor.Close(context.TODO())
     err = cursor.All(context.TODO(), &comments)
     return comments, err
 }
@@ -284,6 +374,7 @@ func (link *Link) List() ([]Link, error) {
     if err != nil {
         return links, err
     }
+    defer cursor.Close(context.TODO())
     err = cursor.All(context.TODO(), &links)
     return links, err
 }
@@ -324,6 +415,7 @@ func (newsletter *Newsletter) List() ([]Newsletter, error) {
     if err != nil {
         return newsletters, err
     }
+    defer cursor.Close(context.TODO())
     err = cursor.All(context.TODO(), &newsletters)
     return newsletters, err
 }
@@ -356,6 +448,7 @@ func (donation *Donation) List() ([]Donation, error) {
     if err != nil {
         return donations, err
     }
+    defer cursor.Close(context.TODO())
     err = cursor.All(context.TODO(), &donations)
     return donations, err
 }
@@ -385,6 +478,7 @@ func (do *DonationOption) List() ([]DonationOption, error) {
     if err != nil {
         return donations, err
     }
+    defer cursor.Close(context.TODO())
     err = cursor.All(context.TODO(), &donations)
     return donations, err
 }
@@ -417,6 +511,7 @@ func (stat *SiteStatistic) List() ([]SiteStatistic, error) {
     if err != nil {
         return stats, err
     }
+    defer cursor.Close(context.TODO())
     err = cursor.All(context.TODO(), &stats)
     return stats, err
 }
@@ -449,6 +544,7 @@ func (supporter *Supporter) List() ([]Supporter, error) {
     if err != nil {
         return supporters, err
     }
+    defer cursor.Close(context.TODO())
     err = cursor.All(context.TODO(), &supporters)
     return supporters, err
 }

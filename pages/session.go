@@ -20,5 +20,12 @@ func GetCurrentSession(r *http.Request) session.Sessioner {
     // FIXME: Put this to somewhere
     logic.SaveStatistics(r, session.Auth.Id)
 
+    // FIXME: Should be somewhere else...
+    supp := logic.Supporter{}
+    supporters, _ := supp.List()
+    session.MainDto = Footer{
+        Supporters: supporters,
+    }
+
     return session
 }

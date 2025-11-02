@@ -62,7 +62,7 @@ func PostUpdate(ps PostSave, user User) error {
     return post.Update()
 }
 
-func (post *Post) List(show_private bool, tagId *string, admin bool) []Post {
+func (post *Post) List(show_private bool, tagId *string, page int, limit int, admin bool) ([]Post, int) {
     dpost := dbase.Post{}
     var tag *primitive.ObjectID = nil
     if nil != tagId {
@@ -71,10 +71,10 @@ func (post *Post) List(show_private bool, tagId *string, admin bool) []Post {
             tag = &ttag
         }
     }
-    dposts, err := dpost.List(!show_private, tag)
+    dposts, page_count, err := dpost.List(!show_private, tag, page, limit, admin)
     if nil != err {
         log.Println(err)
-        return []Post{}
+        return []Post{}, 0
     }
 
     posts := make([]Post, len(dposts))
@@ -82,19 +82,7 @@ func (post *Post) List(show_private bool, tagId *string, admin bool) []Post {
         posts[i].Map(p)
     }
 
-    if !admin && nil == tagId {
-        posts = filter(posts, func(p Post) bool {
-            if len(p.Tags) <= 0 {
-                return true
-            }
-            ft := filter(p.Tags, func(t Tag) bool {
-                return !t.Listable
-            })
-            return len(ft) == 0
-        })
-    }
-
-    return posts
+    return posts, page_count
 }
 
 func (post *Post) Add() error {
