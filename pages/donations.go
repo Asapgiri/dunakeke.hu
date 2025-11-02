@@ -21,19 +21,8 @@ func DonationRoot(w http.ResponseWriter, r *http.Request) {
     renderer.Render(session, w, fil, dos)
 }
 
-func checkCSFR(csfr string) bool {
-    return true
-}
-
 func DonationInProgress(w http.ResponseWriter, r *http.Request) {
     session := GetCurrentSession(r)
-
-    if !checkCSFR(r.FormValue("form[csrf]")) {
-        log.Printf("CFSR ERR!\n")
-        fil, _ := renderer.ReadArtifact("donate/error.html", w.Header())
-        renderer.Render(session, w, fil, nil)
-        return
-    }
 
     if "1" != r.FormValue("form[gdprAgreed]") {
         log.Printf("GDPR not accepted!\n")

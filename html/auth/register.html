@@ -10,7 +10,6 @@
         <h4 class="mb-4 text-center">{{.Dictionary.Auth.Register}}</h4>
 
         <div class="text-muted pt-3">
-            <!-- FIXME: Add Proper form validation!!! -->
             <form name="form" method="post">
                 <div id="form">
                     <div class="form-group">
@@ -26,7 +25,6 @@
                     <div class="form-group">
                         <button type="submit" id="form_Bejelentkezés" name="form[Register]" class="form-control mb-2 btn-primary btn">{{.Dictionary.Auth.Register}}</button>
                     </div>
-                    <!-- FIXME: CSFR Token should be provided!!! -->
                     <input type="hidden" id="form__token" name="form[_token]" value="rS_4uOzkks7CsvOKCwoipqYLSrROEHruF1aGkQXuW9g">
                 </div>
             </form>

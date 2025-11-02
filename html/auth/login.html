@@ -9,7 +9,6 @@
         <h4 class="mb-4 text-center">{{.Dictionary.Auth.Login}}</h4>
 
         <div class="text-muted pt-3">
-            <!-- FIXME: Add Proper form validation!!! -->
             <form name="form" method="post">
                 <div id="form">
                     <div class="form-group mb-2">
@@ -21,7 +20,6 @@
                     <div class="form-group mb-2">
                         <button type="submit" id="form_Bejelentkezés" name="form[Login]" class="form-control btn-primary btn">{{.Dictionary.Auth.Login}}</button>
                     </div>
-                    <!-- FIXME: CSFR Token should be provided!!! -->
                     <input type="hidden" id="form__token" name="form[_token]" value="rS_4uOzkks7CsvOKCwoipqYLSrROEHruF1aGkQXuW9g">
                 </div>
             </form>

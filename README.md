@@ -5,25 +5,27 @@ Webpage for DUNAKEKE
 # TODOs:
 
 ## focus
+- [ ] impressum
+- [ ] contacts page
+- [ ] page for yearly income/stuff...
+    - [ ] way to upload pdf files.
+- [ ] file/picture selector/search
+
 - [ ] fix per site roles
 - [ ] set choose file text
 - [ ] import existing pages
 - [ ] remove TODO() contexts
 - [ ] email password reset
-- [ ] file/picture selector/search
-- [ ] page for yearly income/stuff...
-    - [ ] way to upload pdf files.
-- [ ] impressum
-- [ ] contacts page
 - [ ] expost modules
     - [ ] authentication?
     - [ ] config
-- [ ] show page Titles properly
 - [ ] Add missing translations
 - [ ] Remove debug messaged
+- [ ] Remove TODO-s and FIXME-s
 
 ## overall
 
+- [ ] Add CSRF tokens to cookies..
 - [ ] sanitize form lengths
 - [ ] move styles to stylesheets instead of template files
 - [ ] gitlab diff like editor
@@ -87,3 +89,4 @@ Webpage for DUNAKEKE
     - [x] tags should prevent public listing of posts
 - [x] add simplepay logo
 - [x] add supporter and their logos...
+- [x] show page Titles properly
