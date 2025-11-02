@@ -3,6 +3,7 @@ package pages
 import (
 	"asapgiri/golib/renderer"
 	"asapgiri/golib/session"
+	"dunakeke/config"
 	"dunakeke/dictionary"
 	"dunakeke/logic"
 	"encoding/json"
@@ -32,6 +33,7 @@ func AdminPage(w http.ResponseWriter, r *http.Request) {
         return
     }
 
+    session.UpdateTitle(config.Config.Site, "Admin")
     adminRender(session, w, "admin/index.html", nil)
 }
 
@@ -54,6 +56,7 @@ func AdminUsers(w http.ResponseWriter, r *http.Request) {
         return
     }
 
+    session.UpdateTitle(config.Config.Site, "Admin - " + session.Dictionary.(dictionary.Dictionary).Admin.Users)
     adminRenderUsers(session, w)
 }
 
@@ -68,6 +71,7 @@ func AdminPosts(w http.ResponseWriter, r *http.Request) {
     post := logic.Post{}
     posts, _ := post.List(true, nil, 0, 0xFFFF, true)
 
+    session.UpdateTitle(config.Config.Site, "Admin - " + session.Dictionary.(dictionary.Dictionary).Admin.Posts)
     adminRender(session, w, "admin/posts.html", posts)
 }
 
@@ -82,6 +86,7 @@ func AdminTags(w http.ResponseWriter, r *http.Request) {
     tag := logic.Tag{}
     tags, _ := tag.List()
 
+    session.UpdateTitle(config.Config.Site, "Admin - " + session.Dictionary.(dictionary.Dictionary).Admin.Tags)
     adminRender(session, w, "admin/tags.html", tags)
 }
 
@@ -115,6 +120,7 @@ func AdminDonations(w http.ResponseWriter, r *http.Request) {
         return b.Date.Compare(a.Date)
     })
 
+    session.UpdateTitle(config.Config.Site, "Admin - " + session.Dictionary.(dictionary.Dictionary).Admin.Donations)
     adminRender(session, w, "admin/donations.html", ad)
 }
 
@@ -181,6 +187,7 @@ func AdminLinks(w http.ResponseWriter, r *http.Request) {
     link := logic.Link{}
     links := link.List()
 
+    session.UpdateTitle(config.Config.Site, "Admin - " + session.Dictionary.(dictionary.Dictionary).Admin.Links)
     adminRender(session, w, "admin/links.html", links)
 }
 
@@ -305,6 +312,7 @@ func AdminSupporters(w http.ResponseWriter, r *http.Request) {
     supporter := logic.Supporter{}
     supporters, _ := supporter.List()
 
+    session.UpdateTitle(config.Config.Site, "Admin - " + session.Dictionary.(dictionary.Dictionary).Admin.Supporters)
     adminRender(session, w, "admin/supporters.html", supporters)
 }
 

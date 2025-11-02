@@ -31,6 +31,7 @@ func PostShow(w http.ResponseWriter, r *http.Request) {
         return
     }
 
+    session.UpdateTitle(config.Config.Site, post.Title)
     fil, _ := renderer.ReadArtifact("post/show.html", w.Header())
     renderer.Render(session, w, fil, post)
 }
@@ -70,6 +71,7 @@ func postEdit(session session.Sessioner, w http.ResponseWriter, r *http.Request)
         })
     }
 
+    session.UpdateTitle(config.Config.Site, dp.Post.Title)
     fil, _ := renderer.ReadArtifact("post/edit.html", w.Header())
     renderer.Render(session, w, fil, dp)
 }

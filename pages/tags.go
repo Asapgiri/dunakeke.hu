@@ -2,6 +2,7 @@ package pages
 
 import (
 	"asapgiri/golib/renderer"
+	"dunakeke/config"
 	"dunakeke/logic"
 	"encoding/json"
 	"io"
@@ -48,6 +49,7 @@ func TagList(w http.ResponseWriter, r *http.Request) {
         },
     }
 
+    session.UpdateTitle(config.Config.Site, dto.Main.Title)
     fil, _ := renderer.ReadArtifact("index.html", w.Header())
     renderer.Render(session, w, fil, dto)
 }

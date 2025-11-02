@@ -16,6 +16,7 @@ func DonationRoot(w http.ResponseWriter, r *http.Request) {
     do := logic.DonationOption{}
     dos := do.List()
 
+    session.UpdateTitle(config.Config.Site, session.Dictionary.(dictionary.Dictionary).Donate.Header)
     fil, _ := renderer.ReadArtifact("donate/root.html", w.Header())
     renderer.Render(session, w, fil, dos)
 }

@@ -4,6 +4,8 @@ import (
 	"asapgiri/golib/logger"
 	"asapgiri/golib/renderer"
 	"asapgiri/golib/session"
+	"dunakeke/config"
+	"dunakeke/dictionary"
 	"dunakeke/logic"
 	"io"
 	"net/http"
@@ -85,6 +87,7 @@ func Root(w http.ResponseWriter, r *http.Request) {
 func NotFound(w http.ResponseWriter, r *http.Request) {
     session := GetCurrentSession(r)
 
+    session.UpdateTitle(config.Config.Site, session.Dictionary.(dictionary.Dictionary).Auth.AccessViolation)
     fil, _ := renderer.ReadArtifact("not-found.html", w.Header())
     renderer.Render(session, w, fil, nil)
 }
@@ -92,6 +95,7 @@ func NotFound(w http.ResponseWriter, r *http.Request) {
 func AccessViolation(w http.ResponseWriter, r *http.Request) {
     session := GetCurrentSession(r)
 
+    session.UpdateTitle(config.Config.Site, session.Dictionary.(dictionary.Dictionary).Auth.AccessViolation)
     fil, _ := renderer.ReadArtifact("auth/access-violation.html", w.Header())
     renderer.Render(session, w, fil, nil)
 }
