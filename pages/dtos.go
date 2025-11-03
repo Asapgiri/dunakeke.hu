@@ -62,6 +62,19 @@ type TagUpdate struct {
     Color   string `json:"color"`
 }
 
+type SiteA struct {
+    Title   string
+    Icon    string
+    Url     string
+    Blank   bool
+}
+
+type Section struct {
+    Title   string
+    Sites   []SiteA
+}
+
 type Footer struct {
     Supporters  []logic.Supporter
+    Sections    []Section
 }

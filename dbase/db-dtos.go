@@ -116,5 +116,6 @@ type Supporter struct {
     Id              primitive.ObjectID `bson:"_id"`
     Name            string
     Logo            string
+    Website         string
     DateAdded       time.Time
 }

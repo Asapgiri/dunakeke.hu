@@ -115,8 +115,8 @@
         </main>
 
         <footer class="footer mt-auto py-3 bg-light">
-            <div class="container">
-                <h2>{{.Dictionary.Admin.Supporters}}:</h2>
+            <div class="container-xl">
+                <h4>{{.Dictionary.Admin.Supporters}}:</h4>
                 <div id="supporters" class="d-flex flex-row">
                     {{if .MainDto}}
                     {{range .MainDto.Supporters}}
@@ -128,8 +128,38 @@
                     {{end}}
                     {{end}}
                 </div>
+                <div id="supporters-links" class="d-flex flex-row">
+                    {{if .MainDto}}
+                    {{range .MainDto.Supporters}}
+                    <div class="mx-2 bg-transparent" style="width: 100px;">
+                        <a href="{{.Website}}" class="p-1 btn btn-outline-primary {{if not .Website}}disabled{{end}}" target="_blank">{{.Name}}</a>
+                    </div>
+                    {{end}}
+                    {{end}}
+                </div>
+
+                <div class="row my-3">
+                    {{range .MainDto.Sections}}
+                    <div class="col">
+                        <h3>{{.Title}}:</h3>
+                        <div class="btn-group-vertical w-100">
+                            {{range .Sites}}
+                            <a href="{{.Url}}" class="btn btn-outline-secondary d-inline-flex align-items-center {{if not .Url}}disabled{{end}}" {{if .Blank}}target="_blank"{{end}}>
+                                {{if .Icon}}
+                                <img src="{{.Icon}}" alt="{{.Title}}" style="width:20px;" class="me-1">
+                                {{end}}
+                                {{.Title}}
+                            </a>
+                            {{end}}
+                        </div>
+                    </div>
+                    {{end}}
+                </div>
             </div>
         </footer>
+
+        <div class="border-top py-5 bg-light"> <!-- Page end div -->
+        </div>
 
     </div>
 

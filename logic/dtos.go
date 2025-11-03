@@ -124,6 +124,7 @@ type Supporter struct {
     Id              string
     Name            string
     Logo            string
+    Website         string
     DateAdded       time.Time
 }
 

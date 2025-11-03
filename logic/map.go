@@ -227,6 +227,7 @@ func (supporter *Supporter) Map(dsupp dbase.Supporter) {
     supporter.Id        = dsupp.Id.Hex()
     supporter.Name      = dsupp.Name
     supporter.Logo      = dsupp.Logo
+    supporter.Website   = dsupp.Website
     supporter.DateAdded = dsupp.DateAdded
 }
 
@@ -236,6 +237,7 @@ func (supporter *Supporter) UnMap() dbase.Supporter {
     dsupp.Id, _     = primitive.ObjectIDFromHex(supporter.Id)
     dsupp.Name      = supporter.Name
     dsupp.Logo      = supporter.Logo
+    dsupp.Website   = supporter.Website
     dsupp.DateAdded = supporter.DateAdded
 
     return dsupp

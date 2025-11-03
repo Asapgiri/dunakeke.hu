@@ -334,11 +334,13 @@ func AdminSupporterAdd(w http.ResponseWriter, r *http.Request) {
         return
     }
     name := r.FormValue("form[name]")
+    web := r.FormValue("form[website]")
 
     supporter := logic.Supporter{
         Name: name,
         Logo: logo,
         DateAdded: time.Now(),
+        Website: web,
     }
     log.Println(supporter)
     supporter.Add()

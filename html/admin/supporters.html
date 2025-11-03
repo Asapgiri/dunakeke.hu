@@ -25,19 +25,20 @@
         <div class="row align-items-center">
             <div class="col-md-1">@{{shorten .Id 6}}</div>
             <div class="col-md-2"><a href="/supporter/{{.Name}}" class="text-decoration-none">@{{.Name}}</a></div>
+            <div class="col-lg-1">
+                <form id="logo-form-{{.Id}}" name="image-form" method="post" enctype='multipart/form-data' class="w-100">
+                    <input id="logo-{{.Id}}" name="image-input" type="file" class="form-control form-control-sm border-end-0" accept="image/*">
+                </form>
+            </div>
             <div class="col-lg-2">
                 <a href="{{.Logo}}" data-lightbox="image-{{.Id}}" data-title="{{.Name}}">
                     <img src="{{.Logo}}" alt="{{.Name}}" class="img-fluid rounded w-100 object-fit-cover" style="max-height: 200px; object-fit: cover; height: 25px;">
                 </a>
             </div>
-            <div class="col-lg-3">
-                <form id="logo-form-{{.Id}}" name="image-form" method="post" enctype='multipart/form-data' class="w-100">
-                    <input id="logo-{{.Id}}" name="image-input" type="file" class="form-control form-control-sm border-end-0" accept="image/*">
-                </form>
-            </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="input-group shadow-sm">
                     <input id="supporter-{{.Id}}" type="text" class="form-control form-control-sm border-end-0" value="{{.Name}}">
+                    <input id="website-{{.Id}}" type="text" class="form-control form-control-sm border-end-0" value="{{.Website}}">
                     <button class="btn btn-success py-0" type="button" onclick="update_link('{{.Id}}')">Update</button>
                     <a href="/admin/supporter/delete/{{.Id}}"
                         class="btn btn-danger py-0"
@@ -54,14 +55,11 @@
         <form method="POST" action="/admin/supporter/add" id="supporter-new" enctype='multipart/form-data'>
             <div class="row align-items-center">
                 <div class="col-md-2">-</div>
-                <div class="col-md-4">
-                    <div class="input-group shadow-sm">
-                        <input name="form[name]" id="supporter-new" type="text" class="form-control form-control-sm border-end-0">
-                    </div>
-                </div>
-                <div class="col-md-6">
+                <div class="col-md-10">
                     <div class="input-group shadow-sm">
                         <input name="form[logo]" id="logo-new" name="image-input-new" type="file" class="form-control form-control-sm border-end-0" accept="image/*">
+                        <input name="form[name]" id="supporter-new" type="text" class="form-control form-control-sm border-end-0">
+                        <input name="form[website]" id="website-new" type="text" class="form-control form-control-sm border-end-0">
                         <button class="btn btn-success py-0" type="submit">Add</button>
                     </div>
                 </div>
@@ -77,6 +75,7 @@
             id: id,
             name: document.getElementById('supporter-'+id).value,
             logo: document.getElementById('logo-'+id).value,
+            website: document.getElementById('website-'+id).value,
         }, data => window.location.reload())
     }
 </script>

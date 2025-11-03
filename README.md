@@ -11,6 +11,7 @@ Webpage for DUNAKEKE
     - [ ] way to upload pdf files.
 - [ ] file/picture selector/search
 
+- [ ] Supporter admin update is missing
 - [ ] fix per site roles
 - [ ] set choose file text
 - [ ] import existing pages
