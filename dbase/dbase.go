@@ -1,7 +1,7 @@
 package dbase
 
 import (
-	"asapgiri/golib/logger"
+	"github.com/asapgiri/golib/logger"
 	"context"
 	"dunakeke/config"
 	"errors"

@@ -1,8 +1,8 @@
 package config
 
 import (
-	"asapgiri/golib/logger"
-	"asapgiri/golib/session"
+	"github.com/asapgiri/golib/logger"
+	"github.com/asapgiri/golib/session"
 	"encoding/json"
 	"os"
 	"path/filepath"

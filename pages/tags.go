@@ -1,7 +1,7 @@
 package pages
 
 import (
-	"asapgiri/golib/renderer"
+	"github.com/asapgiri/golib/renderer"
 	"dunakeke/config"
 	"dunakeke/logic"
 	"encoding/json"

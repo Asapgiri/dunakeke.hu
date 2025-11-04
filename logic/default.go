@@ -1,7 +1,7 @@
 package logic
 
 import (
-	"asapgiri/golib/logger"
+	"github.com/asapgiri/golib/logger"
 )
 
 var log = logger.Logger {

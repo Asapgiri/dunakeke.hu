@@ -1,7 +1,7 @@
 package pages
 
 import (
-	"asapgiri/golib/session"
+	"github.com/asapgiri/golib/session"
 	"dunakeke/config"
 	"dunakeke/dictionary"
 	"dunakeke/logic"

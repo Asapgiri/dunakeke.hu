@@ -3,8 +3,7 @@ module dunakeke
 go 1.24.5
 
 require (
-	asapgiri/golib v0.0.0-00010101000000-000000000000
-	github.com/gorilla/sessions v1.4.0
+	github.com/asapgiri/golib v0.2.2
 	go.mongodb.org/mongo-driver v1.17.4
 	golang.org/x/crypto v0.42.0
 )
@@ -12,6 +11,7 @@ require (
 require (
 	github.com/golang/snappy v1.0.0 // indirect
 	github.com/gorilla/securecookie v1.1.2 // indirect
+	github.com/gorilla/sessions v1.4.0 // indirect
 	github.com/klauspost/compress v1.18.0 // indirect
 	github.com/montanaflynn/stats v0.7.1 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
@@ -21,5 +21,3 @@ require (
 	golang.org/x/sync v0.17.0 // indirect
 	golang.org/x/text v0.29.0 // indirect
 )
-
-replace asapgiri/golib => ../asapgiri-golib

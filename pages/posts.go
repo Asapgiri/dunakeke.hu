@@ -1,8 +1,8 @@
 package pages
 
 import (
-	"asapgiri/golib/renderer"
-	"asapgiri/golib/session"
+	"github.com/asapgiri/golib/renderer"
+	"github.com/asapgiri/golib/session"
 	"dunakeke/config"
 	"dunakeke/dictionary"
 	"dunakeke/logic"

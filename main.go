@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"dunakeke/config"
 	"dunakeke/dbase"
-	"asapgiri/golib/logger"
+	"github.com/asapgiri/golib/logger"
 	"os"
 	"strings"
 )
