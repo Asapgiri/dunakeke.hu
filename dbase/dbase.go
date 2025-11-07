@@ -46,15 +46,15 @@ func count(db *mongo.Collection, pipeline mongo.Pipeline) int {
     pipeline = append(pipeline, bson.D{{Key: "$count", Value: "count"}})
     log.Println(pipeline)
 
-    cursor, err := db.Aggregate(context.TODO(), pipeline)
+    cursor, err := db.Aggregate(context.Background(), pipeline)
     if nil != err {
         log.Println(err)
         return 0
     }
-    defer cursor.Close(context.TODO())
+    defer cursor.Close(context.Background())
 
     var result []bson.M
-    err = cursor.All(context.TODO(), &result)
+    err = cursor.All(context.Background(), &result)
     if nil != err {
         return 0
     }
@@ -81,7 +81,7 @@ func Connect() error {
 	opts := options.Client().ApplyURI(config.Config.Dbase.Url).SetServerAPIOptions(serverAPI)
 
     // Create a new client and connect to the server
-    mongo_client, err = mongo.Connect(context.TODO(), opts)
+    mongo_client, err = mongo.Connect(context.Background(), opts)
 	if err != nil {
         return err
 	}
@@ -89,7 +89,7 @@ func Connect() error {
 
 	// Send a ping to confirm a successful connection
 	var result bson.M
-	if err := db.RunCommand(context.TODO(), bson.D{{"ping", 1}}).Decode(&result); err != nil {
+	if err := db.RunCommand(context.Background(), bson.D{{"ping", 1}}).Decode(&result); err != nil {
 		panic(err)
 	}
 	log.Println("Pinged your deployment. You successfully connected to MongoDB!")
@@ -111,11 +111,11 @@ func Connect() error {
 
 // func (coll *mongo.Collection) List[T interface{Id primitive.ObjectID}](s T) ([]T, error) {
 //     var ret []T
-//     cursor, err := coll.Find(context.TODO(), bson.D{{}})
+//     cursor, err := coll.Find(context.Background(), bson.D{{}})
 //     if nil != err {
 //         return ret, err
 //     }
-//     err = cursor.All(context.TODO(), &ret)
+//     err = cursor.All(context.Background(), &ret)
 //     return ret, err
 // }
 
@@ -125,42 +125,42 @@ func Connect() error {
 func (user *User) List() ([]User, error) {
     var anyime []User
 
-    cursor, err := dbUSERS.Find(context.TODO(), bson.D{{}})
+    cursor, err := dbUSERS.Find(context.Background(), bson.D{{}})
     if nil != err {
         return anyime, err
     }
-    defer cursor.Close(context.TODO())
+    defer cursor.Close(context.Background())
 
-    err = cursor.All(context.TODO(), &anyime)
+    err = cursor.All(context.Background(), &anyime)
 
     return anyime, err
 }
 
 func (user *User) Select(id primitive.ObjectID) error {
-    return dbUSERS.FindOne(context.TODO(), bson.D{{"_id", id}}).Decode(user)
+    return dbUSERS.FindOne(context.Background(), bson.D{{"_id", id}}).Decode(user)
 }
 
 func (user *User) FindByUsername(username string) error {
-    return dbUSERS.FindOne(context.TODO(), bson.D{{"username", username}}).Decode(user)
+    return dbUSERS.FindOne(context.Background(), bson.D{{"username", username}}).Decode(user)
 }
 
 func (user *User) FindByEmail(email string) error {
-    return dbUSERS.FindOne(context.TODO(), bson.D{{"email", email}}).Decode(user)
+    return dbUSERS.FindOne(context.Background(), bson.D{{"email", email}}).Decode(user)
 }
 
 func (user *User) Add() error {
-    _, err := dbUSERS.InsertOne(context.TODO(), user)
+    _, err := dbUSERS.InsertOne(context.Background(), user)
     return err
 }
 
 func (user *User) Update() error {
-    _, err := dbUSERS.ReplaceOne(context.TODO(), bson.D{{"_id", user.Id}}, user)
+    _, err := dbUSERS.ReplaceOne(context.Background(), bson.D{{"_id", user.Id}}, user)
     return err
 }
 
 func (user *User) Delete() error {
     filter := bson.D{{"_id", user.Id}}
-    _, err := dbUSERS.DeleteOne(context.TODO(), filter)
+    _, err := dbUSERS.DeleteOne(context.Background(), filter)
     return err
 }
 
@@ -222,32 +222,32 @@ func (post *Post) List(public_only bool, tagId *primitive.ObjectID, page int, li
                                 bson.D{{Key: "$limit",  Value: limit}})
 
     posts = []Post{}
-    cursor, err := dbPOSTS.Aggregate(context.TODO(), pipeline)
+    cursor, err := dbPOSTS.Aggregate(context.Background(), pipeline)
     if err != nil {
         return posts, 0, err
     }
-    defer cursor.Close(context.TODO())
+    defer cursor.Close(context.Background())
 
-    err = cursor.All(context.TODO(), &posts)
+    err = cursor.All(context.Background(), &posts)
     return posts, page_count, err
 }
 
 func (post *Post) Select(id primitive.ObjectID) error {
-    return dbPOSTS.FindOne(context.TODO(), bson.D{{"_id", id}}).Decode(post)
+    return dbPOSTS.FindOne(context.Background(), bson.D{{"_id", id}}).Decode(post)
 }
 
 func (post *Post) Add() error {
-    _, err := dbPOSTS.InsertOne(context.TODO(), post)
+    _, err := dbPOSTS.InsertOne(context.Background(), post)
     return err
 }
 
 func (post *Post) Update() error {
-    _, err := dbPOSTS.ReplaceOne(context.TODO(), bson.D{{"_id", post.Id}}, post)
+    _, err := dbPOSTS.ReplaceOne(context.Background(), bson.D{{"_id", post.Id}}, post)
     return err
 }
 
 func (post *Post) Delete() error {
-    _, err := dbPOSTS.DeleteOne(context.TODO(), bson.D{{"_id", post.Id}})
+    _, err := dbPOSTS.DeleteOne(context.Background(), bson.D{{"_id", post.Id}})
     return err
 }
 
@@ -256,35 +256,35 @@ func (post *Post) Delete() error {
 
 func (tag *Tag) List() ([]Tag, error) {
     var tags []Tag
-    cursor, err := dbTAGS.Find(context.TODO(), bson.D{{}})
+    cursor, err := dbTAGS.Find(context.Background(), bson.D{{}})
     if err != nil {
         return tags, err
     }
-    defer cursor.Close(context.TODO())
-    err = cursor.All(context.TODO(), &tags)
+    defer cursor.Close(context.Background())
+    err = cursor.All(context.Background(), &tags)
     return tags, err
 }
 
 func (tag *Tag) Select(id primitive.ObjectID) error {
-    return dbTAGS.FindOne(context.TODO(), bson.D{{"_id", id}}).Decode(tag)
+    return dbTAGS.FindOne(context.Background(), bson.D{{"_id", id}}).Decode(tag)
 }
 
 func (tag *Tag) SelectByName(name string) error {
-    return dbTAGS.FindOne(context.TODO(), bson.D{{"name", name}}).Decode(tag)
+    return dbTAGS.FindOne(context.Background(), bson.D{{"name", name}}).Decode(tag)
 }
 
 func (tag *Tag) Add() error {
-    _, err := dbTAGS.InsertOne(context.TODO(), tag)
+    _, err := dbTAGS.InsertOne(context.Background(), tag)
     return err
 }
 
 func (tag *Tag) Update() error {
-    _, err := dbTAGS.ReplaceOne(context.TODO(), bson.D{{"_id", tag.Id}}, tag)
+    _, err := dbTAGS.ReplaceOne(context.Background(), bson.D{{"_id", tag.Id}}, tag)
     return err
 }
 
 func (tag *Tag) Delete() error {
-    _, err := dbTAGS.DeleteOne(context.TODO(), bson.D{{"_id", tag.Id}})
+    _, err := dbTAGS.DeleteOne(context.Background(), bson.D{{"_id", tag.Id}})
     return err
 }
 
@@ -293,31 +293,31 @@ func (tag *Tag) Delete() error {
 
 func (photo *Photo) List() ([]Photo, error) {
     var posts []Photo
-    cursor, err := dbPHOTOS.Find(context.TODO(), bson.D{{}})
+    cursor, err := dbPHOTOS.Find(context.Background(), bson.D{{}})
     if err != nil {
         return posts, err
     }
-    defer cursor.Close(context.TODO())
-    err = cursor.All(context.TODO(), &posts)
+    defer cursor.Close(context.Background())
+    err = cursor.All(context.Background(), &posts)
     return posts, err
 }
 
 func (photo *Photo) Select(id primitive.ObjectID) error {
-    return dbPHOTOS.FindOne(context.TODO(), bson.D{{"_id", id}}).Decode(photo)
+    return dbPHOTOS.FindOne(context.Background(), bson.D{{"_id", id}}).Decode(photo)
 }
 
 func (photo *Photo) Add() error {
-    _, err := dbPHOTOS.InsertOne(context.TODO(), photo)
+    _, err := dbPHOTOS.InsertOne(context.Background(), photo)
     return err
 }
 
 func (photo *Photo) Update() error {
-    _, err := dbPHOTOS.ReplaceOne(context.TODO(), bson.D{{"_id", photo.Id}}, photo)
+    _, err := dbPHOTOS.ReplaceOne(context.Background(), bson.D{{"_id", photo.Id}}, photo)
     return err
 }
 
 func (photo *Photo) Delete() error {
-    _, err := dbPHOTOS.DeleteOne(context.TODO(), bson.D{{"_id", photo.Id}})
+    _, err := dbPHOTOS.DeleteOne(context.Background(), bson.D{{"_id", photo.Id}})
     return err
 }
 
@@ -326,42 +326,42 @@ func (photo *Photo) Delete() error {
 
 func (comment *Comment) List() ([]Comment, error) {
     var comments []Comment
-    cursor, err := dbCOMMENTS.Find(context.TODO(), bson.D{{}})
+    cursor, err := dbCOMMENTS.Find(context.Background(), bson.D{{}})
     if err != nil {
         return comments, err
     }
-    defer cursor.Close(context.TODO())
-    err = cursor.All(context.TODO(), &comments)
+    defer cursor.Close(context.Background())
+    err = cursor.All(context.Background(), &comments)
     return comments, err
 }
 
 func (comment *Comment) Select(id primitive.ObjectID) error {
-    return dbCOMMENTS.FindOne(context.TODO(), bson.D{{"_id", id}}).Decode(comment)
+    return dbCOMMENTS.FindOne(context.Background(), bson.D{{"_id", id}}).Decode(comment)
 }
 
 func (comment *Comment) ListByPost(postID primitive.ObjectID) ([]Comment, error) {
     var comments []Comment
-    cursor, err := dbCOMMENTS.Find(context.TODO(), bson.D{{"Post", postID}})
+    cursor, err := dbCOMMENTS.Find(context.Background(), bson.D{{"Post", postID}})
     if err != nil {
         return comments, err
     }
-    defer cursor.Close(context.TODO())
-    err = cursor.All(context.TODO(), &comments)
+    defer cursor.Close(context.Background())
+    err = cursor.All(context.Background(), &comments)
     return comments, err
 }
 
 func (comment *Comment) Add() error {
-    _, err := dbCOMMENTS.InsertOne(context.TODO(), comment)
+    _, err := dbCOMMENTS.InsertOne(context.Background(), comment)
     return err
 }
 
 func (comment *Comment) Update() error {
-    _, err := dbCOMMENTS.ReplaceOne(context.TODO(), bson.D{{"_id", comment.Id}}, comment)
+    _, err := dbCOMMENTS.ReplaceOne(context.Background(), bson.D{{"_id", comment.Id}}, comment)
     return err
 }
 
 func (comment *Comment) Delete() error {
-    _, err := dbCOMMENTS.DeleteOne(context.TODO(), bson.D{{"_id", comment.Id}})
+    _, err := dbCOMMENTS.DeleteOne(context.Background(), bson.D{{"_id", comment.Id}})
     return err
 }
 
@@ -370,39 +370,39 @@ func (comment *Comment) Delete() error {
 
 func (link *Link) List() ([]Link, error) {
     var links []Link
-    cursor, err := dbLINKS.Find(context.TODO(), bson.D{{}})
+    cursor, err := dbLINKS.Find(context.Background(), bson.D{{}})
     if err != nil {
         return links, err
     }
-    defer cursor.Close(context.TODO())
-    err = cursor.All(context.TODO(), &links)
+    defer cursor.Close(context.Background())
+    err = cursor.All(context.Background(), &links)
     return links, err
 }
 
 func (link *Link) Select(id primitive.ObjectID) error {
-    return dbLINKS.FindOne(context.TODO(), bson.D{{"_id", id}}).Decode(link)
+    return dbLINKS.FindOne(context.Background(), bson.D{{"_id", id}}).Decode(link)
 }
 
 func (link *Link) FindByOriginal(qlink string) error {
-    return dbLINKS.FindOne(context.TODO(), bson.D{{"original", qlink}}).Decode(link)
+    return dbLINKS.FindOne(context.Background(), bson.D{{"original", qlink}}).Decode(link)
 }
 
 func (link *Link) FindByAlternative(alternative string) error {
-    return dbLINKS.FindOne(context.TODO(), bson.D{{"alternative", alternative}}).Decode(link)
+    return dbLINKS.FindOne(context.Background(), bson.D{{"alternative", alternative}}).Decode(link)
 }
 
 func (link *Link) Add() error {
-    _, err := dbLINKS.InsertOne(context.TODO(), link)
+    _, err := dbLINKS.InsertOne(context.Background(), link)
     return err
 }
 
 func (link *Link) Update() error {
-    _, err := dbLINKS.ReplaceOne(context.TODO(), bson.D{{"_id", link.Id}}, link)
+    _, err := dbLINKS.ReplaceOne(context.Background(), bson.D{{"_id", link.Id}}, link)
     return err
 }
 
 func (link *Link) Delete() error {
-    _, err := dbLINKS.DeleteOne(context.TODO(), bson.D{{"_id", link.Id}})
+    _, err := dbLINKS.DeleteOne(context.Background(), bson.D{{"_id", link.Id}})
     return err
 }
 
@@ -411,31 +411,31 @@ func (link *Link) Delete() error {
 
 func (newsletter *Newsletter) List() ([]Newsletter, error) {
     var newsletters []Newsletter
-    cursor, err := dbNEWSLETTER.Find(context.TODO(), bson.D{{}})
+    cursor, err := dbNEWSLETTER.Find(context.Background(), bson.D{{}})
     if err != nil {
         return newsletters, err
     }
-    defer cursor.Close(context.TODO())
-    err = cursor.All(context.TODO(), &newsletters)
+    defer cursor.Close(context.Background())
+    err = cursor.All(context.Background(), &newsletters)
     return newsletters, err
 }
 
 func (newsletter *Newsletter) Select(id primitive.ObjectID) error {
-    return dbNEWSLETTER.FindOne(context.TODO(), bson.D{{"_id", id}}).Decode(newsletter)
+    return dbNEWSLETTER.FindOne(context.Background(), bson.D{{"_id", id}}).Decode(newsletter)
 }
 
 func (newsletter *Newsletter) Add() error {
-    _, err := dbNEWSLETTER.InsertOne(context.TODO(), newsletter)
+    _, err := dbNEWSLETTER.InsertOne(context.Background(), newsletter)
     return err
 }
 
 func (newsletter *Newsletter) Update() error {
-    _, err := dbNEWSLETTER.ReplaceOne(context.TODO(), bson.D{{"_id", newsletter.Id}}, newsletter)
+    _, err := dbNEWSLETTER.ReplaceOne(context.Background(), bson.D{{"_id", newsletter.Id}}, newsletter)
     return err
 }
 
 func (newsletter *Newsletter) Delete() error {
-    _, err := dbNEWSLETTER.DeleteOne(context.TODO(), bson.D{{"_id", newsletter.Id}})
+    _, err := dbNEWSLETTER.DeleteOne(context.Background(), bson.D{{"_id", newsletter.Id}})
     return err
 }
 
@@ -444,61 +444,61 @@ func (newsletter *Newsletter) Delete() error {
 
 func (donation *Donation) List() ([]Donation, error) {
     var donations []Donation
-    cursor, err := dbDONATIONS.Find(context.TODO(), bson.D{{}})
+    cursor, err := dbDONATIONS.Find(context.Background(), bson.D{{}})
     if err != nil {
         return donations, err
     }
-    defer cursor.Close(context.TODO())
-    err = cursor.All(context.TODO(), &donations)
+    defer cursor.Close(context.Background())
+    err = cursor.All(context.Background(), &donations)
     return donations, err
 }
 
 func (donation *Donation) Select(id primitive.ObjectID) error {
-    return dbDONATIONS.FindOne(context.TODO(), bson.D{{"_id", id}}).Decode(donation)
+    return dbDONATIONS.FindOne(context.Background(), bson.D{{"_id", id}}).Decode(donation)
 }
 
 func (donation *Donation) Add() error {
-    _, err := dbDONATIONS.InsertOne(context.TODO(), donation)
+    _, err := dbDONATIONS.InsertOne(context.Background(), donation)
     return err
 }
 
 func (donation *Donation) Update() error {
-    _, err := dbDONATIONS.ReplaceOne(context.TODO(), bson.D{{"_id", donation.Id}}, donation)
+    _, err := dbDONATIONS.ReplaceOne(context.Background(), bson.D{{"_id", donation.Id}}, donation)
     return err
 }
 
 func (donation *Donation) Delete() error {
-    _, err := dbDONATIONS.DeleteOne(context.TODO(), bson.D{{"_id", donation.Id}})
+    _, err := dbDONATIONS.DeleteOne(context.Background(), bson.D{{"_id", donation.Id}})
     return err
 }
 
 func (do *DonationOption) List() ([]DonationOption, error) {
     var donations []DonationOption
-    cursor, err := dbDONATIONOPTS.Find(context.TODO(), bson.D{{}})
+    cursor, err := dbDONATIONOPTS.Find(context.Background(), bson.D{{}})
     if err != nil {
         return donations, err
     }
-    defer cursor.Close(context.TODO())
-    err = cursor.All(context.TODO(), &donations)
+    defer cursor.Close(context.Background())
+    err = cursor.All(context.Background(), &donations)
     return donations, err
 }
 
 func (do *DonationOption) Select(id primitive.ObjectID) error {
-    return dbDONATIONOPTS.FindOne(context.TODO(), bson.D{{"_id", id}}).Decode(do)
+    return dbDONATIONOPTS.FindOne(context.Background(), bson.D{{"_id", id}}).Decode(do)
 }
 
 func (do *DonationOption) Add() error {
-    _, err := dbDONATIONOPTS.InsertOne(context.TODO(), do)
+    _, err := dbDONATIONOPTS.InsertOne(context.Background(), do)
     return err
 }
 
 func (do *DonationOption) Update() error {
-    _, err := dbDONATIONOPTS.ReplaceOne(context.TODO(), bson.D{{"_id", do.Id}}, do)
+    _, err := dbDONATIONOPTS.ReplaceOne(context.Background(), bson.D{{"_id", do.Id}}, do)
     return err
 }
 
 func (do *DonationOption) Delete() error {
-    _, err := dbDONATIONOPTS.DeleteOne(context.TODO(), bson.D{{"_id", do.Id}})
+    _, err := dbDONATIONOPTS.DeleteOne(context.Background(), bson.D{{"_id", do.Id}})
     return err
 }
 
@@ -507,31 +507,31 @@ func (do *DonationOption) Delete() error {
 
 func (stat *SiteStatistic) List() ([]SiteStatistic, error) {
     var stats []SiteStatistic
-    cursor, err := dbSTATISTICS.Find(context.TODO(), bson.D{{}})
+    cursor, err := dbSTATISTICS.Find(context.Background(), bson.D{{}})
     if err != nil {
         return stats, err
     }
-    defer cursor.Close(context.TODO())
-    err = cursor.All(context.TODO(), &stats)
+    defer cursor.Close(context.Background())
+    err = cursor.All(context.Background(), &stats)
     return stats, err
 }
 
 func (stat *SiteStatistic) Select(id primitive.ObjectID) error {
-    return dbSTATISTICS.FindOne(context.TODO(), bson.D{{"_id", id}}).Decode(stat)
+    return dbSTATISTICS.FindOne(context.Background(), bson.D{{"_id", id}}).Decode(stat)
 }
 
 func (stat *SiteStatistic) Add() error {
-    _, err := dbSTATISTICS.InsertOne(context.TODO(), stat)
+    _, err := dbSTATISTICS.InsertOne(context.Background(), stat)
     return err
 }
 
 func (stat *SiteStatistic) Update() error {
-    _, err := dbSTATISTICS.ReplaceOne(context.TODO(), bson.D{{"_id", stat.Id}}, stat)
+    _, err := dbSTATISTICS.ReplaceOne(context.Background(), bson.D{{"_id", stat.Id}}, stat)
     return err
 }
 
 func (stat *SiteStatistic) Delete() error {
-    _, err := dbSTATISTICS.DeleteOne(context.TODO(), bson.D{{"_id", stat.Id}})
+    _, err := dbSTATISTICS.DeleteOne(context.Background(), bson.D{{"_id", stat.Id}})
     return err
 }
 
@@ -540,30 +540,30 @@ func (stat *SiteStatistic) Delete() error {
 
 func (supporter *Supporter) List() ([]Supporter, error) {
     var supporters []Supporter
-    cursor, err := dbSUPPORTERS.Find(context.TODO(), bson.D{{}})
+    cursor, err := dbSUPPORTERS.Find(context.Background(), bson.D{{}})
     if err != nil {
         return supporters, err
     }
-    defer cursor.Close(context.TODO())
-    err = cursor.All(context.TODO(), &supporters)
+    defer cursor.Close(context.Background())
+    err = cursor.All(context.Background(), &supporters)
     return supporters, err
 }
 
 func (supporter *Supporter) Select(id primitive.ObjectID) error {
-    return dbSUPPORTERS.FindOne(context.TODO(), bson.D{{"_id", id}}).Decode(supporter)
+    return dbSUPPORTERS.FindOne(context.Background(), bson.D{{"_id", id}}).Decode(supporter)
 }
 
 func (supporter *Supporter) Add() error {
-    _, err := dbSUPPORTERS.InsertOne(context.TODO(), supporter)
+    _, err := dbSUPPORTERS.InsertOne(context.Background(), supporter)
     return err
 }
 
 func (supporter *Supporter) Update() error {
-    _, err := dbSUPPORTERS.ReplaceOne(context.TODO(), bson.D{{"_id", supporter.Id}}, supporter)
+    _, err := dbSUPPORTERS.ReplaceOne(context.Background(), bson.D{{"_id", supporter.Id}}, supporter)
     return err
 }
 
 func (supporter *Supporter) Delete() error {
-    _, err := dbSUPPORTERS.DeleteOne(context.TODO(), bson.D{{"_id", supporter.Id}})
+    _, err := dbSUPPORTERS.DeleteOne(context.Background(), bson.D{{"_id", supporter.Id}})
     return err
 }
