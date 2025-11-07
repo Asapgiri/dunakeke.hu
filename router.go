@@ -28,6 +28,7 @@ func setup_routes() {
     http.HandleFunc("GET /admin/newsletter",    pages.NotFound)
     http.HandleFunc("GET /admin/statistics",    pages.NotFound)
     http.HandleFunc("GET /admin/donations",     pages.AdminDonations)
+    http.HandleFunc("GET /admin/files",         pages.AdminFiles)
 
     http.HandleFunc("POST /admin/links/update",         pages.AdminLinksUpdate)
     http.HandleFunc("GET /admin/links/delete/{id}",     pages.AdminLinksDelete)
@@ -38,6 +39,9 @@ func setup_routes() {
 
     http.HandleFunc("GET /admin/supporters",            pages.AdminSupporters)
     http.HandleFunc("POST /admin/supporter/add",        pages.AdminSupporterAdd)
+
+    http.HandleFunc("POST /admin/files/add",            pages.AdminFilesAdd)
+    http.HandleFunc("GET /admin/files/delete/{id}",     pages.AdminFilesRemove)
 
     http.HandleFunc("GET /admin/user/setrole/{id}/{role}",  pages.AdminUserSetRole)
 

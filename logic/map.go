@@ -242,3 +242,22 @@ func (supporter *Supporter) UnMap() dbase.Supporter {
 
     return dsupp
 }
+
+func (file *File) Map(dfile dbase.File) {
+    file._db        = dfile
+    file.Id         = dfile.Id.Hex()
+    file.Name       = dfile.Name
+    file.SaveName   = dfile.SaveName
+    file.Extension  = dfile.Extension
+}
+
+func (file *File) UnMap() dbase.File {
+    dfile := file._db
+
+    dfile.Id, _     = primitive.ObjectIDFromHex(file.Id)
+    dfile.Name      = file.Name
+    dfile.SaveName  = file.SaveName
+    dfile.Extension = file.Extension
+
+    return dfile
+}

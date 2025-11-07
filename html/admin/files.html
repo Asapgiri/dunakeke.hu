@@ -1,0 +1,10 @@
+{{range .Dto}}
+{{if eq .Extension "jpg"}}
+<img src="{{.SaveName}}" style="height: 100px;"/>
+<a href="{{.SaveName}}">{{.Name}}</a>
+{{else}}
+<a href="{{.SaveName}}">{{.Name}}</a>
+{{end}}
+<a href="/admin/files/delete/{{.Id}}" style="color: red;">Delete</a>
+<br>
+{{end}}

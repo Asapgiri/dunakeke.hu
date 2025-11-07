@@ -71,6 +71,7 @@ var dict_en = Dictionary{
         ToolbarLink                            : "Link",
         ToolbarReferenceLink                   : "Reference link",
         ToolbarImage                           : "Image",
+        ToolbarFile                            : "File",
         ToolbarCode                            : "Code inline",
         ToolbarPreformattedText                : "Preformatted text / Code block (Tab indent)",
         ToolbarCodeBlock                       : "Code block (Multi-languages)",
@@ -134,6 +135,7 @@ var dict_en = Dictionary{
         Donations:          "Donations",
         Settings:           "Settings",
         Supporters:         "Supporters",
+        Files:              "Files",
 
         PostImg:            "Image",
         PostId:             "Id",
@@ -153,7 +155,7 @@ var dict_en = Dictionary{
     Donate: Donate{
         Action:             "Action",
         Redirect:           "Redirecting to OTP Simple...",
-        Header:             "Donate me",
+        Header:             "Support Us",
         Description:        "Random underling text...",
         Other:              "Other",
         Amount:             "Amount",

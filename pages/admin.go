@@ -326,7 +326,7 @@ func AdminSupporterAdd(w http.ResponseWriter, r *http.Request) {
 
     log.Println("trying to add supporter...")
 
-    logo, err := saveImageFromForm(session.Dictionary.(dictionary.Dictionary), "form[logo]", r)
+    logo, err := saveFileFromForm(session.Dictionary.(dictionary.Dictionary), "form[logo]", r)
     if nil != err {
         session.Error = err.Error()
         log.Println(err)
@@ -338,7 +338,7 @@ func AdminSupporterAdd(w http.ResponseWriter, r *http.Request) {
 
     supporter := logic.Supporter{
         Name: name,
-        Logo: logo,
+        Logo: logo.SaveName,
         DateAdded: time.Now(),
         Website: web,
     }
@@ -346,4 +346,63 @@ func AdminSupporterAdd(w http.ResponseWriter, r *http.Request) {
     supporter.Add()
 
     http.Redirect(w, r, "/admin/supporters", http.StatusSeeOther)
+}
+
+func AdminFiles(w http.ResponseWriter, r *http.Request) {
+    session := GetCurrentSession(r)
+
+    if !checkAdminPageAccess(session) {
+        NotFound(w, r)
+        return
+    }
+
+    file := logic.File{}
+    files, err := file.List()
+    if nil != err {
+        session.Error = err.Error()
+        log.Println(err)
+        return
+    }
+
+    session.UpdateTitle(config.Config.Site, "Admin - Files")
+    adminRender(session, w, "admin/files.html", files)
+}
+
+func AdminFilesAdd(w http.ResponseWriter, r *http.Request) {
+    session := GetCurrentSession(r)
+
+    if !checkAdminPageAccess(session) {
+        NotFound(w, r)
+        return
+    }
+
+    psir := PostSaveImageResponse{Success: 0}
+    err_ret, _ := json.Marshal(psir)
+
+    file, err := saveFileFromForm(session.Dictionary.(dictionary.Dictionary), "file", r)
+    if nil != err {
+        io.WriteString(w, string(err_ret))
+        return
+    }
+
+    psir.Url = file.SaveName
+    psir.Alt = file.Name
+    psir.Success = 1
+    success_ret, _ := json.Marshal(psir)
+    io.WriteString(w, string(success_ret))
+}
+
+func AdminFilesRemove(w http.ResponseWriter, r *http.Request) {
+    session := GetCurrentSession(r)
+
+    if !checkAdminPageAccess(session) {
+        NotFound(w, r)
+        return
+    }
+
+    file := logic.File{}
+    file.Select(r.PathValue("id"))
+    file.Delete()
+
+    http.Redirect(w, r, "/admin/files", http.StatusSeeOther)
 }

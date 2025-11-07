@@ -18,7 +18,7 @@ var db *mongo.Database
 var dbUSERS             *mongo.Collection
 var dbPOSTS             *mongo.Collection
 var dbTAGS              *mongo.Collection
-var dbPHOTOS            *mongo.Collection
+var dbFILES             *mongo.Collection
 var dbCOMMENTS          *mongo.Collection
 var dbLINKS             *mongo.Collection
 var dbNEWSLETTER        *mongo.Collection
@@ -97,7 +97,7 @@ func Connect() error {
     dbUSERS             = db.Collection("users")
     dbPOSTS             = db.Collection("posts")
     dbTAGS              = db.Collection("tags")
-    dbPHOTOS            = db.Collection("photos")
+    dbFILES             = db.Collection("files")
     dbCOMMENTS          = db.Collection("comments")
     dbLINKS             = db.Collection("links")
     dbNEWSLETTER        = db.Collection("newsletter")
@@ -291,33 +291,42 @@ func (tag *Tag) Delete() error {
 // =====================================================================================================================
 // Internal Photos CRUD
 
-func (photo *Photo) List() ([]Photo, error) {
-    var posts []Photo
-    cursor, err := dbPHOTOS.Find(context.Background(), bson.D{{}})
+func (file *File) List() ([]File, error) {
+    return file.ListByExtension("")
+}
+
+func (file *File) Select(id primitive.ObjectID) error {
+    return dbFILES.FindOne(context.Background(), bson.D{{"_id", id}}).Decode(file)
+}
+
+func (file *File) ListByExtension(ext string) ([]File, error) {
+    var files []File
+    query := bson.D{{}}
+    if "" != ext {
+        query = bson.D{{"extension", ext}}
+    }
+
+    cursor, err := dbFILES.Find(context.Background(), query)
     if err != nil {
-        return posts, err
+        return files, err
     }
     defer cursor.Close(context.Background())
-    err = cursor.All(context.Background(), &posts)
-    return posts, err
+    err = cursor.All(context.Background(), &files)
+    return files, err
 }
 
-func (photo *Photo) Select(id primitive.ObjectID) error {
-    return dbPHOTOS.FindOne(context.Background(), bson.D{{"_id", id}}).Decode(photo)
-}
-
-func (photo *Photo) Add() error {
-    _, err := dbPHOTOS.InsertOne(context.Background(), photo)
+func (file *File) Add() error {
+    _, err := dbFILES.InsertOne(context.Background(), file)
     return err
 }
 
-func (photo *Photo) Update() error {
-    _, err := dbPHOTOS.ReplaceOne(context.Background(), bson.D{{"_id", photo.Id}}, photo)
+func (file *File) Update() error {
+    _, err := dbFILES.ReplaceOne(context.Background(), bson.D{{"_id", file.Id}}, file)
     return err
 }
 
-func (photo *Photo) Delete() error {
-    _, err := dbPHOTOS.DeleteOne(context.Background(), bson.D{{"_id", photo.Id}})
+func (file *File) Delete() error {
+    _, err := dbFILES.DeleteOne(context.Background(), bson.D{{"_id", file.Id}})
     return err
 }
 

@@ -76,6 +76,16 @@ type Tag struct {
     Color           string
 }
 
+type File struct {
+    _db             dbase.File
+    Id              string
+    Name            string
+    SaveName        string
+    Extension       string
+    // UsedInPost      []Post
+    // Tags            []Tag
+}
+
 type Link struct {
     _db             dbase.Link
     Id              string

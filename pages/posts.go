@@ -1,8 +1,6 @@
 package pages
 
 import (
-	"github.com/asapgiri/golib/renderer"
-	"github.com/asapgiri/golib/session"
 	"dunakeke/config"
 	"dunakeke/dictionary"
 	"dunakeke/logic"
@@ -12,6 +10,10 @@ import (
 	"net/http"
 	"slices"
 	"strconv"
+	"strings"
+
+	"github.com/asapgiri/golib/renderer"
+	"github.com/asapgiri/golib/session"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -163,30 +165,38 @@ func PostPublish(w http.ResponseWriter, r *http.Request) {
     http.Redirect(w, r, r.Referer(), http.StatusSeeOther)
 }
 
-func saveImageFromForm(dict dictionary.Dictionary, fileTag string, r *http.Request) (string, error) {
+func saveFileFromForm(dict dictionary.Dictionary, fileTag string, r *http.Request) (logic.File, error) {
     err := r.ParseMultipartForm(config.Config.Site.MaxImgUploadMB << 20)
     if nil != err {
         log.Println(err)
-        return "", errors.New(dict.Editor.ErrorFileIsLargerThan+strconv.FormatInt(config.Config.Site.MaxImgUploadMB, 10)+"MB")
+        return logic.File{}, errors.New(dict.Editor.ErrorFileIsLargerThan+strconv.FormatInt(config.Config.Site.MaxImgUploadMB, 10)+"MB")
     }
 
     file, header, err := r.FormFile(fileTag)
     if nil != err {
         log.Println(err)
-        return "", errors.New(dict.Editor.ErrorFromFile)
+        return logic.File{}, errors.New(dict.Editor.ErrorFromFile)
     }
     defer file.Close()
 
-    // FIXME: Save which photos are being used...
-    id := primitive.NewObjectID()
-    save_name := "/photos/" + id.Hex() + "-" + header.Filename
-    err = renderer.SaveArtifact(save_name, file)
+    new_id := primitive.NewObjectID().Hex()
+    sfile := logic.File{
+        Id:         new_id,
+        Name:       header.Filename,
+        SaveName:   "/files/" + new_id + "-" + header.Filename,
+    }
+    parts := strings.Split(sfile.Name, ".")
+    sfile.Extension = strings.ToLower(parts[len(parts)-1])
+
+    err = renderer.SaveArtifact(sfile.SaveName, file)
     if nil != err {
         log.Println(err)
-        return "", errors.New(dict.Editor.ErrorFromFile)
+        return logic.File{}, errors.New(dict.Editor.ErrorFromFile)
     }
 
-    return save_name, nil
+    sfile.Add()
+
+    return sfile, nil
 }
 
 func PostSaveImage(w http.ResponseWriter, r *http.Request) {
@@ -200,13 +210,14 @@ func PostSaveImage(w http.ResponseWriter, r *http.Request) {
     psir := PostSaveImageResponse{Success: 0}
     err_ret, _ := json.Marshal(psir)
 
-    save_name, err := saveImageFromForm(session.Dictionary.(dictionary.Dictionary), "editormd-image-file", r)
+    file, err := saveFileFromForm(session.Dictionary.(dictionary.Dictionary), "editormd-image-file", r)
     if nil != err {
         io.WriteString(w, string(err_ret))
         return
     }
 
-    psir.Url = save_name
+    psir.Url = file.SaveName
+    psir.Alt = file.Name
     psir.Success = 1
     success_ret, _ := json.Marshal(psir)
     io.WriteString(w, string(success_ret))
@@ -220,7 +231,7 @@ func PostEditPhotoSave(w http.ResponseWriter, r *http.Request) {
        return
     }
 
-    image_name, err := saveImageFromForm(session.Dictionary.(dictionary.Dictionary), "image-input", r)
+    file, err := saveFileFromForm(session.Dictionary.(dictionary.Dictionary), "image-input", r)
     if nil != err {
         session.Error = err.Error()
         postEdit(session, w, r)
@@ -234,7 +245,7 @@ func PostEditPhotoSave(w http.ResponseWriter, r *http.Request) {
         postEdit(session, w, r)
         return
     }
-    post.Image = image_name
+    post.Image = file.SaveName
     post.Update()
 
     postEdit(session, w, r)

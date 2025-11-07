@@ -92,6 +92,7 @@
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="/editor.md/editormd.min.js"></script>
+<script src="/file-dialog.js"></script>
 <script src="/editor.js"></script>
 <script type="text/javascript">
     var editor
@@ -127,6 +128,22 @@
             imageUpload : true,
             imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
             imageUploadURL : "/api/post/image",
+            fileUpload : true,
+            fileFormats : ["pdf", "zip"],
+            fileUploadURL : "/api/post/image",
+            toolbarIcons : function() {
+                full = editormd.toolbarModes.full
+                full.push("|", "file")
+                return full
+            },
+            toolbarIconsClass : {
+                file : "fa-file-o"  // 指定一个FontAawsome的图标类
+            },
+            toolbarHandlers : {
+                file : function(cm, icon, cursor, selection) {
+                    this.fileDialog()
+                }
+            },
             onload : function() {
                 console.log('onload', this);
                 //this.fullscreen();
@@ -164,6 +181,7 @@
                     link                        : "{{.Dictionary.Editor.ToolbarLink}}",
                     "reference-link"            : "{{.Dictionary.Editor.ToolbarReferenceLink}}",
                     image                       : "{{.Dictionary.Editor.ToolbarImage}}",
+                    file                        : "{{.Dictionary.Editor.ToolbarFile}}",
                     code                        : "{{.Dictionary.Editor.ToolbarCode}}",
                     "preformatted-text"         : "{{.Dictionary.Editor.ToolbarPreformattedText}}",
                     "code-block"                : "{{.Dictionary.Editor.ToolbarCodeBlock}}",
@@ -213,6 +231,16 @@
                         uploadFileEmpty         : "{{.Dictionary.Editor.DialogImageUploadFileEmpty}}",
                         formatNotAllowed        : "{{.Dictionary.Editor.DialogImageFormatNotAllowed}}",
                     },
+                    file : {
+                        title                   : "{{.Dictionary.Editor.DialogImageTitle}}",
+                        url                     : "{{.Dictionary.Editor.DialogImageUrl}}",
+                        link                    : "{{.Dictionary.Editor.DialogImageLink}}",
+                        alt                     : "{{.Dictionary.Editor.DialogImageAlt}}",
+                        uploadButton            : "{{.Dictionary.Editor.DialogImageUploadButton}}",
+                        fileURLEmpty            : "{{.Dictionary.Editor.DialogImageImageURLEmpty}}",
+                        uploadFileEmpty         : "{{.Dictionary.Editor.DialogImageUploadFileEmpty}}",
+                        formatNotAllowed        : "{{.Dictionary.Editor.DialogImageFormatNotAllowed}}",
+                    },
                     preformattedText : {
                         title                   : "{{.Dictionary.Editor.DialogPreformattedTextTitle}}",
                         emptyAlert              : "{{.Dictionary.Editor.DialogPreformattedTextEmptyAlert}}",
@@ -244,7 +272,7 @@
             tags = Array.from(itemList.querySelectorAll('.dropdown-item-selectable')).filter(it => it.classList.contains('active')).map(it => it.id);
 
             save_post('{{.Dto.Post.Id}}', title, editor.getMarkdown(), editor.getHTML(), alter, tags);
-            document.location.href = "/"
+            document.location.href = "{{if .Dto.Post.Path}}{{.Dto.Post.Path}}{{else}}/post/{{.Dto.Post.Id}}{{end}}"
         }
 
         document.getElementById('save-tag-btn').onclick = function() {

@@ -58,8 +58,13 @@ type Tag struct {
     Color           string
 }
 
-type Photo struct {
+type File struct {
     Id              primitive.ObjectID `bson:"_id"`
+    Name            string
+    SaveName        string
+    Extension       string
+    // UsedInPost      []primitive.ObjectID
+    // Tags            []primitive.ObjectID
 }
 
 type Comment struct {

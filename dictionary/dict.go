@@ -77,6 +77,7 @@ type Editor struct {
     ToolbarLink                             string
     ToolbarReferenceLink                    string
     ToolbarImage                            string
+    ToolbarFile                             string
     ToolbarCode                             string
     ToolbarPreformattedText                 string
     ToolbarCodeBlock                        string
@@ -141,6 +142,7 @@ type Admin struct {
     Donations                               string
     Settings                                string
     Supporters                              string
+    Files                                   string
 
     PostImg                                 string
     PostId                                  string

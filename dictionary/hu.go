@@ -71,6 +71,7 @@ var dict_hu = Dictionary{
         ToolbarLink                            : "Hivatkozás",
         ToolbarReferenceLink                   : "Referenciaként hivatkozás",
         ToolbarImage                           : "Kép",
+        ToolbarFile                            : "Fájl",
         ToolbarCode                            : "Kódrészlet",
         ToolbarPreformattedText                : "Előre formázott szöveg / Kódrészlet (Tab beljebb húzás)",
         ToolbarCodeBlock                       : "Kódrészlet blokk (Több nyelv)",
@@ -134,6 +135,7 @@ var dict_hu = Dictionary{
         Donations:          "Adományok",
         Settings:           "Beállítások",
         Supporters:         "Támogatók",
+        Files:              "Fájlok",
 
         PostImg:            "Kép",
         PostId:             "Id",
@@ -153,7 +155,7 @@ var dict_hu = Dictionary{
     Donate: Donate{
         Action:             "Action",
         Redirect:           "Átirányítás az OTP Simple oldalra...",
-        Header:             "Adományozz nekem",
+        Header:             "Támogass minket",
         Description:        "Véletlenszerű aláírás szöveg...",
         Other:              "Egyéb",
         Amount:             "Összeg",

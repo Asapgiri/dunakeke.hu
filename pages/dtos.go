@@ -49,6 +49,7 @@ type DtoPostShow struct {
 type PostSaveImageResponse struct {
     Success int     `json:"success"`
     Url     string  `json:"url"`
+    Alt     string  `json:"alt"`
 }
 
 type LinkUpdate struct {
