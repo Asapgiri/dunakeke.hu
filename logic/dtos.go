@@ -38,6 +38,8 @@ type User struct {
     Name            string
     Email           string
     Phone           string
+    EmailVisible    bool
+    PhoneVisible    bool
     Roles           []string
 }
 

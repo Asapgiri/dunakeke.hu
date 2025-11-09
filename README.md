@@ -10,13 +10,15 @@ Webpage for DUNAKEKE
 - [ ] page for yearly income/stuff...
     - [ ] way to upload pdf files.
 - [ ] file/picture selector/search
+- [ ] email password reset
+    - [ ] normal password reset
+- [ ] email services
+- [ ] user profiles
 
 - [ ] Supporter admin update is missing
 - [ ] fix per site roles
 - [ ] set choose file text
 - [ ] import existing pages
-- [ ] remove TODO() contexts
-- [ ] email password reset
 - [ ] expost modules
     - [ ] authentication?
     - [ ] config
@@ -49,7 +51,6 @@ Webpage for DUNAKEKE
 - [x] Link otpay correctly...
     - [ ] look into applepay??
     - [ ] Final check
-- [ ] Implement post editing..
 - [ ] implement home page..
 - [ ] implement admin pages..
 - [ ] Check all links are working
@@ -91,3 +92,5 @@ Webpage for DUNAKEKE
 - [x] add simplepay logo
 - [x] add supporter and their logos...
 - [x] show page Titles properly
+- [x] remove TODO() contexts
+- [x] Implement post editing..

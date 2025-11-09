@@ -1,0 +1,45 @@
+{{$userIsUser := (or .Auth.IsMod (eq .Auth.Username .Dto.Username))}}
+<div class="container-xl flex-fill postshow py-4">
+    <h6 class="border-bottom border-gray pb-2 mb-0">
+        <span class="news-text">{{.Dto.Username}}</span>
+        {{if $userIsUser}}
+        <span class="text-muted small float-end">
+            <a href="/user/edit/{{.Dto.Id}}">Szerkesztés</a>
+        </span>
+        {{end}}
+        <br>
+    </h6>
+    <div class="text-muted pt-3">
+        <div class="">
+            <div class="row">
+                <div class="col-md-4">
+                    <img class="img-hover" src="/no-avatar.png">
+                </div>
+                <div class="col-md-8">
+                    <p class="smalltext-muted m-0 p-0">@{{.Dto.Username}}</p>
+                    <h2 class="mb-4">
+                        <strong>
+                            {{.Dto.Name}}
+                        </strong>
+                    </h2>
+                    <table>
+                        <tbody>
+                            {{if or .Dto.EmailVisible $userIsUser}}
+                            <tr>
+                                <td class="min-width-2">Email:</td>
+                                <td class="text-muted">{{.Dto.Email}}{{if not .Dto.Email}}empty{{end}}{{if not .Dto.EmailVisible}} <small>(nem látható)</small>{{end}}</td>
+                            </tr>
+                            {{end}}
+                            {{if or .Dto.PhoneVisible $userIsUser}}
+                            <tr>
+                                <td class="min-width-2 pt-2">Telefon:</td>
+                                <td class="text-muted pt-2">{{.Dto.Phone}}{{if not .Dto.Phone}}empty{{end}}{{if not .Dto.PhoneVisible}} <small>(nem látható)</small>{{end}}</td>
+                            </tr>
+                            {{end}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

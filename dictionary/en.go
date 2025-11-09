@@ -16,6 +16,7 @@ var dict_en = Dictionary{
         Login:                      "Login",
         Register:                   "Register",
         Logout:                     "Logout",
+        Save:                       "Save",
         ForgottenPassword:          "Forgotten Password",
         UsernameOrEmail:            "Username or Email",
         Password:                   "Password",

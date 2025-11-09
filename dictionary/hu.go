@@ -16,6 +16,7 @@ var dict_hu = Dictionary{
         Login:                      "Bejelentkezés",
         Register:                   "Regisztráció",
         Logout:                     "Kijelentkezés",
+        Save:                       "Mentés",
         ForgottenPassword:          "Elfelejtett jelszó",
         UsernameOrEmail:            "Felhasználónév vagy Email-cím",
         Password:                   "Jelszó",

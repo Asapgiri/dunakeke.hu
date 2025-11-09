@@ -93,7 +93,7 @@
                             {{.Auth.Username}}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="/user">{{.Dictionary.Auth.Account}}</a></li>
+                            <li><a class="dropdown-item" href="/user/{{.Auth.Username}}">{{.Dictionary.Auth.Account}}</a></li>
                             {{if .Auth.IsEditor}}
                             <li><a class="dropdown-item" href="/admin">{{.Dictionary.Auth.AdminSite}}</a></li>
                             {{end}}

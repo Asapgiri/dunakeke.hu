@@ -32,7 +32,10 @@ type User struct {
     PasswordHash    string
     Name            string
     Email           string             `bson:"email"`
+    EmailVerified   bool
     Phone           string
+    EmailVisible    bool
+    PhoneVisible    bool
     Roles           []string
 }
 

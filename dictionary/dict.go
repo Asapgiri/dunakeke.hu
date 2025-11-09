@@ -21,6 +21,7 @@ type Auth struct {
     Login                                   string
     Register                                string
     Logout                                  string
+    Save                                    string
     ForgottenPassword                       string
     UsernameOrEmail                         string
     Password                                string

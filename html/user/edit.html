@@ -1,0 +1,65 @@
+<div class="container-xl flex-fill postshow py-4">
+    <div class="text-muted pt-3">
+        <div class="">
+            <div class="row">
+                <div class="col-md-4">
+                    <img class="img-hover" src="/no-avatar.png">
+                </div>
+                <div class="col-md-8">
+                    <form name="form" method="post">
+
+                        <div class="form-group row my-2">
+                            <label class="col-form-label col-sm-3" for="form_id">Id</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="form_id" name="form[id]" maxlength="550" class="form-control" value="{{.Dto.Id}}" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group row my-2">
+                            <label class="col-form-label col-sm-3" for="form_username">{{.Dictionary.Auth.Username}}</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="form_username" name="form[username]" maxlength="550" class="form-control" value="{{.Dto.Username}}" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group row my-2">
+                            <label class="col-form-label col-sm-3" for="form_name">{{.Dictionary.Auth.Name}}</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="form_name" name="form[name]" maxlength="550" class="form-control" value="{{.Dto.Name}}">
+                            </div>
+                        </div>
+
+                        <div class="form-group row my-2">
+                            <label class="col-form-label col-sm-3 required" for="form_email">{{.Dictionary.Auth.Email}}</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="email" id="form_email" name="form[email]" required="required" maxlength="550" class="form-control" value="{{.Dto.Email}}">
+                                    <div class="input-group-text">
+                                        <input class="form-check-input mt-0" type="checkbox" id="form_email_visible" name="form[email_visible]" {{if .Dto.EmailVisible}}checked{{end}} aria-label="Checkbox for following text input">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row my-2">
+                            <label class="col-form-label col-sm-3" for="form_phone">{{.Dictionary.Auth.Phone}}</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" id="form_phone" name="form[phone]" maxlength="550" class="form-control" value="{{.Dto.Phone}}">
+                                    <div class="input-group-text">
+                                        <input class="form-check-input mt-0" type="checkbox" id="form_phone_visible" name="form[phone_visible]" {{if .Dto.PhoneVisible}}checked{{end}} aria-label="Checkbox for following text input">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <button type="submit" style="width: 300px; margin: 15px 0px;" id="form_submit" name="form[submit]" class="btn-primary btn">{{.Dictionary.Auth.Save}}</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

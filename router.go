@@ -18,6 +18,7 @@ func setup_routes() {
     http.HandleFunc("GET /register",            pages.Register)
     http.HandleFunc("POST /register",           pages.Register)
     http.HandleFunc("GET /logout",              pages.Logout)
+    http.HandleFunc("GET /pwr_r",               pages.NotFound)
 
     http.HandleFunc("GET /admin",               pages.AdminPage)
     http.HandleFunc("GET /admin/links",         pages.AdminLinks)
@@ -50,9 +51,10 @@ func setup_routes() {
     http.HandleFunc("GET /donate/return",       pages.DonationReturn)
     http.HandleFunc("GET /donate/{id}",         pages.DonationShowStatus)
 
-    http.HandleFunc("GET /user/{id}",           pages.NotFound)
-    http.HandleFunc("GET /user/edit/{id}",      pages.NotFound)
-    http.HandleFunc("GET /user/delete/{id}",    pages.NotFound)
+    http.HandleFunc("GET /user/{name}",         pages.User)
+    http.HandleFunc("GET /user/edit/{id}",      pages.UserEdit)
+    http.HandleFunc("POST /user/edit/{id}",     pages.UserEditSave)
+    http.HandleFunc("GET /user/delete/{id}",    pages.UserDelete)
 
     http.HandleFunc("GET /post/{id}",           pages.PostShow)
     http.HandleFunc("GET /post/new",            pages.PostNew)
