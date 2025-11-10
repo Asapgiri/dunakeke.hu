@@ -1,12 +1,14 @@
 package main
 
 import (
-	"net/http"
 	"dunakeke/config"
 	"dunakeke/dbase"
-	"github.com/asapgiri/golib/logger"
+	"dunakeke/logic"
+	"net/http"
 	"os"
 	"strings"
+
+	"github.com/asapgiri/golib/logger"
 )
 
 var log = logger.Logger {
@@ -16,6 +18,7 @@ var log = logger.Logger {
 
 func main() {
     config.InitConfig()
+    logic.SetupEmail()
 
     err := dbase.Connect()
     setup_routes()

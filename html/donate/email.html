@@ -1,0 +1,67 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body style="font-family: Arial, sans-serif; background-color: #f6f6f6; margin: 0; padding: 20px;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #f6f6f6;">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+            <tr>
+              <td style="padding: 30px;">
+
+                {{if .Dto.Successful}}
+                <div style="background: linear-gradient(135deg, #00f260 0%, #0575e6 100%); box-shadow: 0 4px 12px rgba(5, 117, 230, 0.5); border: 1px solid rgba(5, 117, 230, 0.5); color: #fff; border-radius: 6px; padding: 15px; text-align: center; margin-bottom: 20px;">
+                  <h4 style="margin: 0;">{{.Dictionary.Donate.TransactionSuccess}}</h4>
+                </div>
+                {{else}}
+                <div style="background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%); box-shadow: 0 4px 12px rgba(255, 210, 0, 0.5); border: 1px solid rgba(255, 210, 0, 0.5); color: #212529; border-radius: 6px; padding: 15px; text-align: center; margin-bottom: 20px;">
+                  <h4 style="margin: 0;">{{.Dictionary.Donate.TransactionFailed}}</h4>
+                </div>
+                {{end}}
+
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size: 15px; color: #333;">
+                  <tr>
+                    <td width="30%" style="padding: 6px 0; font-weight: bold;">{{.Dictionary.Donate.Name}}</td>
+                    <td width="70%" style="padding: 6px 0;">{{if .Dto.Name}}{{.Dto.Name}}{{else}}<span style="color:#999;">{{.Dictionary.Donate.NameEmpty}}</span>{{end}}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 6px 0; font-weight: bold;">{{.Dictionary.Donate.Email}}</td>
+                    <td style="padding: 6px 0;">{{.Dto.Email}}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 6px 0; font-weight: bold;">{{.Dictionary.Donate.DateCreated}}</td>
+                    <td style="padding: 6px 0;">{{tformat .Dto.Date}}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 6px 0; font-weight: bold;">{{.Dictionary.Donate.Amount}}</td>
+                    <td style="padding: 6px 0; font-weight: bold;">{{.Dto.Amount}} Ft</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 6px 0; font-weight: bold;">{{.Dictionary.Donate.Status}}</td>
+                    <td style="padding: 6px 0;">{{.Dto.Status}}</td>
+                  </tr>
+                  {{if .Dto.Recurring}}
+                  <tr>
+                    <td style="padding: 6px 0; font-weight: bold;">{{.Dictionary.Donate.Recurrence}}</td>
+                    <td style="padding: 6px 0;"><span style="background-color: #cff4fc; color: #055160; padding: 4px 8px; border-radius: 4px;">{{.Dictionary.Donate.Monthly}}</span></td>
+                  </tr>
+                  {{end}}
+                  <tr>
+                    <td style="padding: 6px 0; font-weight: bold; vertical-align: top;">{{.Dictionary.Donate.Message}}</td>
+                    <td style="padding: 6px 0; white-space: pre-wrap;">{{.Dto.Message}}</td>
+                  </tr>
+                </table>
+
+                <div style="text-align: right; margin-top: 30px;">
+                    <img src="{{.MainDto.Http.Url}}/simplepay_200x50.png" alt="SimplePay" width="200" height="50" style="display:inline-block;" />
+                </div>
+
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

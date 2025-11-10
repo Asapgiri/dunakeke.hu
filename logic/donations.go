@@ -185,18 +185,18 @@ func RedirectToOtpApi(dict dictionary.Dictionary, donation Donation) (OtpReturnP
     return OtpReturnPublic{PaymentUrl: retStuff.PaymentUrl}, err
 }
 
-func ProgressOtpReply(r string, s string) (string, bool, error) {
+func ProgressOtpReply(r string, s string) (Donation, error) {
     payload, err := base64.StdEncoding.DecodeString(r)
 
     if nil != err {
         log.Println("base64 decode error.")
         log.Println(err)
-        return "", false, err
+        return Donation{}, err
     }
 
     if !signatureMatch(payload, s) {
         log.Println("Signature mismatch..")
-        return "", false, errors.New("Payload ignature mismatch..")
+        return Donation{}, errors.New("Payload ignature mismatch..")
     }
 
     simple_resp := SimpleResponse{}
@@ -217,9 +217,7 @@ func ProgressOtpReply(r string, s string) (string, bool, error) {
     }
     donation.Update()
 
-    // TODO: Send Email
-
-    return donation.Id, donation.Successful, nil
+    return donation, nil
 }
 
 func addExistingDonationsToNewUser(user dbase.User) {

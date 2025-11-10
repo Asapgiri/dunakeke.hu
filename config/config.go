@@ -38,11 +38,20 @@ type DonationConfig struct {
     SimplePayReturnURL  string
 }
 
+type EmailConfig struct {
+    Smtp        string
+    Port        int
+    Sender      string
+    Email       string
+    Password    string
+}
+
 type ConfigT struct {
     Http        HttpConfig
     Dbase       DbConfig
     User        UserConfig
     Site        session.Config
+    Email       EmailConfig
     Donation    DonationConfig
 }
 
@@ -67,6 +76,13 @@ var Config = ConfigT{
         SiteTitle: "Dunakéke",
         TitleSeparator: " - ",
         MaxImgUploadMB: 10,
+    },
+    Email: EmailConfig{
+        Smtp: "smtp.example.com",
+        Port: 465,
+        Sender: "[organization/sender name]",
+        Email: "ex@ample.com",
+        Password: "[password]",
     },
     Donation: DonationConfig{
         Merchant: "",

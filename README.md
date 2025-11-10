@@ -12,8 +12,9 @@ Webpage for DUNAKEKE
 - [ ] file/picture selector/search
 - [ ] email password reset
     - [ ] normal password reset
-- [ ] email services
-- [ ] user profiles
+- [x] user profiles
+    - [ ] passwor change on profile
+    - [ ] account delete
 
 - [ ] Supporter admin update is missing
 - [ ] fix per site roles
@@ -94,3 +95,4 @@ Webpage for DUNAKEKE
 - [x] show page Titles properly
 - [x] remove TODO() contexts
 - [x] Implement post editing..
+- [x] email services

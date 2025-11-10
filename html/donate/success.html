@@ -1,25 +1,18 @@
 <style>
-.bg-gradient-info {
-    background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
-    box-shadow: 0 4px 12px rgba(0, 114, 255, 0.5);
-    backdrop-filter: saturate(180%) blur(10px);
-    border: 1px solid rgba(0, 114, 255, 0.5);
+.bg-gradient-success, [summary~='s-bg-gradient-success'] {
+  background: linear-gradient(135deg, #00f260 0%, #0575e6 100%);
+  box-shadow: 0 4px 12px rgba(5, 117, 230, 0.5);
+  backdrop-filter: saturate(180%) blur(10px);
+  border: 1px solid rgba(5, 117, 230, 0.5);
 }
 
-  .bg-gradient-success {
-      background: linear-gradient(135deg, #00f260 0%, #0575e6 100%);
-      box-shadow: 0 4px 12px rgba(5, 117, 230, 0.5);
-      backdrop-filter: saturate(180%) blur(10px);
-      border: 1px solid rgba(5, 117, 230, 0.5);
-  }
-
-  .bg-gradient-warning {
-      background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
-      box-shadow: 0 4px 12px rgba(255, 210, 0, 0.5);
-      backdrop-filter: saturate(180%) blur(10px);
-      border: 1px solid rgba(255, 210, 0, 0.5);
-      color: #212529 !important;
-  }
+.bg-gradient-warning, [summary~='s-bg-gradient-warning']{
+  background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+  box-shadow: 0 4px 12px rgba(255, 210, 0, 0.5);
+  backdrop-filter: saturate(180%) blur(10px);
+  border: 1px solid rgba(255, 210, 0, 0.5);
+  color: #212529 !important;
+}
 </style>
 
 <div class="container-xl flex-fill my-5">
@@ -27,11 +20,11 @@
     <p class="text-muted">{{.Dictionary.Donate.Description}}</p>
 
     {{if .Dto.Successful}}
-    <div class="alert bg-gradient-success my-4" role="alert">
+    <div class="alert bg-gradient-success my-4" summary="s-bg-gradient-success" role="alert">
         <h4 class="mb-0">{{.Dictionary.Donate.TransactionSuccess}}</h4>
     </div>
     {{else}}
-    <div class="alert bg-gradient-warning my-4" role="alert">
+    <div class="alert bg-gradient-warning my-4" summary="s-bg-gradient-warning" role="alert">
         <h4 class="mb-0">{{.Dictionary.Donate.TransactionFailed}}</h4>
     </div>
     {{end}}

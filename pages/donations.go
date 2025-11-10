@@ -1,13 +1,15 @@
 package pages
 
 import (
-	"github.com/asapgiri/golib/renderer"
 	"dunakeke/config"
 	"dunakeke/dictionary"
 	"dunakeke/logic"
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/asapgiri/golib/renderer"
+	"github.com/asapgiri/golib/session"
 )
 
 func DonationRoot(w http.ResponseWriter, r *http.Request) {
@@ -67,17 +69,26 @@ func DonationInProgress(w http.ResponseWriter, r *http.Request) {
     } else {
         log.Printf("Redirect URL: %s\n", otp_ret.PaymentUrl)
         http.Redirect(w, r, otp_ret.PaymentUrl, http.StatusSeeOther)
+
+        // FIXME: Implementation should occasionally check if the request finished,
+        //        if the user closed the SimplePay site..
     }
 }
 
 func DonationReturn(w http.ResponseWriter, r *http.Request) {
-    id, success, err := logic.ProgressOtpReply(r.URL.Query().Get("r"), r.URL.Query().Get("s"))
-    if success && nil == err {
-        http.Redirect(w, r, "/donate/" + id, http.StatusSeeOther)
+    session := GetCurrentSession(r)
+
+    donation, err := logic.ProgressOtpReply(r.URL.Query().Get("r"), r.URL.Query().Get("s"))
+    if donation.Successful && nil == err {
+        session.UpdateTitle(config.Config.Site, session.Dictionary.(dictionary.Dictionary).Donate.TransactionSuccess)
+        http.Redirect(w, r, "/donate/" + donation.Id, http.StatusSeeOther)
     } else {
         // TODO: Handle errors, and their passing ...
-        http.Redirect(w, r, "/donate/" + id, http.StatusSeeOther)
+        session.UpdateTitle(config.Config.Site, session.Dictionary.(dictionary.Dictionary).Donate.TransactionFailed)
+        http.Redirect(w, r, "/donate/" + donation.Id, http.StatusSeeOther)
     }
+
+    donationEmail(session, donation)
 }
 
 func DonationShowStatus(w http.ResponseWriter, r *http.Request) {
@@ -93,4 +104,15 @@ func DonationShowStatus(w http.ResponseWriter, r *http.Request) {
         session.UpdateTitle(config.Config.Site, session.Dictionary.(dictionary.Dictionary).Donate.TransactionFailed)
     }
     renderer.Render(session, w, fil, donation)
+
+    donationEmail(session, donation)
+}
+
+func donationEmail(session session.Sessioner, donation logic.Donation) {
+    fil, _ := renderer.ReadArtifact("donate/email.html", nil)
+    session.MainDto = config.Config
+    session.Dto = donation
+    message := renderer.PreRender(fil, session)
+
+    logic.SendEmail(session.Config.Title, message, logic.Messagee{Name: donation.Name, Email: donation.Email})
 }
