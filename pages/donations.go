@@ -104,8 +104,6 @@ func DonationShowStatus(w http.ResponseWriter, r *http.Request) {
         session.UpdateTitle(config.Config.Site, session.Dictionary.(dictionary.Dictionary).Donate.TransactionFailed)
     }
     renderer.Render(session, w, fil, donation)
-
-    donationEmail(session, donation)
 }
 
 func donationEmail(session session.Sessioner, donation logic.Donation) {
