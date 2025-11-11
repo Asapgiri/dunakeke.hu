@@ -10,6 +10,7 @@ Webpage for DUNAKEKE
 - [ ] page for yearly income/stuff...
     - [ ] way to upload pdf files.
 - [ ] file/picture selector/search
+- [ ] fix donation handling if not returned to site
 - [ ] email password reset
     - [ ] normal password reset
 - [x] user profiles
