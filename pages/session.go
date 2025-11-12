@@ -9,21 +9,21 @@ import (
 )
 
 func GetCurrentSession(r *http.Request) session.Sessioner {
-    session := session.Sessioner{}
-    session.Authenticate(r)
-    logic.Authenticate(&session.Auth)
+    sess := session.Sessioner{}
+    sess.Authenticate(r)
+    logic.Authenticate(&sess.Auth)
 
-    session.Dictionary = dictionary.GetLanguage(r)
-    session.Config = config.Config.Site
-    session.Path = r.URL.String()
+    sess.Dictionary = dictionary.GetLanguage(r)
+    sess.Config = config.Config.Site
+    sess.Path = r.URL.String()
 
     // FIXME: Put this to somewhere
-    logic.SaveStatistics(r, session.Auth.Id)
+    logic.SaveStatistics(r, sess.Auth.Id)
 
     // FIXME: Should be somewhere else...
     supp := logic.Supporter{}
     supporters, _ := supp.List()
-    session.MainDto = Footer{
+    sess.MainDto = Footer{
         Supporters: supporters,
         Sections: []Section{
             Section{
@@ -48,6 +48,7 @@ func GetCurrentSession(r *http.Request) session.Sessioner {
             },
         },
     }
+    sess.Meta = session.MetaData{}
 
-    return session
+    return sess
 }

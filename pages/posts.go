@@ -33,7 +33,17 @@ func PostShow(w http.ResponseWriter, r *http.Request) {
         return
     }
 
+
     session.UpdateTitle(config.Config.Site, post.Title)
+
+    session.Meta["title"] = session.Config.Title
+    session.Meta["image"] = config.Config.Http.Url + post.Image
+    session.Meta["twitter:card"] = "summary_large_image"
+
+    if len(post.Tags) > 0 {
+        session.Meta["theme-color"] = post.Tags[0].Color
+    }
+
     fil, _ := renderer.ReadArtifact("post/show.html", w.Header())
     renderer.Render(session, w, fil, post)
 }
