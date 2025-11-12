@@ -57,6 +57,10 @@
                     <td width="65%" style="padding: 6px 0;"><a href="{{.MainDto.Http.Url}}/donate/{{.Dto.Id}}">{{.Dto.Id}}</a></td>
                   </tr>
                   <tr class="two-col">
+                    <td width="35%" style="padding: 6px 0; font-weight: bold;">{{.Dictionary.Donate.TransactionId}}</td>
+                    <td width="65%" style="padding: 6px 0;">{{.Dto.TransactionId}}</td>
+                  </tr>
+                  <tr class="two-col">
                     <td width="35%" style="padding: 6px 0; font-weight: bold;">{{.Dictionary.Donate.Name}}</td>
                     <td width="65%" style="padding: 6px 0;">{{if .Dto.Name}}{{.Dto.Name}}{{else}}<span style="color:#999;">{{.Dictionary.Donate.NameEmpty}}</span>{{end}}</td>
                   </tr>

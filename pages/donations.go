@@ -58,7 +58,7 @@ func DonationInProgress(w http.ResponseWriter, r *http.Request) {
     log.Println(donation)
 
     // FIXME: undo after testing..
-    otp_ret, err := logic.RedirectToOtpApi(session.Dictionary.(dictionary.Dictionary), donation)
+    otp_ret, err := logic.RedirectToOtpApi(session.Dictionary.(dictionary.Dictionary), &donation)
     //otp_ret := logic.OtpJsonResponse{PaymentUrl: "/donate"}
 
     if nil != err {
@@ -70,8 +70,9 @@ func DonationInProgress(w http.ResponseWriter, r *http.Request) {
         log.Printf("Redirect URL: %s\n", otp_ret.PaymentUrl)
         http.Redirect(w, r, otp_ret.PaymentUrl, http.StatusSeeOther)
 
-        // FIXME: Implementation should occasionally check if the request finished,
-        //        if the user closed the SimplePay site..
+        go logic.CheckTransactionProgress(donation, func(d logic.Donation) {
+            donationEmail(session, d)
+        })
     }
 }
 
@@ -81,14 +82,11 @@ func DonationReturn(w http.ResponseWriter, r *http.Request) {
     donation, err := logic.ProgressOtpReply(r.URL.Query().Get("r"), r.URL.Query().Get("s"))
     if donation.Successful && nil == err {
         session.UpdateTitle(config.Config.Site, session.Dictionary.(dictionary.Dictionary).Donate.TransactionSuccess)
-        http.Redirect(w, r, "/donate/" + donation.Id, http.StatusSeeOther)
     } else {
         // TODO: Handle errors, and their passing ...
         session.UpdateTitle(config.Config.Site, session.Dictionary.(dictionary.Dictionary).Donate.TransactionFailed)
-        http.Redirect(w, r, "/donate/" + donation.Id, http.StatusSeeOther)
     }
-
-    donationEmail(session, donation)
+    http.Redirect(w, r, "/donate/" + donation.Id, http.StatusSeeOther)
 }
 
 func DonationShowStatus(w http.ResponseWriter, r *http.Request) {

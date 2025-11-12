@@ -171,6 +171,7 @@ var dict_en = Dictionary{
         GDPRavsz:           "Privacy Policy",
         TransactionSuccess: "Transaction Successful!",
         TransactionFailed:  "Transaction Failed!",
+        TransactionId:      "SimplePay Id",
         OneTime:            "One Time",
         Recurring:          "Recurring",
         Occurances:         "Occurances",

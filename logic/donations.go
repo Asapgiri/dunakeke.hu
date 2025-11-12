@@ -53,6 +53,35 @@ type SimpleResponse struct {
     OrderId         string  `json:"o"`
 }
 
+type SimpleQuery struct {
+    Merchant        string      `json:"merchant"`
+    OrderRefs       []string    `json:"orderRefs,omitempty"`
+    TransactionIds  []string    `json:"transactionIds,omitempty"`
+    Salt            string      `json:"salt"`
+    SdkVersion      string      `json:"sdkVersion"`
+}
+
+type SimpleQueryTranstactions struct {
+     Salt           string      `json:"salt"`
+     Merchant       string      `json:"merchant"`
+     OrderRef       string      `json:"orderRef"`
+     Total          int         `json:"total"`
+     TransactionId  int         `json:"transactionId"`
+     Status         string      `json:"status"`
+     ResultCode     string      `json:"resultCode"`
+     RemainingTotal int         `json:"remainingTotal"`
+     PaymentDate    string      `json:"paymentDate"`
+     FinishDate     string      `json:"finishDate"`
+     Method         string      `json:"method"`
+}
+
+type SimpleQueryResponse struct {
+    Salt            string                      `json:"salt"`
+    Merchant        string                      `json:"merchant"`
+    Transactions    []SimpleQueryTranstactions  `json:"transactions"`
+    TotalCount      int                         `json:"totalCount"`
+}
+
 type OtpJsonResponse struct {
     ErrorCodes      []int
     Merchant        string
@@ -74,6 +103,28 @@ type MerchantHasher struct {
     Body        string
     Merchant    string
     Hash        string
+}
+
+const simpleSdkVersion = "SimplePayV2.1_Payment_PHP_SDK_2.0.7_190701:dd236896400d7463677a82a47f53e36e"
+
+func translateStatus(donation *Donation, otpStatus string) {
+    switch otpStatus {
+    case "SUCCESS", "FINISHED":
+        donation.Status = "SUCCESSFUL"
+        donation.Successful = true
+        break
+    case "FAIL", "CANCEL", "TIMEOUT", "CANCELLED", "NOTAUTHORIZED":
+        donation.Status = "FAILURE"
+        donation.Successful = false
+        break
+    case "INIT", "INPAYMENT", "INFRAUD", "AUTHORIZED", "REVERSED":
+        donation.Status = "INPROGRESS"
+        donation.Successful = false
+    default:
+        donation.Status = "UNKNOWN"
+        donation.Successful = false
+        break
+    }
 }
 
 func otpGenerateSignature(body []byte) string {
@@ -106,7 +157,77 @@ func signatureMatch(payload []byte, signature string) bool {
     return hmac.Equal(decodedSig, expectedMac)
 }
 
-func RedirectToOtpApi(dict dictionary.Dictionary, donation Donation) (OtpReturnPublic, error) {
+func otpHttpRequest(url string, content any) ([]byte, error) {
+    body, _ := json.Marshal(content)
+
+    req, _ := http.NewRequest("POST", url, bytes.NewBuffer(body))
+    req.Header.Set("merchantKey", config.Config.Donation.SecretKey)
+    req.Header.Set("Signature", otpGenerateSignature(body))
+    req.Header.Set("Content-Type", "application/json")
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    if nil != err {
+        return []byte{}, err
+    }
+    defer resp.Body.Close()
+
+    respBody, err := io.ReadAll(resp.Body)
+    if nil != err {
+        return []byte{}, err
+    }
+
+    if !signatureMatch(respBody, resp.Header.Get("Signature")) {
+        return []byte{}, errors.New("Signature mismatch!")
+    }
+
+    return respBody, nil
+}
+
+func CheckTransactionProgress(donation Donation, callback func(Donation)) {
+    url := config.Config.Donation.SimplePayURL + "/payment/v2/query"
+    log.Printf("URL> %s\n", url)
+
+    requestTimes := (config.Config.Donation.TimeoutMinutes * 60) / config.Config.Donation.PollSeconds
+    for range(requestTimes) {
+        time.Sleep(time.Duration(config.Config.Donation.PollSeconds) * time.Second)
+
+        query := SimpleQuery{
+            Merchant:   config.Config.Donation.Merchant,
+            OrderRefs:  []string{donation.Id},
+            Salt:       generateSalt(32),
+            SdkVersion: simpleSdkVersion,
+        }
+
+        respBody, err := otpHttpRequest(url, query)
+        if nil != err {
+            log.Println("SimplePay Query ERROR: ", err)
+            continue
+        }
+
+        ret := SimpleQueryResponse{}
+        err = json.Unmarshal(respBody, &ret)
+
+        if ret.TotalCount > 0 {
+            // FIXME: Statuses should be mapped to result values...
+            err := donation.SelectLock()
+            if nil != err {
+                log.Println("Failed to select donation...")
+                continue
+            }
+            translateStatus(&donation, ret.Transactions[0].Status)
+            donation.UpdateUnlock()
+
+            if donation.Successful || "FAILURE" == donation.Status {
+                callback(donation)
+                return
+            }
+        }
+    }
+    log.Println("checking TIMED OUT")
+}
+
+func RedirectToOtpApi(dict dictionary.Dictionary, donation *Donation) (OtpReturnPublic, error) {
     url := config.Config.Donation.SimplePayURL + "/payment/v2/start"
     log.Printf("URL> %s\n", url)
     log.Printf("mer> %s\n", config.Config.Donation.Merchant)
@@ -125,7 +246,7 @@ func RedirectToOtpApi(dict dictionary.Dictionary, donation Donation) (OtpReturnP
         Currency:       "HUF",
         CustomerEmail:  donation.Email,
         Language:       strings.ToUpper(dict.Meta.CountryCode),
-        SdkVersion:     "SimplePayV2.1_Payment_PHP_SDK_2.0.7_190701:dd236896400d7463677a82a47f53e36e",
+        SdkVersion:     simpleSdkVersion,
         Methods:        []string{"CARD"},
         Total:          strconv.Itoa(int(donation.Amount)),
         Timeout:        otpGetTimeFormat(time.Now().Add(5 * time.Minute)),
@@ -141,34 +262,11 @@ func RedirectToOtpApi(dict dictionary.Dictionary, donation Donation) (OtpReturnP
         log.Println("recurring...")
     }
 
-    body, _ := json.Marshal(simple_start)
-    log.Println(string(body))
-
-    req, _ := http.NewRequest("POST", url, bytes.NewBuffer(body))
-    req.Header.Set("merchantKey", config.Config.Donation.SecretKey)
-    req.Header.Set("Signature", otpGenerateSignature(body))
-    req.Header.Set("Content-Type", "application/json")
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
+    respBody, err := otpHttpRequest(url, simple_start)
     if nil != err {
         log.Println("SimplePay ERROR:")
         log.Println(err)
-        return OtpReturnPublic{}, err
-    }
-    defer resp.Body.Close()
-
-    log.Println("response status: ", resp.Status)
-    log.Println("response headers: ", resp.Header)
-
-    respBody, err := io.ReadAll(resp.Body)
-    if nil != err {
-        return OtpReturnPublic{}, err
-    }
-    log.Println("response body: ", string(respBody))
-
-    if !signatureMatch(respBody, resp.Header.Get("Signature")) {
-        return OtpReturnPublic{PaymentUrl: "/donate/" + donation.Id}, errors.New("Signature mismatch!")
+        return OtpReturnPublic{PaymentUrl: "/donate/" + donation.Id}, err
     }
 
     retStuff := OtpJsonResponse{}
@@ -201,21 +299,16 @@ func ProgressOtpReply(r string, s string) (Donation, error) {
 
     simple_resp := SimpleResponse{}
     json.Unmarshal(payload, &simple_resp)
-    log.Println(simple_resp)
 
     donation := Donation{Id: simple_resp.OrderId}
-    donation.Select()
+    donation.SelectLock()
 
-    donation.Status = simple_resp.Event
-    donation.Successful = "SUCCESS" == simple_resp.Event
-    log.Println("successful: ", donation.Successful)
+    translateStatus(&donation, simple_resp.Event)
     if donation.Successful {
-        log.Println(donation.Occurences)
         donation.Occurences = []time.Time{time.Now()}
-        log.Println("LastOccurance: ", donation.Occurences)
         donation.RecurringActive = donation.Recurring
     }
-    donation.Update()
+    donation.UpdateUnlock()
 
     return donation, nil
 }
@@ -273,6 +366,22 @@ func (donation *Donation) Select() error {
     return nil
 }
 
+func (donation *Donation) UpdateUnlock() error {
+    ddon := donation.UnMap()
+    return ddon.UpdateUnlock()
+}
+
+func (donation *Donation) SelectLock() error {
+    ddon := dbase.Donation{}
+    oid, _ := primitive.ObjectIDFromHex(donation.Id)
+    err := ddon.SelectLock(oid)
+    if nil != err {
+        return err
+    }
+
+    donation.Map(ddon)
+    return nil
+}
 
 func (do *DonationOption) List() []DonationOption {
     ddon := dbase.DonationOption{}

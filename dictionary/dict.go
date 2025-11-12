@@ -179,6 +179,7 @@ type Donate struct {
     GDPRavsz                                string
     TransactionSuccess                      string
     TransactionFailed                       string
+    TransactionId                           string
     OneTime                                 string
     Recurring                               string
     Occurances                              string

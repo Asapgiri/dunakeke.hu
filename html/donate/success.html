@@ -32,6 +32,12 @@
     <div class="card shadow-sm border-0 mb-4">
         <div class="card-body">
             <dl class="row mb-0">
+                <dt class="col-sm-3">Id</dt>
+                <dd class="col-sm-9">{{.Dto.Id}}</dd>
+
+                <dt class="col-sm-3">{{.Dictionary.Donate.TransactionId}}</dt>
+                <dd class="col-sm-9">{{.Dto.TransactionId}}</dd>
+
                 <dt class="col-sm-3">{{.Dictionary.Donate.Name}}</dt>
                 <dd class="col-sm-9">{{if .Dto.Name}}{{.Dto.Name}}{{else}}<span class="text-muted">{{.Dictionary.Donate.NameEmpty}}</span>{{end}}</dd>
 

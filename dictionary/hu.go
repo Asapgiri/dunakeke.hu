@@ -171,6 +171,7 @@ var dict_hu = Dictionary{
         GDPRavsz:           "Adatkezelési tájékoztatást",
         TransactionSuccess: "Sikeres tanzakció!",
         TransactionFailed:  "Sikertelen tanzakció!",
+        TransactionId:      "SimplePay Id",
         OneTime:            "Egyszeri",
         Recurring:          "Ismétlődő",
         Occurances:         "Alkalmak",

@@ -466,6 +466,15 @@ func (donation *Donation) Select(id primitive.ObjectID) error {
     return dbDONATIONS.FindOne(context.Background(), bson.D{{"_id", id}}).Decode(donation)
 }
 
+func (donation *Donation) SelectLock(id primitive.ObjectID) error {
+    muxLock(id.Hex())
+    err := dbDONATIONS.FindOne(context.Background(), bson.D{{"_id", id}}).Decode(donation)
+    if nil != err {
+        muxUnlock(id.Hex())
+    }
+    return err
+}
+
 func (donation *Donation) Add() error {
     _, err := dbDONATIONS.InsertOne(context.Background(), donation)
     return err
@@ -473,6 +482,12 @@ func (donation *Donation) Add() error {
 
 func (donation *Donation) Update() error {
     _, err := dbDONATIONS.ReplaceOne(context.Background(), bson.D{{"_id", donation.Id}}, donation)
+    return err
+}
+
+func (donation *Donation) UpdateUnlock() error {
+    _, err := dbDONATIONS.ReplaceOne(context.Background(), bson.D{{"_id", donation.Id}}, donation)
+    muxUnlock(donation.Id.Hex())
     return err
 }
 

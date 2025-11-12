@@ -16,6 +16,8 @@ Webpage for DUNAKEKE
 - [x] user profiles
     - [ ] passwor change on profile
     - [ ] account delete
+- [ ] File upload error... -> Generate files folder if does not exists...
+- [ ] Post headers
 
 - [ ] Supporter admin update is missing
 - [ ] fix per site roles
@@ -30,6 +32,7 @@ Webpage for DUNAKEKE
 
 ## overall
 
+- [ ] Add donationn refund
 - [ ] Add CSRF tokens to cookies..
 - [ ] sanitize form lengths
 - [ ] move styles to stylesheets instead of template files
@@ -97,3 +100,5 @@ Webpage for DUNAKEKE
 - [x] remove TODO() contexts
 - [x] Implement post editing..
 - [x] email services
+- [x] Donations fail to update on site, if the user closes the simplepay site.
+- [x] Show simplepay ID
