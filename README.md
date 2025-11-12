@@ -16,7 +16,6 @@ Webpage for DUNAKEKE
 - [x] user profiles
     - [ ] passwor change on profile
     - [ ] account delete
-- [ ] File upload error... -> Generate files folder if does not exists...
 - [ ] Post headers
 
 - [ ] Supporter admin update is missing
@@ -102,3 +101,4 @@ Webpage for DUNAKEKE
 - [x] email services
 - [x] Donations fail to update on site, if the user closes the simplepay site.
 - [x] Show simplepay ID
+- [x] File upload error... -> Generate files folder if does not exists...
