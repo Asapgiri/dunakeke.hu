@@ -4,13 +4,29 @@ import (
 	"dunakeke/config"
 	"dunakeke/dictionary"
 	"dunakeke/logic"
+	"io"
+	"net"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/asapgiri/golib/renderer"
 	"github.com/asapgiri/golib/session"
 )
+
+var trustedNets []*net.IPNet
+
+func DonationInit() {
+    for _, cidr := range config.Config.Donation.SimplePayTrustedIPs {
+        _, network, err := net.ParseCIDR(cidr)
+        if err != nil {
+            log.Printf("Invalid CIDR %s: %v\n", cidr, err)
+        }
+        trustedNets = append(trustedNets, network)
+    }
+    log.Println(trustedNets)
+}
 
 func DonationRoot(w http.ResponseWriter, r *http.Request) {
     session := GetCurrentSession(r)
@@ -70,9 +86,9 @@ func DonationInProgress(w http.ResponseWriter, r *http.Request) {
         log.Printf("Redirect URL: %s\n", otp_ret.PaymentUrl)
         http.Redirect(w, r, otp_ret.PaymentUrl, http.StatusSeeOther)
 
-        go logic.CheckTransactionProgress(donation, func(d logic.Donation) {
-            donationEmail(session, d)
-        })
+        // go logic.CheckTransactionProgress(donation, func(d logic.Donation) {
+        //     donationEmail(session, d)
+        // })
     }
 }
 
@@ -87,6 +103,52 @@ func DonationReturn(w http.ResponseWriter, r *http.Request) {
         session.UpdateTitle(config.Config.Site, session.Dictionary.(dictionary.Dictionary).Donate.TransactionFailed)
     }
     http.Redirect(w, r, "/donate/" + donation.Id, http.StatusSeeOther)
+}
+
+func checkSimpepayIPRanges(r *http.Request) bool {
+    ip := r.RemoteAddr
+    xf := r.Header.Get("X-Forwarded-For")
+    if "" != xf {
+        parts := strings.Split(xf, ",")
+        ip = strings.TrimSpace(parts[0])
+    } else {
+        ip, _, _ = net.SplitHostPort(ip)
+    }
+
+    parsedip := net.ParseIP(ip)
+    if nil == parsedip {
+        return false
+    }
+
+    for _, network := range trustedNets {
+        if network.Contains(parsedip) {
+            return true
+        }
+    }
+
+    return false
+}
+
+func DonationIpn(w http.ResponseWriter, r *http.Request) {
+    if !checkSimpepayIPRanges(r) {
+        http.Error(w, "Forbidden", http.StatusForbidden)
+        return
+    }
+
+    resp, err := io.ReadAll(r.Body)
+    if nil != err {
+        http.Error(w, "Cannot read message body", http.StatusBadRequest)
+        return
+    }
+
+    response, err := logic.DonationIpn(w, r.Header.Get("Signature"), resp, func(d logic.Donation) {
+        donationEmail(GetCurrentSession(r), d)
+    })
+    if nil != err {
+        http.Error(w, err.Error(), http.StatusBadRequest)
+    }
+
+    io.WriteString(w, string(response))
 }
 
 func DonationShowStatus(w http.ResponseWriter, r *http.Request) {

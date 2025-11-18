@@ -4,6 +4,7 @@ import (
 	"dunakeke/config"
 	"dunakeke/dbase"
 	"dunakeke/logic"
+	"dunakeke/pages"
 	"net/http"
 	"os"
 	"strings"
@@ -19,6 +20,7 @@ var log = logger.Logger {
 func main() {
     config.InitConfig()
     logic.SetupEmail()
+    pages.DonationInit()
 
     err := dbase.Connect()
     setup_routes()

@@ -21,6 +21,8 @@ func Unexpected(session session.Sessioner, w http.ResponseWriter, r *http.Reques
     link := logic.Link{}
     link.SelectByAlternative(r.URL.Path)
 
+    log.Println("Unexpected: ", r.URL.Path)
+
     if "" !=  link.Original {
         r.URL.Path = link.Original
         http.DefaultServeMux.ServeHTTP(w, r)

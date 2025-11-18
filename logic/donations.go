@@ -82,6 +82,18 @@ type SimpleQueryResponse struct {
     TotalCount      int                         `json:"totalCount"`
 }
 
+type SimpleIpn struct {
+    Salt            string  `json:"salt"`
+    OrderRef        string  `json:"orderRef"`
+    Method          string  `json:"method"`
+    Merchant        string  `json:"merchant"`
+    FinishDate      string  `json:"finishDate"`
+    PaymentDate     string  `json:"paymentDate"`
+    TransactionId   int     `json:"transactionId"`
+    Status          string  `json:"status"`
+    ReceiveDate     string  `json:"receiveDate,omitempty"`
+}
+
 type OtpJsonResponse struct {
     ErrorCodes      []int
     Merchant        string
@@ -98,6 +110,7 @@ type OtpJsonResponse struct {
 type OtpReturnPublic struct {
     PaymentUrl      string
 }
+
 
 type MerchantHasher struct {
     Body        string
@@ -225,6 +238,32 @@ func CheckTransactionProgress(donation Donation, callback func(Donation)) {
         }
     }
     log.Println("checking TIMED OUT")
+}
+
+func DonationIpn(w http.ResponseWriter, signature string, body []byte, callback func(Donation)) ([]byte, error) {
+    if !signatureMatch(body, signature) {
+        return []byte{}, errors.New("Signature mismatch..")
+    }
+
+    ipn := SimpleIpn{}
+    err := json.Unmarshal(body, &ipn)
+    if nil != err {
+        return []byte{}, errors.New("Error parsing body")
+    }
+
+    log.Println(ipn)
+    ipn.ReceiveDate = otpGetTimeFormat(time.Now())
+
+    donation := Donation{Id: ipn.OrderRef}
+    donation.SelectLock()
+    translateStatus(&donation, ipn.Status)
+    donation.UpdateUnlock()
+
+    callback(donation)
+
+    resp, err := json.Marshal(ipn)
+    w.Header().Add("Signature", otpGenerateSignature(resp))
+    return resp, err
 }
 
 func RedirectToOtpApi(dict dictionary.Dictionary, donation *Donation) (OtpReturnPublic, error) {
