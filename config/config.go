@@ -36,6 +36,7 @@ type DonationConfig struct {
     SecretKey           string
     SimplePayURL        string
     SimplePayReturnURL  string
+    SimplePayTrustedIPs []string
     TimeoutMinutes      int
     PollSeconds         int
 }
@@ -91,6 +92,7 @@ var Config = ConfigT{
         SecretKey: "",
         SimplePayURL: "https://simplepay.hu",
         SimplePayReturnURL: "",
+        SimplePayTrustedIPs: []string{""},
         TimeoutMinutes: 5,
         PollSeconds: 15,
     },

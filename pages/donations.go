@@ -70,9 +70,9 @@ func DonationInProgress(w http.ResponseWriter, r *http.Request) {
         log.Printf("Redirect URL: %s\n", otp_ret.PaymentUrl)
         http.Redirect(w, r, otp_ret.PaymentUrl, http.StatusSeeOther)
 
-        go logic.CheckTransactionProgress(donation, func(d logic.Donation) {
-            donationEmail(session, d)
-        })
+        // go logic.CheckTransactionProgress(donation, func(d logic.Donation) {
+        //     donationEmail(session, d)
+        // })
     }
 }
 
@@ -87,6 +87,12 @@ func DonationReturn(w http.ResponseWriter, r *http.Request) {
         session.UpdateTitle(config.Config.Site, session.Dictionary.(dictionary.Dictionary).Donate.TransactionFailed)
     }
     http.Redirect(w, r, "/donate/" + donation.Id, http.StatusSeeOther)
+}
+
+func DonationIpn(w http.ResponseWriter, r *http.Request) {
+    log.Println("Ipn returns:")
+    log.Println("Header: ", r.Header)
+    log.Println("Body: ", r.Body)
 }
 
 func DonationShowStatus(w http.ResponseWriter, r *http.Request) {
