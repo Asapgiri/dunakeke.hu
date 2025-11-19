@@ -1,6 +1,9 @@
 package pages
 
-import "dunakeke/logic"
+import (
+	"dunakeke/config"
+	"dunakeke/logic"
+)
 
 type DtoMain struct {
     Title   string
@@ -78,4 +81,10 @@ type Section struct {
 type Footer struct {
     Supporters  []logic.Supporter
     Sections    []Section
+}
+
+type PublicDonation struct {
+    Status      string
+    Config      config.ConfigT
+    Donation    logic.Donation
 }

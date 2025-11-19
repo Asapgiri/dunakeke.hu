@@ -156,8 +156,8 @@ var dict_en = Dictionary{
     Donate: Donate{
         Action:             "Action",
         Redirect:           "Redirecting to OTP Simple...",
-        Header:             "Support Us",
-        Description:        "Random underling text...",
+        Header:             "Support Our Work in the Danube Bend",
+        Description:        "Your donation helps protect the natural and cultural treasures of the Danube Bend. Thank you for helping us care for this beautiful region.",
         Other:              "Other",
         Amount:             "Amount",
         Name:               "Name",
@@ -181,5 +181,13 @@ var dict_en = Dictionary{
         Recurrence:         "Recurrenc",
         Monthly:            "Monthly",
         SumCollected:       "Sum collected",
+
+        StatusInProgress:   "In progress",
+        StatusSuccess:      "Successful",
+        StatusFailure:      "Failed",
+        StatusTimeout:      "Timeout",
+        StatusCancelled:    "Payment cancelled",
+        MessageFailure:     "Please check the information provided during the transaction for accuracy. If all details are correct, please contact your card-issuing bank to investigate the reason for the refusal.",
+        MessageSuccess:     "Thank you for your donation! Your support means a great deal to us and helps our work continue. We truly appreciate your generosity.",
     },
 }

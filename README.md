@@ -10,7 +10,6 @@ Webpage for DUNAKEKE
 - [ ] page for yearly income/stuff...
     - [ ] way to upload pdf files.
 - [ ] file/picture selector/search
-- [ ] fix donation handling if not returned to site
 - [ ] email password reset
     - [ ] normal password reset
 - [x] user profiles
@@ -102,3 +101,4 @@ Webpage for DUNAKEKE
 - [x] Donations fail to update on site, if the user closes the simplepay site.
 - [x] Show simplepay ID
 - [x] File upload error... -> Generate files folder if does not exists...
+- [x] fix donation handling if not returned to site

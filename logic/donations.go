@@ -125,18 +125,38 @@ func translateStatus(donation *Donation, otpStatus string) {
     case "SUCCESS", "FINISHED":
         donation.Status = "SUCCESSFUL"
         donation.Successful = true
-        break
-    case "FAIL", "CANCEL", "TIMEOUT", "CANCELLED", "NOTAUTHORIZED":
+    case "FAIL", "NOTAUTHORIZED":
         donation.Status = "FAILURE"
         donation.Successful = false
-        break
+    case "TIMEOUT":
+        donation.Status = "TIMEOUT"
+        donation.Successful = false
+    case "CANCEL", "CANCELLED":
+        donation.Status = "CANCELLED"
+        donation.Successful = false
     case "INIT", "INPAYMENT", "INFRAUD", "AUTHORIZED", "REVERSED":
         donation.Status = "INPROGRESS"
         donation.Successful = false
     default:
         donation.Status = "UNKNOWN"
         donation.Successful = false
-        break
+    }
+}
+
+func DonationGetPublicStatus(donation Donation, dict dictionary.Dictionary) string {
+    switch donation.Status {
+    case "SUCCESSFUL":
+        return dict.Donate.StatusSuccess
+    case "FAILURE":
+        return dict.Donate.StatusFailure
+    case "TIMEOUT":
+        return dict.Donate.StatusTimeout
+    case "CANCELLED":
+        return dict.Donate.StatusCancelled
+    case "INPROGRESS":
+        return dict.Donate.StatusInProgress
+    default:
+        return "UNKNOWN"
     }
 }
 
@@ -271,7 +291,7 @@ func RedirectToOtpApi(dict dictionary.Dictionary, donation *Donation) (OtpReturn
     log.Printf("URL> %s\n", url)
     log.Printf("mer> %s\n", config.Config.Donation.Merchant)
 
-    donation.Status = "Initiated" // TODO: Create a struct for these..
+    donation.Status = "INPROGRESS" // TODO: Create a struct for these..
     err := donation.Add()
     if nil != err {
         return OtpReturnPublic{}, err
@@ -342,11 +362,11 @@ func ProgressOtpReply(r string, s string) (Donation, error) {
     donation := Donation{Id: simple_resp.OrderId}
     donation.SelectLock()
 
-    translateStatus(&donation, simple_resp.Event)
-    if donation.Successful {
-        donation.Occurences = []time.Time{time.Now()}
-        donation.RecurringActive = donation.Recurring
-    }
+    // translateStatus(&donation, simple_resp.Event)
+    // if donation.Successful {
+    //     donation.Occurences = []time.Time{time.Now()}
+    //     donation.RecurringActive = donation.Recurring
+    // }
     donation.UpdateUnlock()
 
     return donation, nil

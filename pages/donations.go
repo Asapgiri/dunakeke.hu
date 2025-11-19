@@ -163,13 +163,25 @@ func DonationShowStatus(w http.ResponseWriter, r *http.Request) {
     } else {
         session.UpdateTitle(config.Config.Site, session.Dictionary.(dictionary.Dictionary).Donate.TransactionFailed)
     }
-    renderer.Render(session, w, fil, donation)
+
+    public := PublicDonation{
+        Status: logic.DonationGetPublicStatus(donation, session.Dictionary.(dictionary.Dictionary)),
+        Donation: donation,
+    }
+
+    renderer.Render(session, w, fil, public)
 }
 
 func donationEmail(session session.Sessioner, donation logic.Donation) {
     fil, _ := renderer.ReadArtifact("donate/email.html", nil)
-    session.MainDto = config.Config
-    session.Dto = donation
+
+    public := PublicDonation{
+        Status: logic.DonationGetPublicStatus(donation, session.Dictionary.(dictionary.Dictionary)),
+        Config: config.Config,
+        Donation: donation,
+    }
+
+    session.Dto = public
     message := renderer.PreRender(fil, session)
 
     logic.SendEmail(session.Config.Title, message, logic.Messagee{Name: donation.Name, Email: donation.Email})

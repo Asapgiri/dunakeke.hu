@@ -78,7 +78,15 @@
 
             <div class="form-group mt-3">
                 <button type="submit" style="width: 300px; margin: 15px 0px;" id="form_submit" name="form[submit]" class="btn-primary btn">{{.Dictionary.Donate.DonateButton}}</button>
-                <img class="float-sm-end" src="/simplepay_200x50.png"/>
+                {{if eq .Dictionary.Meta.CountryCode "hu"}}
+                <a class="float-sm-end" href="https://simplepartner.hu/PaymentService/Fizetesi_tajekoztato.pdf" target="_blank">
+                    <img src="/simplepay_200x50.png" title=" SimplePay - Online bankkártyás fizetés" alt=" SimplePay vásárlói tájékoztató"/>
+                </a>
+                {{else}}
+                <a class="float-sm-end" href="https://simplepartner.hu/PaymentService/Payment_information.pdf" target="_blank">
+                    <img src="/simplepay_200x50.png" title="SimplePay - Online card payment" alt="SimplePay customer information"/>
+                </a>
+                {{end}}
             </div>
 
         </form>

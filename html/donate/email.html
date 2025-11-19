@@ -29,7 +29,7 @@
               <td class="content" style="padding: 30px;">
 
                 <!-- Success / Failure Banner -->
-                {{if .Dto.Successful}}
+                {{if .Dto.Donation.Successful}}
                 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background: linear-gradient(135deg, #00f260, #0575e6); border-radius: 6px; text-align: center;">
                   <tr>
                     <td style="padding: 16px 10px;">
@@ -47,6 +47,20 @@
                 </table>
                 {{end}}
 
+                {{if eq .Dto.Donation.Status "SUCCESSFUL"}}
+                <div class="card shadow-sm border-0 mb-4">
+                  <div class="card-body">
+                    <p>{{.Dictionary.Donate.MessageSuccess}}</p>
+                  </div>
+                </div>
+                {{else if eq .Dto.Donation.Status "FAILURE"}}
+                <div class="card shadow-sm border-0 mb-4">
+                  <div class="card-body">
+                    <p>{{.Dictionary.Donate.MessageFailure}}</p>
+                  </div>
+                </div>
+                {{end}}
+
                 <!-- Spacer -->
                 <div style="height: 24px; line-height: 24px;">&nbsp;</div>
 
@@ -54,33 +68,33 @@
                 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="font-size: 15px; color: #333333; line-height: 1.5;">
                   <tr class="two-col">
                     <td width="35%" style="padding: 6px 0; font-weight: bold;">Id</td>
-                    <td width="65%" style="padding: 6px 0;"><a href="{{.MainDto.Http.Url}}/donate/{{.Dto.Id}}">{{.Dto.Id}}</a></td>
+                    <td width="65%" style="padding: 6px 0;"><a href="{{.Dto.Config.Http.Url}}/donate/{{.Dto.Donation.Id}}">{{.Dto.Donation.Id}}</a></td>
                   </tr>
                   <tr class="two-col">
                     <td width="35%" style="padding: 6px 0; font-weight: bold;">{{.Dictionary.Donate.TransactionId}}</td>
-                    <td width="65%" style="padding: 6px 0;">{{.Dto.TransactionId}}</td>
+                    <td width="65%" style="padding: 6px 0;">{{.Dto.Donation.TransactionId}}</td>
                   </tr>
                   <tr class="two-col">
                     <td width="35%" style="padding: 6px 0; font-weight: bold;">{{.Dictionary.Donate.Name}}</td>
-                    <td width="65%" style="padding: 6px 0;">{{if .Dto.Name}}{{.Dto.Name}}{{else}}<span style="color:#999;">{{.Dictionary.Donate.NameEmpty}}</span>{{end}}</td>
+                    <td width="65%" style="padding: 6px 0;">{{if .Dto.Donation.Name}}{{.Dto.Donation.Name}}{{else}}<span style="color:#999;">{{.Dictionary.Donate.NameEmpty}}</span>{{end}}</td>
                   </tr>
                   <tr class="two-col">
                     <td style="padding: 6px 0; font-weight: bold;">{{.Dictionary.Donate.Email}}</td>
-                    <td style="padding: 6px 0;">{{.Dto.Email}}</td>
+                    <td style="padding: 6px 0;">{{.Dto.Donation.Email}}</td>
                   </tr>
                   <tr class="two-col">
                     <td style="padding: 6px 0; font-weight: bold;">{{.Dictionary.Donate.DateCreated}}</td>
-                    <td style="padding: 6px 0;">{{tformat .Dto.Date}}</td>
+                    <td style="padding: 6px 0;">{{tformat .Dto.Donation.Date}}</td>
                   </tr>
                   <tr class="two-col">
                     <td style="padding: 6px 0; font-weight: bold;">{{.Dictionary.Donate.Amount}}</td>
-                    <td style="padding: 6px 0; font-weight: bold;">{{.Dto.Amount}} Ft</td>
+                    <td style="padding: 6px 0; font-weight: bold;">{{.Dto.Donation.Amount}} Ft</td>
                   </tr>
                   <tr class="two-col">
                     <td style="padding: 6px 0; font-weight: bold;">{{.Dictionary.Donate.Status}}</td>
                     <td style="padding: 6px 0;">{{.Dto.Status}}</td>
                   </tr>
-                  {{if .Dto.Recurring}}
+                  {{if .Dto.Donation.Recurring}}
                   <tr class="two-col">
                     <td style="padding: 6px 0; font-weight: bold;">{{.Dictionary.Donate.Recurrence}}</td>
                     <td style="padding: 6px 0;">
@@ -90,7 +104,7 @@
                   {{end}}
                   <tr class="two-col">
                     <td style="padding: 6px 0; font-weight: bold; vertical-align: top;">{{.Dictionary.Donate.Message}}</td>
-                    <td style="padding: 6px 0; white-space: pre-wrap;">{{.Dto.Message}}</td>
+                    <td style="padding: 6px 0; white-space: pre-wrap;">{{.Dto.Donation.Message}}</td>
                   </tr>
                 </table>
 
@@ -101,7 +115,7 @@
                 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
                   <tr>
                     <td align="right">
-                      <img src="{{.MainDto.Http.Url}}/simplepay_200x50.png" alt="SimplePay" width="200" height="50" style="display:block; border:none;" />
+                      <img src="{{.Dto.Config.Http.Url}}/simplepay_200x50.png" alt="SimplePay" width="200" height="50" style="display:block; border:none;" />
                     </td>
                   </tr>
                 </table>

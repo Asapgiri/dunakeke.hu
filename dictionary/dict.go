@@ -189,6 +189,14 @@ type Donate struct {
     Recurrence                              string
     Monthly                                 string
     SumCollected                            string
+
+    StatusInProgress                        string
+    StatusSuccess                           string
+    StatusFailure                           string
+    StatusTimeout                           string
+    StatusCancelled                         string
+    MessageFailure                          string
+    MessageSuccess                          string
 }
 
 type Dictionary struct {

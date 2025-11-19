@@ -156,8 +156,8 @@ var dict_hu = Dictionary{
     Donate: Donate{
         Action:             "Action",
         Redirect:           "Átirányítás az OTP Simple oldalra...",
-        Header:             "Támogass minket",
-        Description:        "Véletlenszerű aláírás szöveg...",
+        Header:             "Támogassa munkánkat a Dunakanyarban",
+        Description:        "Adománya segít megóvni a Dunakanyar természeti és kulturális értékeit. Köszönjük, hogy hozzájárul munkánkhoz.",
         Other:              "Egyéb",
         Amount:             "Összeg",
         Name:               "Név",
@@ -181,5 +181,13 @@ var dict_hu = Dictionary{
         Recurrence:         "Ismétlődés",
         Monthly:            "Havonta",
         SumCollected:       "Összesen gyűjtve",
+
+        StatusInProgress:   "Folyamatban",
+        StatusSuccess:      "Sikeres",
+        StatusFailure:      "Sikertelen",
+        StatusTimeout:      "Időtúllépés",
+        StatusCancelled:    "Megszakított fizetés",
+        MessageFailure:     "Kérjük, ellenőrizze a tranzakció során megadott adatok helyességét. Amennyiben minden adatot helyesen adott meg, a visszautasítás okának kivizsgálása érdekében kérjük, szíveskedjen kapcsolatba lépni kártyakibocsátó bankjával.",
+        MessageSuccess:     "Köszönjük adományát! Támogatása nagyon sokat jelent számunkra, és nagyban hozzájárul munkánk folytatásához. Nagyra értékeljük nagylelkűségét.",
     },
 }

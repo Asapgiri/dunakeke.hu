@@ -1,4 +1,12 @@
 <style>
+.bg-gradient-info, [summary~='s-bg-gradient-info'] {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  box-shadow: 0 4px 12px rgba(0, 242, 254, 0.5);
+  backdrop-filter: saturate(180%) blur(10px);
+  border: 1px solid rgba(0, 242, 254, 0.5);
+  color: #fff; /* optional: text color */
+}
+
 .bg-gradient-success, [summary~='s-bg-gradient-success'] {
   background: linear-gradient(135deg, #00f260 0%, #0575e6 100%);
   box-shadow: 0 4px 12px rgba(5, 117, 230, 0.5);
@@ -19,7 +27,14 @@
     <h1 class="mb-2">{{.Dictionary.Donate.Header}}</h1>
     <p class="text-muted">{{.Dictionary.Donate.Description}}</p>
 
-    {{if .Dto.Successful}}
+    {{if eq .Dto.Donation.Status "INPROGRESS"}}
+    <div class="alert bg-gradient-info my-4" summary="s-bg-gradient-info" role="alert">
+        <h4 class="mb-0">
+            {{.Dictionary.Donate.StatusInProgress}}
+            <img class="float-sm-end" src="/loading.gif" style="width: 28px; height: 28px;"/>
+        </h4>
+    </div>
+    {{else if .Dto.Donation.Successful}}
     <div class="alert bg-gradient-success my-4" summary="s-bg-gradient-success" role="alert">
         <h4 class="mb-0">{{.Dictionary.Donate.TransactionSuccess}}</h4>
     </div>
@@ -29,37 +44,51 @@
     </div>
     {{end}}
 
+    {{if eq .Dto.Donation.Status "SUCCESSFUL"}}
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+            <p>{{.Dictionary.Donate.MessageSuccess}}</p>
+        </div>
+    </div>
+    {{else if eq .Dto.Donation.Status "FAILURE"}}
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+            <p>{{.Dictionary.Donate.MessageFailure}}</p>
+        </div>
+    </div>
+    {{end}}
+
     <div class="card shadow-sm border-0 mb-4">
         <div class="card-body">
             <dl class="row mb-0">
                 <dt class="col-sm-3">Id</dt>
-                <dd class="col-sm-9">{{.Dto.Id}}</dd>
+                <dd class="col-sm-9">{{.Dto.Donation.Id}}</dd>
 
                 <dt class="col-sm-3">{{.Dictionary.Donate.TransactionId}}</dt>
-                <dd class="col-sm-9">{{.Dto.TransactionId}}</dd>
+                <dd class="col-sm-9">{{.Dto.Donation.TransactionId}}</dd>
 
                 <dt class="col-sm-3">{{.Dictionary.Donate.Name}}</dt>
-                <dd class="col-sm-9">{{if .Dto.Name}}{{.Dto.Name}}{{else}}<span class="text-muted">{{.Dictionary.Donate.NameEmpty}}</span>{{end}}</dd>
+                <dd class="col-sm-9">{{if .Dto.Donation.Name}}{{.Dto.Donation.Name}}{{else}}<span class="text-muted">{{.Dictionary.Donate.NameEmpty}}</span>{{end}}</dd>
 
                 <dt class="col-sm-3">{{.Dictionary.Donate.Email}}</dt>
-                <dd class="col-sm-9">{{.Dto.Email}}</dd>
+                <dd class="col-sm-9">{{.Dto.Donation.Email}}</dd>
 
                 <dt class="col-sm-3">{{.Dictionary.Donate.DateCreated}}</dt>
-                <dd class="col-sm-9">{{tformat .Dto.Date}}</dd>
+                <dd class="col-sm-9">{{tformat .Dto.Donation.Date}}</dd>
 
                 <dt class="col-sm-3">{{.Dictionary.Donate.Amount}}</dt>
-                <dd class="col-sm-9 fw-bold">{{.Dto.Amount}} Ft</dd>
+                <dd class="col-sm-9 fw-bold">{{.Dto.Donation.Amount}} Ft</dd>
 
                 <dt class="col-sm-3">{{.Dictionary.Donate.Status}}</dt>
                 <dd class="col-sm-9">{{.Dto.Status}}</dd>
 
-                {{if .Dto.Recurring}}
+                {{if .Dto.Donation.Recurring}}
                 <dt class="col-sm-3">{{.Dictionary.Donate.Recurrence}}</dt>
                 <dd class="col-sm-9"><span class="badge bg-info text-dark">{{.Dictionary.Donate.Monthly}}</span></dd>
                 {{end}}
 
                 <dt class="col-sm-3">{{.Dictionary.Donate.Message}}</dt>
-                <dd class="col-sm-9" style="white-space: pre-wrap;">{{.Dto.Message}}</dd>
+                <dd class="col-sm-9" style="white-space: pre-wrap;">{{.Dto.Donation.Message}}</dd>
             </dl>
 
             <img class="float-sm-end mt-3" src="/simplepay_200x50.png"/>
@@ -67,3 +96,11 @@
     </div>
 
 </div>
+
+{{if eq .Dto.Donation.Status "INPROGRESS"}}
+<script>
+    setInterval(function() {
+        window.location.reload();
+    }, 2000);
+</script>
+{{end}}
