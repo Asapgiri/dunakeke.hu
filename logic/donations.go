@@ -85,7 +85,7 @@ type SimpleQueryResponse struct {
 type SimpleIpn struct {
     Salt            string  `json:"salt"`
     OrderRef        string  `json:"orderRef"`
-    Method          string  `json:"method"`
+    Method          string  `json:"method,omitempty"`
     Merchant        string  `json:"merchant"`
     FinishDate      string  `json:"finishDate"`
     PaymentDate     string  `json:"paymentDate"`
