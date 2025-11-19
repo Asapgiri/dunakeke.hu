@@ -93,6 +93,7 @@ func DonationIpn(w http.ResponseWriter, r *http.Request) {
     log.Println("Ipn returns:")
     log.Println("Header: ", r.Header)
     log.Println("Body: ", r.Body)
+    io.WriteString(w, "OK")
 }
 
 func DonationShowStatus(w http.ResponseWriter, r *http.Request) {
