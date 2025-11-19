@@ -34,6 +34,11 @@ func DonationRoot(w http.ResponseWriter, r *http.Request) {
     do := logic.DonationOption{}
     dos := do.List()
 
+    session.Meta["title"] = session.Dictionary.(dictionary.Dictionary).Donate.Header
+    session.Meta["description"] = session.Dictionary.(dictionary.Dictionary).Donate.Description
+    session.Meta["twitter:card"] = "summary_large_image"
+    session.Meta["theme-color"] = "#0d6efd"
+
     session.UpdateTitle(config.Config.Site, session.Dictionary.(dictionary.Dictionary).Donate.Header)
     fil, _ := renderer.ReadArtifact("donate/root.html", w.Header())
     renderer.Render(session, w, fil, dos)
