@@ -41,7 +41,7 @@ func GetCurrentSession(w http.ResponseWriter, r *http.Request) session.Sessioner
             Section{
                 Title: "About",
                 Sites: []SiteA{
-                    SiteA{Title: "Adatvedelem", Icon: "", Url: "/adatvedelem"},
+                    SiteA{Title: "Adatvedelem", Icon: "", Url: "/adatkezelesi-tajekoztato"},
                     SiteA{Title: "Impresszum",  Icon: "", Url: "/impressum"},
                     SiteA{Title: "Beszamolok",  Icon: "", Url: "/beszamolok"},
                 },
