@@ -15,6 +15,8 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+var NOTICE = session.NOTICE
+
 func checkAdminPageAccess(session session.Sessioner) bool {
     return slices.Contains(session.Auth.Roles, logic.ROLES.ADMIN)  ||
            slices.Contains(session.Auth.Roles, logic.ROLES.EDITOR) ||
@@ -26,7 +28,7 @@ func adminRender(session session.Sessioner, w http.ResponseWriter, temp string, 
 }
 
 func AdminPage(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if !checkAdminPageAccess(session) {
         NotFound(w, r)
@@ -49,7 +51,7 @@ func adminRenderUsers(session session.Sessioner, w http.ResponseWriter) {
 }
 
 func AdminUsers(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if !checkAdminPageAccess(session) {
         NotFound(w, r)
@@ -61,7 +63,7 @@ func AdminUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminPosts(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if !checkAdminPageAccess(session) {
         NotFound(w, r)
@@ -76,7 +78,7 @@ func AdminPosts(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminTags(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if !checkAdminPageAccess(session) {
         NotFound(w, r)
@@ -91,7 +93,7 @@ func AdminTags(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminDonations(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if !checkAdminPageAccess(session) {
         NotFound(w, r)
@@ -125,7 +127,7 @@ func AdminDonations(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminUserSetRole(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if !checkAdminPageAccess(session) {
         NotFound(w, r)
@@ -142,20 +144,20 @@ func AdminUserSetRole(w http.ResponseWriter, r *http.Request) {
     log.Println(eperm)
 
     if !renderer.Subset(session.Auth.Roles, eperm.EditPerm) {
-        session.Error = "You cannot edit user!"
+        session.Notice.Set(NOTICE.DANGER, "You cannot edit user!")
         // FIXME: should be a better way to redirect and show errors
 
-        log.Println(session.Error)
-        adminRenderUsers(session, w)
+        log.Println(session.Notice)
+        http.Redirect(w, r, "/admin/user", http.StatusSeeOther)
         return
     }
 
     user := logic.User{}
     user.Find(id)
     if "" == user.Username {
-        session.Error = "User not found!"
-        log.Println(session.Error)
-        adminRenderUsers(session, w)
+        session.Notice.Set(NOTICE.DANGER, "User not found!")
+        log.Println(session.Notice)
+        http.Redirect(w, r, "/admin/user", http.StatusSeeOther)
         return
     }
 
@@ -177,7 +179,7 @@ func AdminUserSetRole(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminLinks(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if !checkAdminPageAccess(session) {
         NotFound(w, r)
@@ -192,7 +194,7 @@ func AdminLinks(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminLinksUpdate(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if !checkAdminPageAccess(session) {
         NotFound(w, r)
@@ -216,7 +218,7 @@ func AdminLinksUpdate(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminLinksDelete(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if !checkAdminPageAccess(session) {
         NotFound(w, r)
@@ -232,7 +234,7 @@ func AdminLinksDelete(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminTagsUpdate(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if !checkAdminPageAccess(session) {
         NotFound(w, r)
@@ -268,7 +270,7 @@ func AdminTagsUpdate(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminTagsToggleListable(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if !checkAdminPageAccess(session) {
         NotFound(w, r)
@@ -286,7 +288,7 @@ func AdminTagsToggleListable(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminTagsDelete(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if !checkAdminPageAccess(session) {
         NotFound(w, r)
@@ -302,7 +304,7 @@ func AdminTagsDelete(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminSupporters(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if !checkAdminPageAccess(session) {
         NotFound(w, r)
@@ -317,7 +319,7 @@ func AdminSupporters(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminSupporterAdd(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if !checkAdminPageAccess(session) {
         NotFound(w, r)
@@ -328,7 +330,7 @@ func AdminSupporterAdd(w http.ResponseWriter, r *http.Request) {
 
     logo, err := saveFileFromForm(session.Dictionary.(dictionary.Dictionary), "form[logo]", r)
     if nil != err {
-        session.Error = err.Error()
+        session.Notice.Set(NOTICE.DANGER, err.Error())
         log.Println(err)
         http.Redirect(w, r, "/admin/supporters", http.StatusSeeOther)
         return
@@ -349,7 +351,7 @@ func AdminSupporterAdd(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminFiles(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if !checkAdminPageAccess(session) {
         NotFound(w, r)
@@ -359,7 +361,7 @@ func AdminFiles(w http.ResponseWriter, r *http.Request) {
     file := logic.File{}
     files, err := file.List()
     if nil != err {
-        session.Error = err.Error()
+        session.Notice.Set(NOTICE.DANGER, err.Error())
         log.Println(err)
         return
     }
@@ -369,7 +371,7 @@ func AdminFiles(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminFilesAdd(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if !checkAdminPageAccess(session) {
         NotFound(w, r)
@@ -393,7 +395,7 @@ func AdminFilesAdd(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminFilesRemove(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if !checkAdminPageAccess(session) {
         NotFound(w, r)

@@ -21,7 +21,7 @@ type TagRespons struct {
 }
 
 func TagList(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     tagName := r.PathValue("tagname")
     page, err := strconv.ParseInt(r.PathValue("page"), 10, 32)
@@ -55,7 +55,7 @@ func TagList(w http.ResponseWriter, r *http.Request) {
 }
 
 func TagAdd(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if !checkEditorAccess(session) {
        renderPageWithAccessViolation(w, r)

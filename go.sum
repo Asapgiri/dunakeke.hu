@@ -1,5 +1,5 @@
-github.com/asapgiri/golib v0.2.4 h1:AfQ16ZkQ20DNkawhXMnkaS4amqM6lTOSTPwmV5ZdNG4=
-github.com/asapgiri/golib v0.2.4/go.mod h1:AnBGdGUJWpIOjQ3K/9a7AvXFTpvhB/EdpRmXOJ1+Boo=
+github.com/asapgiri/golib v0.2.6 h1:2P04NhyDt22DKuPv9MmzRplHTynVmN9vNcfha4DR5oQ=
+github.com/asapgiri/golib v0.2.6/go.mod h1:AnBGdGUJWpIOjQ3K/9a7AvXFTpvhB/EdpRmXOJ1+Boo=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/golang/snappy v1.0.0 h1:Oy607GVXHs7RtbggtPBnr2RmDArIsAefDwvrdWvRhGs=

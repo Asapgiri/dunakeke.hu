@@ -109,6 +109,13 @@
             </div>
         </nav>
 
+        {{range .Notice.Notices}}
+        <div class="alert alert-{{.Type}} alert-dismissible fade show m-2" role="alert">
+            {{.Message}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {{end}}
+
         <!-- Main Content -->
         <main class="flex-fill">
             {{.Main}}

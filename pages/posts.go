@@ -24,7 +24,7 @@ func checkEditorAccess(session session.Sessioner) bool {
 }
 
 func PostShow(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     post := logic.Post{}
     err := post.Select(r.PathValue("id"))
@@ -49,7 +49,7 @@ func PostShow(w http.ResponseWriter, r *http.Request) {
 }
 
 func PostNew(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if !checkEditorAccess(session) {
        renderPageWithAccessViolation(w, r)
@@ -89,7 +89,7 @@ func postEdit(session session.Sessioner, w http.ResponseWriter, r *http.Request)
 }
 
 func PostEdit(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if !checkEditorAccess(session) {
        renderPageWithAccessViolation(w, r)
@@ -100,7 +100,7 @@ func PostEdit(w http.ResponseWriter, r *http.Request) {
 }
 
 func PostDelete(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if !checkEditorAccess(session) {
        renderPageWithAccessViolation(w, r)
@@ -125,7 +125,7 @@ func PostDelete(w http.ResponseWriter, r *http.Request) {
 }
 
 func PostSave(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if !checkEditorAccess(session) {
        renderPageWithAccessViolation(w, r)
@@ -155,7 +155,7 @@ func PostSave(w http.ResponseWriter, r *http.Request) {
 }
 
 func PostPublish(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if !checkEditorAccess(session) {
        renderPageWithAccessViolation(w, r)
@@ -210,7 +210,7 @@ func saveFileFromForm(dict dictionary.Dictionary, fileTag string, r *http.Reques
 }
 
 func PostSaveImage(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if !checkEditorAccess(session) {
        renderPageWithAccessViolation(w, r)
@@ -234,7 +234,7 @@ func PostSaveImage(w http.ResponseWriter, r *http.Request) {
 }
 
 func PostEditPhotoSave(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if !checkEditorAccess(session) {
        renderPageWithAccessViolation(w, r)
@@ -243,7 +243,7 @@ func PostEditPhotoSave(w http.ResponseWriter, r *http.Request) {
 
     file, err := saveFileFromForm(session.Dictionary.(dictionary.Dictionary), "image-input", r)
     if nil != err {
-        session.Error = err.Error()
+        session.Notice.Set(NOTICE.DANGER, err.Error())
         postEdit(session, w, r)
         return
     }
@@ -251,7 +251,7 @@ func PostEditPhotoSave(w http.ResponseWriter, r *http.Request) {
     post := logic.Post{}
     err = post.Select(r.PathValue("id"))
     if nil != err {
-        session.Error = err.Error()
+        session.Notice.Set(NOTICE.DANGER, err.Error())
         postEdit(session, w, r)
         return
     }

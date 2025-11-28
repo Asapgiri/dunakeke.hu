@@ -49,7 +49,7 @@ func Unexpected(session session.Sessioner, w http.ResponseWriter, r *http.Reques
 }
 
 func Root(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if "/" == r.URL.Path {
         page, err := strconv.ParseInt(r.URL.Query().Get("page"), 10, 32)
@@ -87,7 +87,7 @@ func Root(w http.ResponseWriter, r *http.Request) {
 }
 
 func NotFound(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     session.UpdateTitle(config.Config.Site, session.Dictionary.(dictionary.Dictionary).Auth.AccessViolation)
     fil, _ := renderer.ReadArtifact("not-found.html", w.Header())
@@ -95,7 +95,7 @@ func NotFound(w http.ResponseWriter, r *http.Request) {
 }
 
 func AccessViolation(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     session.UpdateTitle(config.Config.Site, session.Dictionary.(dictionary.Dictionary).Auth.AccessViolation)
     fil, _ := renderer.ReadArtifact("auth/access-violation.html", w.Header())

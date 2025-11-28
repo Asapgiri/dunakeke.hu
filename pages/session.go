@@ -8,9 +8,9 @@ import (
 	"net/http"
 )
 
-func GetCurrentSession(r *http.Request) session.Sessioner {
+func GetCurrentSession(w http.ResponseWriter, r *http.Request) session.Sessioner {
     sess := session.Sessioner{}
-    sess.Authenticate(r)
+    sess.Authenticate(w, r)
     logic.Authenticate(&sess.Auth)
 
     sess.Dictionary = dictionary.GetLanguage(r)

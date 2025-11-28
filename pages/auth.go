@@ -9,7 +9,7 @@ import (
 )
 
 func Login(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     // FIXME: Cannot do if logged in..
 
@@ -40,7 +40,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     // FIXME: Cannot do if logged in..
 
@@ -81,7 +81,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 }
 
 func Logout(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
     session.Delete(w, r)
     http.Redirect(w, r, "/", http.StatusSeeOther)
 }

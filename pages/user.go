@@ -9,7 +9,7 @@ import (
 )
 
 func User(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     userName := r.PathValue("name")
     user := logic.User{}
@@ -21,7 +21,7 @@ func User(w http.ResponseWriter, r *http.Request) {
 }
 
 func UserEdit(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     userId := r.PathValue("id")
     user := logic.User{}
@@ -38,7 +38,7 @@ func UserEdit(w http.ResponseWriter, r *http.Request) {
 }
 
 func UserEditSave(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     userId := r.PathValue("id")
     user := logic.User{}

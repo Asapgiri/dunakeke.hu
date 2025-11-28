@@ -39,6 +39,8 @@ type DonationConfig struct {
     SimplePayTrustedIPs []string
     TimeoutMinutes      int
     PollSeconds         int
+    MinAmount           float64
+    Currency            string
 }
 
 type EmailConfig struct {
@@ -95,6 +97,8 @@ var Config = ConfigT{
         SimplePayTrustedIPs: []string{""},
         TimeoutMinutes: 5,
         PollSeconds: 15,
+        MinAmount: 100,
+        Currency: "HUF",
     },
 }
 

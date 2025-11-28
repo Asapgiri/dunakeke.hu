@@ -302,7 +302,7 @@ func RedirectToOtpApi(dict dictionary.Dictionary, donation *Donation) (OtpReturn
         Merchant:       config.Config.Donation.Merchant,
         // FIXME: ::
         OrderRef:       donation.Id,
-        Currency:       "HUF",
+        Currency:       config.Config.Donation.Currency,
         CustomerEmail:  donation.Email,
         Language:       strings.ToUpper(dict.Meta.CountryCode),
         SdkVersion:     simpleSdkVersion,

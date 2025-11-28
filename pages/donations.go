@@ -4,6 +4,7 @@ import (
 	"dunakeke/config"
 	"dunakeke/dictionary"
 	"dunakeke/logic"
+	"fmt"
 	"io"
 	"net"
 	"net/http"
@@ -29,7 +30,7 @@ func DonationInit() {
 }
 
 func DonationRoot(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     do := logic.DonationOption{}
     dos := do.List()
@@ -45,7 +46,7 @@ func DonationRoot(w http.ResponseWriter, r *http.Request) {
 }
 
 func DonationInProgress(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     if "1" != r.FormValue("form[gdprAgreed]") {
         log.Printf("GDPR not accepted!\n")
@@ -58,7 +59,14 @@ func DonationInProgress(w http.ResponseWriter, r *http.Request) {
     if nil != err {
         log.Printf("Redirect ERR: %s\n", err)
         fil, _ := renderer.ReadArtifact("donate/error.html", w.Header())
+        session.UpdateTitle(config.Config.Site, session.Dictionary.(dictionary.Dictionary).Donate.Header)
         renderer.Render(session, w, fil, err)
+        return
+    }
+
+    if amount < config.Config.Donation.MinAmount {
+        session.Notice.Set(NOTICE.DANGER, fmt.Sprint("Amount ", amount, " is smaller than minimum amount ", config.Config.Donation.MinAmount))
+        http.Redirect(w, r, "/donate", http.StatusSeeOther)
         return
     }
 
@@ -84,7 +92,7 @@ func DonationInProgress(w http.ResponseWriter, r *http.Request) {
 
     if nil != err {
         log.Printf("Redirect ERR: %s\n", err)
-        fil, _ := renderer.ReadArtifact("donate/error.html", w.Header())
+        fil, _ := renderer.ReadArtifact("donate/root.html", w.Header())
         session.UpdateTitle(config.Config.Site, session.Dictionary.(dictionary.Dictionary).Donate.Header)
         renderer.Render(session, w, fil, err)
     } else {
@@ -98,7 +106,7 @@ func DonationInProgress(w http.ResponseWriter, r *http.Request) {
 }
 
 func DonationReturn(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     donation, err := logic.ProgressOtpReply(r.URL.Query().Get("r"), r.URL.Query().Get("s"))
     if donation.Successful && nil == err {
@@ -147,7 +155,7 @@ func DonationIpn(w http.ResponseWriter, r *http.Request) {
     }
 
     response, err := logic.DonationIpn(w, r.Header.Get("Signature"), resp, func(d logic.Donation) {
-        donationEmail(GetCurrentSession(r), d)
+        donationEmail(GetCurrentSession(w, r), d)
     })
     if nil != err {
         http.Error(w, err.Error(), http.StatusBadRequest)
@@ -157,7 +165,7 @@ func DonationIpn(w http.ResponseWriter, r *http.Request) {
 }
 
 func DonationShowStatus(w http.ResponseWriter, r *http.Request) {
-    session := GetCurrentSession(r)
+    session := GetCurrentSession(w, r)
 
     donation := logic.Donation{Id: r.PathValue("id")}
     donation.Select()
