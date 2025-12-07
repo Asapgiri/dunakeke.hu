@@ -168,7 +168,7 @@ var dict_hu = Dictionary{
         GDPRpre:            "Elfogadom az",
         GDPRaszf:           "ÁSZF",
         GDPRmid:            "-et és az",
-        GDPRavsz:           "Adatkezelési tájékoztatást",
+        GDPRavsz:           "Adatvédelmi irányelveket",
         TransactionSuccess: "Sikeres tanzakció!",
         TransactionFailed:  "Sikertelen tanzakció!",
         TransactionId:      "SimplePay Id",
