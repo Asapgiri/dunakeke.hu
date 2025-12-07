@@ -264,8 +264,14 @@
 
             tags = Array.from(itemList.querySelectorAll('.dropdown-item-selectable')).filter(it => it.classList.contains('active')).map(it => it.id);
 
-            save_post('{{.Dto.Post.Id}}', title, editor.getMarkdown(), editor.getHTML(), alter, tags);
-            document.location.href = "{{if .Dto.Post.Path}}{{.Dto.Post.Path}}{{else}}/post/{{.Dto.Post.Id}}{{end}}"
+            save_post('{{.Dto.Post.Id}}', title, editor.getMarkdown(), editor.getHTML(), alter, tags, function(data) {
+                if ("OK" != data) {
+                    alert("Server error: ", new String(data))
+                }
+                else {
+                    document.location.href = "{{if .Dto.Post.Path}}{{.Dto.Post.Path}}{{else}}/post/{{.Dto.Post.Id}}{{end}}"
+                }
+            });
         }
 
         document.getElementById('save-tag-btn').onclick = function() {

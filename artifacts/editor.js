@@ -1,4 +1,4 @@
-function save_post(id, title, markdown, html, alternative, tags) {
+function save_post(id, title, markdown, html, alternative, tags, callback) {
     console.log('id:',          id)
     console.log('title:',       title)
     console.log('md:',          markdown)
@@ -14,7 +14,8 @@ function save_post(id, title, markdown, html, alternative, tags) {
             html: html,
             alternative: alternative,
             tags: tags
-        }
+        },
+        callback
     )
 }
 
