@@ -41,6 +41,7 @@ type DonationConfig struct {
     PollSeconds         int
     MinAmount           float64
     Currency            string
+    Parent              string
 }
 
 type EmailConfig struct {
@@ -99,6 +100,7 @@ var Config = ConfigT{
         PollSeconds: 15,
         MinAmount: 100,
         Currency: "HUF",
+        Parent: "",
     },
 }
 

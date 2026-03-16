@@ -189,5 +189,7 @@ var dict_en = Dictionary{
         StatusCancelled:    "Payment cancelled",
         MessageFailure:     "Please check the information provided during the transaction for accuracy. If all details are correct, please contact your card-issuing bank to investigate the reason for the refusal.",
         MessageSuccess:     "Thank you for your donation! Your support means a great deal to us and helps our work continue. We truly appreciate your generosity.",
+
+        GoBack:             "Return to parent site",
     },
 }

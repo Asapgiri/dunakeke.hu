@@ -197,6 +197,8 @@ type Donate struct {
     StatusCancelled                         string
     MessageFailure                          string
     MessageSuccess                          string
+
+    GoBack                                  string
 }
 
 type Dictionary struct {

@@ -180,6 +180,7 @@ func DonationShowStatus(w http.ResponseWriter, r *http.Request) {
     public := PublicDonation{
         Status: logic.DonationGetPublicStatus(donation, session.Dictionary.(dictionary.Dictionary)),
         Donation: donation,
+        Config: config.Config,
     }
 
     renderer.Render(session, w, fil, public)

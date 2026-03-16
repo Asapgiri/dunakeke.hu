@@ -189,5 +189,7 @@ var dict_hu = Dictionary{
         StatusCancelled:    "Megszakított fizetés",
         MessageFailure:     "Kérjük, ellenőrizze a tranzakció során megadott adatok helyességét. Amennyiben minden adatot helyesen adott meg, a visszautasítás okának kivizsgálása érdekében kérjük, szíveskedjen kapcsolatba lépni kártyakibocsátó bankjával.",
         MessageSuccess:     "Köszönjük adományát! Támogatása nagyon sokat jelent számunkra, és nagyban hozzájárul munkánk folytatásához. Nagyra értékeljük nagylelkűségét.",
+
+        GoBack:             "Visszatérés a főoldalra",
     },
 }
