@@ -1,9 +1,11 @@
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 <div class="container-xl flex-fill">
     <div class="my-5">
         <h1>{{.Dictionary.Donate.Header}}</h1>
         <h5 class="text-muted">{{.Dictionary.Donate.Description}}</h5>
 
-        <form name="form" method="post" class="mt-5 border rounded-3 p-4 shadow-sm bg-white">
+        <form id="donation-form" name="form" method="post" class="mt-5 border rounded-3 p-4 shadow-sm bg-white">
             <div class="btn-group w-100" role="group">
                 <input type="radio" class="btn-check" name="form[recurring]" id="form_recurring0" value="0" autocomplete="off" required checked>
                 <label class="btn btn-outline-primary w-100" for="form_recurring0">{{.Dictionary.Donate.OneTime}}</label>
@@ -13,7 +15,7 @@
             </div>
 
             <div class="row mt-4">
-                {{range $i, $d := .Dto}}
+                {{range $i, $d := .Dto.OptionList}}
                 <div class="col-md-3 col-sm-4 col-6 mb-3">
                     <button type="button" class="btn btn-outline-primary amount-btn w-100 py-3 {{if eq $i 0}}active{{end}}" value="{{.Amount}}" style="opacity: 0.85;">
                         {{.Amount}} Ft
@@ -30,7 +32,7 @@
             <div class="form-group row my-2">
                 <label class="col-form-label col-sm-3 required" for="form_amount">{{.Dictionary.Donate.Amount}} (Ft)</label>
                 <div class="col-sm-9">
-                    <input type="number" id="form_amount" name="form[amount]" required="required" maxlength="550" class="form-control" value="{{(index .Dto 0).Amount}}" readonly>
+                    <input type="number" id="form_amount" name="form[amount]" required="required" maxlength="550" class="form-control" value="{{(index .Dto.OptionList 0).Amount}}" readonly>
                 </div>
             </div>
 
@@ -76,6 +78,12 @@
                 </div>
             </div>
 
+            <div class="col-md-12 form-group mt-2">
+                <div class="g-recaptcha" data-sitekey="{{.Dto.CAPCHAKEY}}" data-callback="verifyRecaptchaCallback" data-expired-callback="expiredRecaptchaCallback"></div>
+                <input class="form-control" data-recaptcha="true" required style="position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none;">
+                <div class="help-block with-errors"></div>
+            </div>
+
             <div class="form-group mt-3">
                 <button type="submit" style="width: 300px; margin: 15px 0px;" id="form_submit" name="form[submit]" class="btn-primary btn">{{.Dictionary.Donate.DonateButton}}</button>
                 {{if eq .Dictionary.Meta.CountryCode "hu"}}
@@ -94,6 +102,41 @@
 </div>
 
 <script>
+    document.getElementById("donation-form").addEventListener("submit", function(event) {
+      if (grecaptcha.getResponse() === "") {
+        event.preventDefault();
+        alert("Please verify that you are not a robot.");
+      }
+    });
+
+    window.verifyRecaptchaCallback = function (response) {
+        // Select the element using a CSS attribute selector
+        const input = document.querySelector('input[data-recaptcha]');
+
+        if (input) {
+            // Set the value
+            input.value = response;
+
+            // Manually trigger the 'change' event
+            const event = new Event('change', { bubbles: true });
+            input.dispatchEvent(event);
+        }
+    };
+
+    window.expiredRecaptchaCallback = function (response) {
+        // Select the element using a CSS attribute selector
+        const input = document.querySelector('input[data-recaptcha]');
+
+        if (input) {
+            // Set the value
+            input.value = "";
+
+            // Manually trigger the 'change' event
+            const event = new Event('change', { bubbles: true });
+            input.dispatchEvent(event);
+        }
+    };
+
     // Handle button click to toggle active state (like radio buttons)
     document.querySelectorAll('.amount-btn').forEach(button => {
         button.addEventListener('click', function() {

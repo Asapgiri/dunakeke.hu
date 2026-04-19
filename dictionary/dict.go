@@ -198,6 +198,8 @@ type Donate struct {
     MessageFailure                          string
     MessageSuccess                          string
 
+    FailedReCAPTCHA                         string
+
     GoBack                                  string
 }
 

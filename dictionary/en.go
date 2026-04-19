@@ -190,6 +190,8 @@ var dict_en = Dictionary{
         MessageFailure:     "Please check the information provided during the transaction for accuracy. If all details are correct, please contact your card-issuing bank to investigate the reason for the refusal.",
         MessageSuccess:     "Thank you for your donation! Your support means a great deal to us and helps our work continue. We truly appreciate your generosity.",
 
+        FailedReCAPTCHA:    "Failed to validate reCAPTCHA",
+
         GoBack:             "Return to parent site",
     },
 }

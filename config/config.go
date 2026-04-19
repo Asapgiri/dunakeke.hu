@@ -42,6 +42,8 @@ type DonationConfig struct {
     MinAmount           float64
     Currency            string
     Parent              string
+    ReCAPCHASiteKeyHtml string
+    ReCAPCHASiteKeyBack string
 }
 
 type EmailConfig struct {

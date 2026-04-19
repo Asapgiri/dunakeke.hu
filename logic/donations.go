@@ -13,6 +13,7 @@ import (
 	"errors"
 	"io"
 	"net/http"
+	"net/url"
 	"sort"
 	"strconv"
 	"strings"
@@ -109,6 +110,13 @@ type OtpJsonResponse struct {
 
 type OtpReturnPublic struct {
     PaymentUrl      string
+}
+
+type ReCAPTCHAResponse struct {
+    Success         bool        `json:"success"`
+    Challenge_ts    time.Time   `json:"challenge_ts"`
+    Hostname        string      `json:"hostname"`
+    ErrorCodes      []string    `json:"error-codes,omitempty"`
 }
 
 
@@ -284,6 +292,38 @@ func DonationIpn(w http.ResponseWriter, signature string, body []byte, callback 
     resp, err := json.Marshal(ipn)
     w.Header().Add("Signature", otpGenerateSignature(resp))
     return resp, err
+}
+
+func ValidateReCAPTCHA(token string, remote_ip string) (error) {
+    resp, err := http.PostForm("https://www.google.com/recaptcha/api/siteverify", url.Values{
+        "secret": {config.Config.Donation.ReCAPCHASiteKeyBack},
+        "response": {token},
+        "remoteip": {remote_ip},
+    })
+    defer resp.Body.Close()
+    if nil != err {
+        return err
+    }
+
+    respBody, err := io.ReadAll(resp.Body)
+    if nil != err {
+        return err
+    }
+
+    captcha := ReCAPTCHAResponse{}
+    err = json.Unmarshal(respBody, &captcha)
+    if nil != err {
+        return err
+    }
+
+    if !captcha.Success {
+        err = errors.New("Failed to validate")
+        return err
+    }
+
+    // Error response
+
+    return nil
 }
 
 func RedirectToOtpApi(dict dictionary.Dictionary, donation *Donation) (OtpReturnPublic, error) {

@@ -29,11 +29,19 @@ func DonationInit() {
     log.Println(trustedNets)
 }
 
+type DonationMagic struct {
+    OptionList  []logic.DonationOption
+    CAPCHAKEY   string
+}
+
 func DonationRoot(w http.ResponseWriter, r *http.Request) {
     session := GetCurrentSession(w, r)
 
     do := logic.DonationOption{}
-    dos := do.List()
+    dos := DonationMagic{
+        OptionList: do.List(),
+        CAPCHAKEY: config.Config.Donation.ReCAPCHASiteKeyHtml,
+    }
 
     session.Meta["title"] = session.Dictionary.(dictionary.Dictionary).Donate.Header
     session.Meta["description"] = session.Dictionary.(dictionary.Dictionary).Donate.Description
@@ -55,6 +63,14 @@ func DonationInProgress(w http.ResponseWriter, r *http.Request) {
         return
     }
 
+    // Validate CAPTCHA
+    err := logic.ValidateReCAPTCHA(r.FormValue("g-recaptcha-response"), r.RemoteAddr)
+    if nil != err {
+        session.Notice.Set(NOTICE.DANGER, session.Dictionary.(dictionary.Dictionary).Donate.FailedReCAPTCHA)
+        http.Redirect(w, r, "/donate", http.StatusSeeOther)
+        return
+    }
+
     amount, err := strconv.ParseFloat(r.FormValue("form[amount]"), 64)
     if nil != err {
         log.Printf("Redirect ERR: %s\n", err)
@@ -65,7 +81,7 @@ func DonationInProgress(w http.ResponseWriter, r *http.Request) {
     }
 
     if amount < config.Config.Donation.MinAmount {
-        session.Notice.Set(NOTICE.DANGER, fmt.Sprint("Amount ", amount, " is smaller than minimum amount ", config.Config.Donation.MinAmount))
+        session.Notice.Set(NOTICE.WARNING, fmt.Sprint("Amount ", amount, " is smaller than minimum amount ", config.Config.Donation.MinAmount))
         http.Redirect(w, r, "/donate", http.StatusSeeOther)
         return
     }
