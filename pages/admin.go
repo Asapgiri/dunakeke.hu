@@ -108,7 +108,11 @@ func AdminDonations(w http.ResponseWriter, r *http.Request) {
     }
     ad.Username = make([]string, len(ad.Donations))
     for i, d := range(ad.Donations) {
-        ad.Sum += d.Amount * float64(len(d.Occurences))
+        if d.Successful {
+            ad.Sum += d.Amount
+            // FIXME: occurences should count when we are able to handle recurring donations
+            // ad.Sum += d.Amount * float64(len(d.Occurences))
+        }
 
         // check invalid "000000000000000000000000" id
         _, err := primitive.ObjectIDFromHex(d.UserId)
